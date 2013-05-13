@@ -1,0 +1,95 @@
+<?php
+// Added by Novalnet AG
+define('_WOOCOMMERCE_NOVALNET_CREDIT_CARD_HOLDER', 'Credit card holder');
+define('_WOOCOMMERCE_NOVALNET_CREDIT_CARD_NUMBER', 'Card number');
+define('_WOOCOMMERCE_NOVALNET_VALID_TO', 'Expiration Date');
+define('_WOOCOMMERCE_NOVALNET_CVV_CVC', 'CVC (Verification Code)');
+define('_WOOCOMMERCE_NOVALNET_MONTH', 'Month');
+define('_WOOCOMMERCE_NOVALNET_YEAR', 'Year');
+define('_WOOCOMMERCE_NOVALNET_CC3D_DESCRIPTION', '* On Visa-, Master- and Eurocard you will find the 3 digit CVC-Code near the signature field at the rearside of the creditcard.');
+define('_WOOCOMMERCE_NOVALNET_ACCOUNT_HOLDER', 'Account holder');
+define('_WOOCOMMERCE_NOVALNET_ACCOUNT_NUMBER', 'Account number');
+define('_WOOCOMMERCE_NOVALNET_BANK_CODE', 'Bankcode');
+define('_WOOCOMMERCE_NOVALNET_ACDC_CHECK', 'Your credit rating is checked by us');
+define('_WOOCOMMERCE_NOVALNET_INVALID_CREDIT_CARD_ERROR', 'Please enter valid credit card details!');
+define('_WOOCOMMERCE_NOVALNET_ACCOUNT_HOLDER_INVALID_ERROR', 'Please enter valid account details!');
+define('_WOOCOMMERCE_NOVALNET_ACDC_ERROR', 'Please enable credit rating check');
+define('_WOOCOMMERCE_SUCCESSFUL_MESSAGE', 'Successful');
+
+define('_WOOCOMMERCE_NOVALNET_BACKEND_DATA_MISSING_ERROR', 'Basic Parameter Missing ');
+define('_WOOCOMMERCE_NOVALNET_PRODUCT_TARIFF_IDS_2_MISSING', 'Product-ID2 and/or Tariff-ID2 missing!');
+define('_WOOCOMMERCE_NOVALNET_MANUAL_CHECK_LIMIT_MISSING', 'Manual Check limit field missing!');
+define('_WOOCOMMERCE_NOVALNET_IFRAME_SUPPORT_MESSAGE', 'Your browser does not support iframes.');
+define('_WOOCOMMERCE_NOVALNET_IFRAME_LOADING_IMAGE', 'www.novalnet.com/img/novalnet-loading-icon.gif');
+define('_WOOCOMMERCE_NOVALNET_ACDC_IMAGE', 'www.novalnet.com/img/acdc_info.png');
+define('_WOOCOMMERCE_NOVALNET_CHECK_HASH_FAILED_ERROR', 'Check Hash failed.');
+define('_WOOCOMMERCE_NOVALNET_CURL_ERROR', 'You need to activate the CURL function on your server, please check with your hosting provider.');
+define('_WOOCOMMERCE_NOVALNET_MONTH_JANUARY', 'January');
+define('_WOOCOMMERCE_NOVALNET_MONTH_FEBRUARY', 'February');
+define('_WOOCOMMERCE_NOVALNET_MONTH_MARCH', 'March');
+define('_WOOCOMMERCE_NOVALNET_MONTH_APRIL', 'April');
+define('_WOOCOMMERCE_NOVALNET_MONTH_MAY', 'May');
+define('_WOOCOMMERCE_NOVALNET_MONTH_JUNE', 'June');
+define('_WOOCOMMERCE_NOVALNET_MONTH_JULY', 'July');
+define('_WOOCOMMERCE_NOVALNET_MONTH_AUGUST', 'August');
+define('_WOOCOMMERCE_NOVALNET_MONTH_SEPTEMBER', 'September');
+define('_WOOCOMMERCE_NOVALNET_MONTH_OCTOBER', 'October');
+define('_WOOCOMMERCE_NOVALNET_MONTH_NOVEMBER', 'November');
+define('_WOOCOMMERCE_NOVALNET_MONTH_DECEMBER', 'December');
+
+define('_WOOCOMMERCE_TRANSACTION_INFORMATION', 'Transaction Information');
+define('_WOOCOMMERCE_TRANSACTION_ID', 'Novalnet Transaction ID');
+define('_WOOCOMMERCE_COMMENTS_1', 'Please transfer the amount to the following information to our payment service Novalnet AG');
+define('_WOOCOMMERCE_COMMENTS_2', 'Account holder : Novalnet AG');
+define('_WOOCOMMERCE_DUE_DATE', 'Due date');
+define('_WOOCOMMERCE_COMMENTS_3', 'Account number');
+define('_WOOCOMMERCE_COMMENTS_4', 'Bankcode');
+define('_WOOCOMMERCE_COMMENTS_5', 'Bank');
+define('_WOOCOMMERCE_COMMENTS_6', 'IBAN');
+define('_WOOCOMMERCE_COMMENTS_7', 'SWIFT / BIC');
+define('_WOOCOMMERCE_COMMENTS_8', 'Amount');
+define('_WOOCOMMERCE_COMMENTS_9', 'Reference : TID');
+define('_WOOCOMMERCE_COMMENTS_10', 'Only for international transfers :');
+define('_WOOCOMMERCE_TEST_ORDER_MESSAGE', 'Test order');
+define('_WOOCOMMERCE_NOVALNET_GUEST', 'Guest');
+
+define('_WOOCOMMERCE_NOVALNET_LOGO_ALT_TEXT', 'novalnet.com');
+define('_WOOCOMMERCE_NOVALNET_BANKTRANSFER_PAYMENT_LOGO', 'www.novalnet.de/img/sofort_Logo_en.png');
+define('_WOOCOMMERCE_NOVALNET_IDEAL_PAYMENT_LOGO', 'www.novalnet.de/img/ideal_payment_small.png');
+define('_WOOCOMMERCE_NOVALNET_CC_CC_PCI_CC3D_PAYMENTS_LOGO', 'www.novalnet.de/img/creditcard_small.jpg');
+define('_WOOCOMMERCE_NOVALNET_ELV_AT_ELV_AT_PCI_ELV_DE_ELV_DE_PCI_PAYMENTS_LOGO', 'www.novalnet.de/img/ELV_Logo.png');
+define('_WOOCOMMERCE_NOVALNET_PAYPAL_PAYMENT_LOGO', 'www.novalnet.de/img/paypal-small.png');
+define('_WOOCOMMERCE_NOVALNET_INVOICE_PAYMENT_LOGO', 'www.novalnet.de/img/kauf-auf-rechnung.jpg');
+define('_WOOCOMMERCE_NOVALNET_PREPAYMENT_PAYMENT_LOGO', 'www.novalnet.de/img/vorauskasse.jpg');
+define('_WOOCOMMERCE_NOVALNET_TELEPHONE_LOGO', 'www.novalnet.de/img/novaltel_logo.png');
+define('_WOOCOMMERCE_NOVALNET_BANKTRANSFER', 'Instant Bank Transfer');
+define('_WOOCOMMERCE_NOVALNET_IDEAL', 'iDEAL');
+define('_WOOCOMMERCE_NOVALNET_CC', 'Credit Card');
+define('_WOOCOMMERCE_NOVALNET_CC_PCI', 'Credit Card PCI');
+define('_WOOCOMMERCE_NOVALNET_CC3D', 'Credit Card 3D Secure');
+define('_WOOCOMMERCE_NOVALNET_ELV_AT', 'Direct Debit Austria');
+define('_WOOCOMMERCE_NOVALNET_ELV_AT_PCI', 'Direct Debit Austria PCI');
+define('_WOOCOMMERCE_NOVALNET_ELV_DE', 'Direct Debit German');
+define('_WOOCOMMERCE_NOVALNET_ELV_DE_PCI', 'Direct Debit German PCI');
+define('_WOOCOMMERCE_NOVALNET_PAYPAL', 'PayPal');
+define('_WOOCOMMERCE_NOVALNET_INVOICE', 'Invoice');
+define('_WOOCOMMERCE_NOVALNET_PREPAYMENT', 'Prepayment');
+define('_WOOCOMMERCE_NOVALNET_TELEPHONE', 'Telephone Payment');
+define('_WOOCOMMERCE_NOVALNET_LOGO', 'www.novalnet.de/img/NN_Logo_T.png');
+define('_WOOCOMMERCE_NOVALNET_REDIRECT_TO_PAYMENT_PAGE', 'You will be redirected to Novalnet AG in a few seconds. <br> ');
+define('_WOOCOMMERCE_NOVALNET_REDIRECTING', 'Redirecting...');
+define('_WOOCOMMERCE_NOVALNET_LOADING', 'Loading...');
+define('_WOOCOMMERCE_NOVALNET_CANCEL_ORDER_AND_RESTORE_CART', 'Cancel order &amp; restore cart');
+define('_WOOCOMMERCE_NOVALNET_ORDER_STATUS','Order Status');
+define('_WOOCOMMERCE_NOVALNET_COMMENTS','Comments');
+
+define('_WOOCOMMERCE_NOVALNET_REFER_THE_STEPS', 'Refer the steps which is mentioned in the telephone payment to complete the process');
+define('_WOOCOMMERCE_NOVALNET_AMOUNT_RANGE_ERROR', 'Amounts below 0,99 Euros and above 10,00 Euros cannot be processed and are not accepted!');
+define('_WOOCOMMERCE_NOVALNET_AMOUNT_CHANGED_ERROR', 'You have changed the order amount after receiving telephone number, please try again with a new call');
+define('_WOOCOMMERCE_NOVALNET_FOLLOWING_STEPS', 'Following steps are required to complete your payment:');
+define('_WOOCOMMERCE_NOVALNET_FOLLOWING_STEPS_1', 'Step 1: Please call the telephone number displayed:');
+define('_WOOCOMMERCE_NOVALNET_FOLLOWING_STEPS_2', '* This call will cost {amount} (including VAT) and it is possible only for German landline connection! *');
+define('_WOOCOMMERCE_NOVALNET_FOLLOWING_STEPS_3', 'Step 2: Please wait for the beep and then hang up the listeners.');
+define('_WOOCOMMERCE_NOVALNET_FOLLOWING_STEPS_4', 'After your successful call, please proceed with the payment.');
+// Added by Novalnet AG
+?>
