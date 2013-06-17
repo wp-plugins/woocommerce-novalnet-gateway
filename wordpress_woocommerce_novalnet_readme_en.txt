@@ -28,21 +28,23 @@
 #					   	   		#
 #  Created	     			- Novalnet AG         	#
 #								#
-#  CMS(wordpress) Version         	– 3.5.1	        #
+#  CMS(wordpress) Version         	- 3.5.1	                #
 #					   	   		#
-#  Shop (woocommerce) Version   	– 2.0.8	        #
+#  Shop (woocommerce) Version   	- 2.0.10	        #
 #					   	   		#
-#  Novalnet Version  			– 1.0.2		#
+#  Novalnet Version  			- 1.0.3		        #
 #					   	   		#
-#  Last Updated	     			- 23rd April 2013	#
+#  Last Updated	     			- 07th June 2013	#
 #					   	   		#
 #  Categories	     			- Payment & Gateways  	#
 #					   	   		#
 #################################################################
 
+
 IMPORTANT: The files freewarelicenseagreement.txt and testdata.txt are parts of this readme file.
 
 Woocommerce is an extension for Wordpress. Therefore a working Wordpress system is a must.
+
 
 How to install:
 ---------------
@@ -59,17 +61,20 @@ You have to install php modules: curl and php-curl in your Webserver.
         sudo apt-get install curl php5-curl php5-mcrypt
         apachectl restart (restart the Webserver)
 
+
 Step 2: 
 ========
 
-To install NovalnetAG payment module, kindly refer "IG-wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.8_novalnet_v_1.0.2_en.pdf".
+To install NovalnetAG payment module, kindly refer installation procedure in readme.txt file.
 
 
 Step 3: 
 ========
+
 ----------------------------
 I. For woocommerce < 2.0.0
 ----------------------------
+
 
 If you wish to display tid details on order email, please open the file 'class-wc-email.php' under 'wp-content/plugins/woocommerce/classes/'.
 
@@ -116,6 +121,7 @@ and add the following code before the above searched lines.
 
 		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) $order->customer_note.="\n".@$GLOBALS['novalnet_comments'];
 		$order->customer_note = nl2br($order->customer_note);  
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----------------------------
@@ -216,8 +222,10 @@ and add the following code after the above searched lines.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
 Step 4:    (Common for all woocommerce versions)
 =================================================
+
 
 If you wish to display tid details on front end order history page, 
 
@@ -230,7 +238,10 @@ if ($order->billing_phone) echo '<dt>'.__('Telephone:', 'woocommerce').'</dt><dd
 and add the following code after the above searched lines.
 
 <dl class="customer_details">
-<?php echo('<dt>'._WOOCOMMERCE_TRANSACTION_INFORMATION.': </dt><dd>'.nl2br($order->customer_note).'</dd>'); ?>
+<?php 
+if ( substr(get_bloginfo('language'), 0, 2) == 'de') { echo('<dt>'.'Transaktions Informationen'.': </dt><dd>'.nl2br($order->customer_note).'</dd>'); }
+else { echo('<dt>'.'Transaction Information'.': </dt><dd>'.nl2br($order->customer_note).'</dd>'); }
+?>
 </dl>
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -244,10 +255,16 @@ Note: If you use Prepayment and/or Per Invoice then contact us for more details.
 
 On Any Technical Problems, please contact sales@novalnet.de / 0049-89-923 068 320.
 
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Important Notice for Online Transfer (Sofortüberweisung):
 
 If you use real transaction data (bank code, bank account number, ect.) real transactions will be performed, even though the test mode is on/activated!
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Note: In Telephone payment method the guest user has to enter his/her address details in checkout form for both first call and second call.This is not necessary for registered user. [shop default flow]
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Note: If you are already using .htaccess in root folder , please comment out the lines from line @66 to line @73 in novalnetpayments.php file
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------

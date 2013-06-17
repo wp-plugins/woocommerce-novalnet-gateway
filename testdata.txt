@@ -1,12 +1,13 @@
 If you do not have access to our admin tool "https://admin.novalnet.de" yet, you can perform tests nevertherless by using the following TEST data:
 
 I. Parameters (Which are to be entered in the admin interface)
-  Novalnet Vendor ID        : 4
-  Novalnet Vendor Auth-Code : JyEtHUjjbHNJwVztW6JrafIMHQvici
-  Novalnet Product ID       : 13
-  Novalnet Tariff ID        : 127
-  Novalnet Password         : a87ff679a2f3e71d9181a67b7542122c
-
+  Novalnet Vendor ID          : 4
+  Novalnet Vendor Auth-Code   : JyEtHUjjbHNJwVztW6JrafIMHQvici
+  Novalnet Product ID         : 13
+  Novalnet Tariff ID          : 127
+  Novalnet Payment Access key : a87ff679a2f3e71d9181a67b7542122c (Payment Access key field use only 
+  for  Credit Card, Credit Card PCI, Austria PCI, German PCI, Online Transfer, iDEAL and PayPal.)
+  
 II. Test Bank Data / Test Credit Card Data (Frontend)
   1.  Direct Debit For Germany 
       Bank Account Number: 2411761956
@@ -19,12 +20,12 @@ II. Test Bank Data / Test Credit Card Data (Frontend)
   3.  Credit Card
       Credit Card No for VISA : 4200000000000000 (14 x 0)
       Credit Card No for AMEX : 3700000000000000 (14 x 0)
-      CVC:    123
+      CVC: 123
       The expiry date must be any date of the future
 
   4.  Credit Card 3D Secure
       CC No : 4200000000000000 (14 x 0)
-      CVC   :    123
+      CVC   : 123
       The expiry date must be any date of the future
       Password: secret3 (If you are requested to enter a password while testing)
 
@@ -35,11 +36,11 @@ II. Test Bank Data / Test Credit Card Data (Frontend)
 6.  PayPal:
       I. These data are to be entered in the admin area like vendor_id, etc. The test_mode must be set to true/1:
       Test API-Data
-      API-Username: technic-facilitator_api1.novalnet.de
-      API-Password: 1363879539
-      API-Signatur: ACpWpnZ.LSW25rxxj7Q0FEPEzWxxAdlrxljqNS7c4h9Mj0f5sgruwbqX
+      API-Username : technic-facilitator_api1.novalnet.de
+      API-Password : 1363879539
+      API-Signature: ACpWpnZ.LSW25rxxj7Q0FEPEzWxxAdlrxljqNS7c4h9Mj0f5sgruwbqX
 
-      II. Login then into sandbox by using the follwing login details:
+      II. Login then into sandbox by using the following login details:
               Website  : https://developer.paypal.com/
               login    : technic@novalnet.de
               Password : euMdFRT/M&

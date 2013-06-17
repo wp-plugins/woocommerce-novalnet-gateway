@@ -1,10 +1,10 @@
-=== Woocommerce Payment Gateway by Novalnet AG ===
+=== Woocommerce Payment Gateway by Novalnet ===
 Contributors: novalnet
 link: http://www.novalnet.de/
-Tags: novalnet payment getaway,woocommerce,e-commerce,wordpress,credit cards,extensions,novalnet,woocommerce free payment gateway,free payment gateway
+Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, woocommerce, Direct Debit, gateway, invoice, prepayment, payment modules
 Requires at least: 3.3
-Tested up to: 3.5.1
-Stable tag: 1.0.2
+Tested up to: 3.6 beta 3
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,21 +50,35 @@ In case you have any questions, you can contact us at any time at sales@novalnet
 
 == Installation ==
 
+= Automatic Installation: =
+
 * Go to Plugins > “Add New”.
-* Download the WooCommerce payment gateway by Novalnet from WordPress repository and Click "Install Now" to install the Plugin. A popup window will   
-  ask you to confirm your wish to install the Plugin.
-* Click “Proceed” to continue the installation. The resulting installation screen will list the installation as successful or note any problems 
-  during the install.
-* If successful, click "Activate Plugin" to activate it.
+* Download the Woocommerce payment gateway by Novalnet from Wordpress repository and Click "Install Now" to install the Plugin. A popup  
+   window will ask you to confirm your wish to install the Plugin.
+= Note: = If this is the first time you've installed a WordPress Plugin, you may need to enter the FTP login credential information. If 
+          you've installed a Plugin before, it will still have the login information. This information is available through your web server host.
+          
+* Click “Proceed” to continue the installation. The resulting installation screen will list the installation as successful or note any problems during the install.
+* If successful, click "Activate Plugin" to activate it, or “Return to Plugin Installer” for further actions.
+
+= Manual Installation: =
+
+* Download Woocommerce Plugin to your desktop.
+= Note: = If downloaded as a zip archive, extract the Plugin folder to your desktop.
+
+* Copy the plugin folder and paste into root/wp-content/plugins/ directory.
+* Go to Plugins (Woocommerce payment gateway by Novalnet) screen and find the “Woocommerce payment gateway by Novalnet” in the list.
+* Click “Activate Plugin” to activate it.
+* Check the Details in the readme file for customization and further instructions.
+
 
 = Note: =
-* Installation procedure is explained detail in "IG-wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.8_novalnet_v_1.0.2_en.pdf"
+
 * For displaying Transaction Id details in order mail and front order history, please follow the procedures in    
   "wordpress_woocommerce_novalnet_readme_en.txt".
 * Callback script testing procedure is explained detail in "callback_script_testing_procedure.txt".
 * For test data details please refer "testdata.txt".
  
-
 = Now get the necessary authentication details from the Novalnet administration area: =
 
 For this, kindly log into the Novalnet administration area: 	
@@ -72,6 +86,10 @@ For this, kindly log into the Novalnet administration area:
 1. Go to http://www.novalnet.com and click on "Login" (top right). You are redirected straight to the login form.
 2. Inside the Novalnet administration area, choose the tab "Projects" and click on the respective shop in the list you created. 	
 3. Now choose the tab "Shop Parameters".
+4. Here you can find the necessary details to configure your WooCommerce plugin properly. These are vendor ID, tariff ID, product ID and 
+   payment access key.
+    
+= Now you have all required details to finish setting up your WooCommerce-based shop!  =
 
 == Frequently Asked Questions ==
 
@@ -87,9 +105,17 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 1. Novalnet Payment plugin Admin Panel [screenshot-1.png].
 
-2. Novalnet Payment plugin Checkout Form [screenshot-2.png].
+2. Novalnet Payment plugin Direct Debit German Admin settings [screenshot-2.png].
+
+3. Novalnet Payment plugin Checkout Form [screenshot-3.png]. 
 
 == Changelog ==
+
+= 1.0.3 =
+
+  __version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.10_novalnet_v_1.0.3__
+  
+  * Changed the module structure suitable for wordpress repository
 
 = 1.0.2 =
 
@@ -113,22 +139,25 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 == Upgrade Notice ==
 
+= 1.0.3 =
+
+  * Changed the module structure suitable for wordpress repository
+
 = 1.0.2 =
+
   * Compatibility has been verified
 
 = 1.0.1 =
+
   * Novalnet Telephone payment has been integrated.
   * Novalnet Credit Card payment has been updated.
   * Code optimization has been done.
 
 = 1.0.0 =
+
   * First Release
 
 == Arbitrary section ==
-
-Here you can find the necessary details to configure your WooCommerce plugin properly. These are vendor ID, tariff ID, product ID and	payment access key.
-
-= Now you have all required details to finish setting up your WooCommerce-based shop! =
 
 = Connect to WooCommerce :- =
 
@@ -198,4 +227,3 @@ If you use real transaction data (bank code, bank account number, ect.) real tra
 == Distribution ==
 
 This plug-in enables integration of Novalnet Payment Gateway with a popular e-commerce solution Woocommerce. The plug-in is 100% free and Released under the GNU General Public License. If you have found this script useful a small recommendation as well as a comment on merchant form would be greatly appreciated.
-
