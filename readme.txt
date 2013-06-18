@@ -102,7 +102,6 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 == Screenshots ==
 1. Novalnet Payment plugin Admin Panel.
 2. Novalnet Payment plugin Direct Debit German Admin settings.
-3. Novalnet Payment plugin Checkout Form. 
 
 == Changelog ==
 
