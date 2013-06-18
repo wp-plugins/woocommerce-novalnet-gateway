@@ -35,7 +35,7 @@
 * Please contact sales@novalnet.de for enquiry or info
 *
 * ABSTRACT: This script is called from Novalnet, as soon as a payment
-* done for payment methods, e.g. Prepayment, Invoice.
+* done for payment methods, e.g. Prepayment, Invoice, PayPal.
 * An email will be sent if an error occurs
 *
 *
@@ -56,7 +56,7 @@ $test           	  = false; //false|true; adapt: set to false for go-live
 $lineBreak     		  = empty($_SERVER['HTTP_HOST'])? PHP_EOL: '<br />';
 $addSubsequentTidToDb = true;//whether to add the new tid to db; adapt if necessary
 
-$aPaymentTypes = array('INVOICE_CREDIT');//adapt here if needed; Options are:
+$aPaymentTypes = array('INVOICE_CREDIT','PAYPAL');//adapt here if needed; Options are:
 
 // Order State/Status Settings
 /*    Standard Types of Status:
@@ -124,7 +124,7 @@ amount			Customer paid amount in cents
 'order_no'		=> '',	// Order number
 );*/
 
-if (in_array('INVOICE_CREDIT', $aPaymentTypes) and isset($_REQUEST['payment_type']) and $_REQUEST['payment_type'] == 'INVOICE_CREDIT'){
+if (in_array('INVOICE_CREDIT', $aPaymentTypes) and isset($_REQUEST['payment_type']) and $_REQUEST['payment_type'] == 'INVOICE_CREDIT' ){
 $hParamsRequired['tid_payment'] = '';
 $hParamsTest['tid_payment'] = '12497500001209615'; //orig. tid; must be avail. in shop database; adapt for test;
 }
@@ -214,7 +214,7 @@ return false;
 }
 
 if (!in_array($request['payment_type'], $aPaymentTypes)){
-$emailBody .= "Novalnet callback received. Payment type is not Prepayment or Invoice! $lineBreak";
+$emailBody .= "Novalnet callback received. Payment type is not Prepayment/Invoice/PayPal! $lineBreak";
 return false;
 }
 
@@ -293,7 +293,7 @@ $emailBody .= 'Query : ' . $qry . $lineBreak . $lineBreak;
 return false;
 }
 if( empty($order_id) ){
-$emailBody .= 'Novalnet callback received. Payment type is not Prepayment/Invoice!' . "$lineBreak$lineBreak".$lineBreak;
+$emailBody .= 'Novalnet callback received. Payment type is not Prepayment/Invoice/PayPal!' . "$lineBreak$lineBreak".$lineBreak;
 return false;
 }
 if ($debug) {echo'Order Details:<pre>';
@@ -301,7 +301,7 @@ echo "Order Number:".$order_id."</br>";
 echo "Order Total:".$order_total."</br>" ;
 echo'</pre>';}
 if(!in_array($payment_method, $payment_method_array)) {
-$emailBody .= "Novalnet callback received. Payment type ($payment_method) is not Prepayment/Invoice!$lineBreak$lineBreak";
+$emailBody .= "Novalnet callback received. Payment type ($payment_method) is not Prepayment/Invoice/PayPal!$lineBreak$lineBreak";
 return false;
 }
 return $order_id; // == true
@@ -324,11 +324,11 @@ $sql="select slug as order_status from $wpdb->terms where term_id=(select term_i
 $row = $wpdb->get_results($sql);
 $order_status = $row[0]->order_status;
 if(!in_array($payment_method, $payment_method_array )) {
-$emailBody .= "Novalnet callback received. Payment type ($payment_method) is not Prepayment/Invoice!$lineBreak$lineBreak";
+$emailBody .= "Novalnet callback received. Payment type ($payment_method) is not Prepayment/Invoice/PayPal!$lineBreak$lineBreak";
 return false;
 }
 } else{
-$emailBody .= "Novalnet callback received. Payment type is not Prepayment/Invoice or the request order id/transaction id is mismatch!$lineBreak$lineBreak";
+$emailBody .= "Novalnet callback received. Payment type is not Prepayment/Invoice/PayPal or the request order id/transaction id is mismatch!$lineBreak$lineBreak";
 return false;
 }
 } catch (Exception $e) {
