@@ -148,8 +148,8 @@ function novalnetpayments_Load() {
                     $aryResponse['test_mode'] = $_SESSION['novalnet_tel_test_mode'];
                     $aryResponse['order_no'] = $order_id;
                     // Manual Testing
-                    $aryResponse['status_desc'] = __('Successful', 'woocommerce-novalnetpayment');
-                    $aryResponse['status'] = 100;
+            //        $aryResponse['status_desc'] = __('Successful', 'woocommerce-novalnetpayment');
+            //        $aryResponse['status'] = 100;
                     // Manual Testing
                     return($this->do_check_novalnet_status($aryResponse, $order_id));
                 }
