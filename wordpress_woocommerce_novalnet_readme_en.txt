@@ -20,7 +20,7 @@
 #  appreciated.                                                 #
 #                                                               #
 #  				                                #
-#  Copyright (c) 2013 Novalnet AG                               #
+#  Copyright (c) Novalnet AG   		                        #
 #                                                               #
 #################################################################
 #					   	                #
@@ -30,11 +30,11 @@
 #								#
 #  CMS(wordpress) Version         	- 3.5.1	                #
 #					   	   		#
-#  Shop (woocommerce) Version   	- 2.0.10	        #
+#  Shop (woocommerce) Version   	- 2.0.12	        #
 #					   	   		#
 #  Novalnet Version  			- 1.0.3		        #
 #					   	   		#
-#  Last Updated	     			- 07th June 2013	#
+#  Last Updated	     			- 18th June 2013	#
 #					   	   		#
 #  Categories	     			- Payment & Gateways  	#
 #					   	   		#
