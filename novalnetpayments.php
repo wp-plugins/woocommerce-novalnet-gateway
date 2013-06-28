@@ -1491,7 +1491,7 @@ window.onload = function() { document.forms.frmnovalnet.submit(); }
     }
 }
 
-if (strstr($_SERVER['REQUEST_URI'], '/woocommerce-payment-gateway-novalnet/callback_novalnet2wordpresswoocommerce.php'))
+if (strstr($_SERVER['REQUEST_URI'], '/woocommerce-novalnet-gateway/callback_novalnet2wordpresswoocommerce.php'))
     require_once(dirname(__FILE__) . '/callback_novalnet2wordpresswoocommerce.php');
 if (isset($_REQUEST['novalnet_payment_method']) && in_array(@$_REQUEST['novalnet_payment_method'], $novalnet_payment_methods)) {
     require_once(dirname(__FILE__) . '/includes/' . @$_REQUEST['novalnet_payment_method'] . '.php');
