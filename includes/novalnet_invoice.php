@@ -1,7 +1,8 @@
 <?php
+
 #########################################################
 #                                                       #
-#  Invoice payment method class                         #
+#  INVOICE payment method class                         #
 #  This module is used for real time processing of      #
 #  Invoice data of customers.                       	#
 #                                                       #
@@ -15,28 +16,39 @@
 #                                                       #
 #########################################################
 /*
-* Check if WooCommerce is active
-*/
-add_action('plugins_loaded', $novalnet_payment_methods[9].'_Load', 0);
+ * Installs INVOICE payment to Novalnet Payment Gateway
+ */
+add_action('plugins_loaded', $novalnet_payment_methods[9] . '_Load', 0);
+
 function novalnet_invoice_Load() {
-global $novalnet_payment_methods;
-if ( ! class_exists( $novalnet_payment_methods[9] ) ) {
-class novalnet_invoice extends novalnetpayments {
+    global $novalnet_payment_methods;
+    if (class_exists('novalnetpayments')) {
+        if (!class_exists($novalnet_payment_methods[9])) {
+
+            class novalnet_invoice extends novalnetpayments {
+                
+            }
+
+            $obj = new $novalnet_payment_methods[9]();
+        }
+    } else {
+        return;
+    }
 }
-$obj = new $novalnet_payment_methods[9]();
-}
-}
+
 /*
-* Add the gateway to WooCommerce
-* @access public
-* @param array $methods
-* @package		
-* @return array
-*/
-function add_novalnet_invoice_gateway( $methods ) {
-global $novalnet_payment_methods;
-$methods[] = $novalnet_payment_methods[9];
-return $methods;
+ * Add the gateway to WooCommerce
+ * @access public
+ * @param array $methods
+ * @package		
+ * @return array
+ */
+
+function add_novalnet_invoice_gateway($methods) {
+    global $novalnet_payment_methods;
+    $methods[] = $novalnet_payment_methods[9];
+    return $methods;
 }
-add_filter('woocommerce_payment_gateways', 'add_'.$novalnet_payment_methods[9].'_gateway' );
+
+add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[9] . '_gateway');
 ?>

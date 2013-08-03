@@ -1,10 +1,10 @@
 === Woocommerce Payment Gateway by Novalnet ===
 Contributors: novalnet
 link: http://www.novalnet.de/
-Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, woocommerce, Direct Debit, gateway, invoice, prepayment, payment modules
+Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, woocommerce, Direct Debit, gateway, invoice, prepayment, payment modules, woocommerce extensions
 Requires at least: 3.3
-Tested up to: 3.6 beta 3
-Stable tag: 1.0.3
+Tested up to: 3.5.2
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,14 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 2. Novalnet Payment plugin Direct Debit German Admin settings.
 
 == Changelog ==
+
+= 1.0.4 =
+
+  __version: wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.13_novalnet_v_1.0.4__
+
+  * Code optimization has been done.
+  * Credit card module has been re-written with PCI-Compliance
+  * Post-back parameter has been implemented
 
 = 1.0.3 =
 

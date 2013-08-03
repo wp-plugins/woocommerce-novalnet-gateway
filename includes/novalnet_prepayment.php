@@ -1,4 +1,5 @@
 <?php
+
 #########################################################
 #                                                       #
 #  PREPAYMENT payment method class                      #
@@ -15,28 +16,39 @@
 #                                                       #
 #########################################################
 /*
-* Check if WooCommerce is active
-*/
-add_action('plugins_loaded', $novalnet_payment_methods[11].'_Load', 0);
+ * Installs PREPAYMENT payment to Novalnet Payment Gateway
+ */
+add_action('plugins_loaded', $novalnet_payment_methods[11] . '_Load', 0);
+
 function novalnet_prepayment_Load() {
-global $novalnet_payment_methods;
-if ( ! class_exists( $novalnet_payment_methods[11] ) ) {
-class novalnet_prepayment extends novalnetpayments {
+    global $novalnet_payment_methods;
+    if (class_exists('novalnetpayments')) {
+        if (!class_exists($novalnet_payment_methods[11])) {
+
+            class novalnet_prepayment extends novalnetpayments {
+                
+            }
+
+            $obj = new $novalnet_payment_methods[11]();
+        }
+    } else {
+        return;
+    }
 }
-$obj = new $novalnet_payment_methods[11]();
-}
-}
+
 /*
-* Add the gateway to WooCommerce
-* @access public
-* @param array $methods
-* @package		
-* @return array
-*/
-function add_novalnet_prepayment_gateway( $methods ) {
-global $novalnet_payment_methods;
-$methods[] = $novalnet_payment_methods[11];
-return $methods;
+ * Add the gateway to WooCommerce
+ * @access public
+ * @param array $methods
+ * @package		
+ * @return array
+ */
+
+function add_novalnet_prepayment_gateway($methods) {
+    global $novalnet_payment_methods;
+    $methods[] = $novalnet_payment_methods[11];
+    return $methods;
 }
-add_filter('woocommerce_payment_gateways', 'add_'.$novalnet_payment_methods[11].'_gateway' );
+
+add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[11] . '_gateway');
 ?>
