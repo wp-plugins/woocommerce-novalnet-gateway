@@ -1,10 +1,10 @@
 === Woocommerce Payment Gateway by Novalnet ===
 Contributors: novalnet
 link: http://www.novalnet.de/
-Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, woocommerce, Direct Debit, gateway, invoice, prepayment, payment modules
+Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, woocommerce, Direct Debit, gateway, invoice, prepayment, payment modules, woocommerce extensions
 Requires at least: 3.3
-Tested up to: 3.6 beta 3
-Stable tag: 1.0.3
+Tested up to: 3.5.2
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,9 +63,7 @@ In case you have any questions, you can contact us at any time at sales@novalnet
 
 = Manual Installation: =
 
-* Download Woocommerce Plugin to your desktop.
-= Note: = If downloaded as a zip archive, extract the Plugin folder to your desktop.
-
+* Download Woocommerce Plugin to your desktop. ( If downloaded as a zip archive, extract the Plugin folder to your desktop. )
 * Copy the plugin folder and paste into root/wp-content/plugins/ directory.
 * Go to Plugins (Woocommerce payment gateway by Novalnet) screen and find the “Woocommerce payment gateway by Novalnet” in the list.
 * Click “Activate Plugin” to activate it.
@@ -102,20 +100,25 @@ Yes, in order to use this plugin and access all popular online payment methods w
 This Online Payment plugin only works with the WooCommerce plugin for you WordPress webshop. Are you looking for other Online Payment modules for Webshop software? Please Find the complete overview of our webshop modules on our website. http://www.novalnet.com
 
 == Screenshots ==
-
-1. Novalnet Payment plugin Admin Panel [screenshot-1.png].
-
-2. Novalnet Payment plugin Direct Debit German Admin settings [screenshot-2.png].
-
-3. Novalnet Payment plugin Checkout Form [screenshot-3.png]. 
+1. Novalnet Payment plugin Admin Panel.
+2. Novalnet Payment plugin Direct Debit German Admin settings.
 
 == Changelog ==
+
+= 1.0.4 =
+
+  __version: wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.13_novalnet_v_1.0.4__
+
+  * Code optimization has been done.
+  * Credit card module has been re-written with PCI-Compliance
+  * Post-back parameter has been implemented
 
 = 1.0.3 =
 
   __version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.10_novalnet_v_1.0.3__
   
-  * Changed the module structure suitable for wordpress repository
+  * Callbackscript function for PayPal payment method is included
+  * Completely translatable - .pot file is included
 
 = 1.0.2 =
 
@@ -141,8 +144,9 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 = 1.0.3 =
 
-  * Changed the module structure suitable for wordpress repository
-
+  * Callbackscript function for PayPal payment method is included
+  * Completely translatable - .pot file is included
+  
 = 1.0.2 =
 
   * Compatibility has been verified
@@ -196,8 +200,6 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 	* __Set order status:__ Here you determine when the order status should be set – when the order is generated or when payment 					is finalized (cancellations are marked by a separate status).
 
-	* __Choice of currency:__ Set the accepted currency (currencies) for your shop.
-
 	* __Novalnet Logo:__ Here you determine whether the Novalnet AG logo should be displayed at the checkout.
 
 	* __Payment type logo:__ Here you determine whether the logo of the respective payment type should be displayed at the 					 checkout.
@@ -218,7 +220,7 @@ As soon as all steps are completed, you can start with sales straight away!
 
 = Note: = If you use Prepayment and/or Per Invoice then contact us for more details.
 
-	  On Any Technical Problems, please contact sales@novalnet.de / 0049-89-923 068 320.
+On Any Technical Problems, please contact sales@novalnet.de / 0049-89-923 068 320.
 
 = Important Notice for Online Transfer (Sofortüberweisung): =
 

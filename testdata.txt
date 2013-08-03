@@ -6,7 +6,7 @@ I. Parameters (Which are to be entered in the admin interface)
   Novalnet Product ID         : 13
   Novalnet Tariff ID          : 127
   Novalnet Payment Access key : a87ff679a2f3e71d9181a67b7542122c (Payment Access key field use only 
-  for  Credit Card, Credit Card PCI, Austria PCI, German PCI, Online Transfer, iDEAL and PayPal.)
+  for Credit Card PCI, Austria PCI, German PCI, Online Transfer, iDEAL and PayPal.)
   
 II. Test Bank Data / Test Credit Card Data (Frontend)
   1.  Direct Debit For Germany 
@@ -49,5 +49,5 @@ II. Test Bank Data / Test Credit Card Data (Frontend)
           username : pb@novalnet.de
           password : novalnet123
 
-      Note : Sandbox login is a MUST before testing Novalnet PayPal! 
+      Note : Sandbox login is a must before testing Novalnet PayPal! 
 
