@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ 
+ 
+ 
+ 
+ <style type="text/css">
+   .ccv {
+        font-family:Verdana, Arial, Helvetica, sans-serif;
+        font-size:10px;
+   }
+   .ccv a:hover {
+        background:#ffffff;
+        text-decoration:none;
+   }
+   .ccv a.tooltip span {
+        display:none; padding:2px 2px; width:330px;
+   }
+   .ccv a.tooltip:hover span {
+        display:inline; position:absolute; border:1px dotted #cccccc; background:#ffffff; color:#6c6c6c; z-index:1; top:1px; left:40px;
+   }
+   .v-fix { float:left; }
+   .v-fix .validation-advice { display:block; width:12em; margin-right:-12em; position:relative; }
+
+   select.sel_text{
+        background-color:#FFFFFF;
+        border: 1px solid #3C799F;
+        width:267px;
+        height:24px;
+   }
+   td { padding: 5px; }
+ </style>
+<script src="https://payport.novalnet.de/js/4/jquery.js"></script> 
+<script src="https://payport.novalnet.de/js/4/jquery.validate.js"></script>
+<script src="https://payport.novalnet.de/js/4/jquery_alphavalidation.js"></script> 
+<script src="https://payport.novalnet.de/js/hash/nncchash.js" type='text/javascript'></script>
+<script type='text/javascript'>
+//	var Novalnet = new Novalnet(); 
+</script>	
+<style> 
+  
+</style>
+</head>	
+ <input type='hidden' id='nncc_cctype_errormsg' value='Invalid CC type' />
+ <input type='hidden' id='nncc_ccholder_errormsg' value='Invalid Card Holder' />
+ <input type='hidden' id='nncc_ccno_errormsg' value='Invalid Card Number' />
+ <input type='hidden' id='nncc_ccexpiry_errormsg' value='Invalid expiry' />
+ <input type='hidden' id='nncc_cccvc_errormsg' value='Invalid CVC' />
+<script type='text/javascript'>
+var $j = jQuery.noConflict();
+	$j(document).ready(function()
+	{	 
+	/*	if(document.getElementById('nncc_original_pciconfirmation').value == 1) { return false; }
+		jQuery.validator.addMethod("validexpiry", function(value, element) {	 
+			if(value == '' || $j('#novalnetCc_expiration').val() == '') {
+				return false;
+			}
+			var cdt = new Date();
+			var current_year =cdt.getFullYear(); 
+			var current_month =cdt.getMonth() + 1;  
+			if(value < current_year) {
+				return false;
+			} else if(value == current_year && $j('#novalnetCc_expiration').val() < current_month) {
+				return false;
+			}
+			return true;
+		}, $j('#nncc_ccexpiry_errormsg').val());
+		
+		jQuery.validator.addMethod("validcreditcardholder", function(value, element) {	
+			if(value.indexOf('=') > 0) {
+				return false;
+			}
+			return true;
+		}, $j('#nncc_ccno_errormsg').val());
+		
+		jQuery.validator.addMethod("validcreditcardnumber", function(value, element) {	
+		
+			if(value == '') {
+				if(parent.document.getElementById('nncc_cardno_id')) {
+					parent.document.getElementById('nncc_cardno_id').value = '';
+				}
+				if(parent.document.getElementById('nncc_unique_id')) {
+					parent.document.getElementById('nncc_unique_id').value = '';
+				}
+				if(document.getElementById('nncc_cardno_id')) {
+					document.getElementById('nncc_cardno_id').value = '';
+				}
+				if(document.getElementById('nncc_unique_id')) {
+					document.getElementById('nncc_unique_id').value = '';
+				}
+				return false;
+			}
+			if(value.length < 12 && value.length > 20) {
+				if(parent.document.getElementById('nncc_cardno_id')) {
+					parent.document.getElementById('nncc_cardno_id').value = '';
+				}
+				if(parent.document.getElementById('nncc_unique_id')) {
+					parent.document.getElementById('nncc_unique_id').value = '';
+				}
+				if(document.getElementById('nncc_cardno_id')) {
+					document.getElementById('nncc_cardno_id').value = '';
+				}
+				if(document.getElementById('nncc_unique_id')) {
+					document.getElementById('nncc_unique_id').value = '';
+				}
+				return false;
+			}			
+			if(creditcard_validate(value, $j('#novalnetCc_cc_type').val())) {
+				return true;
+			}
+			if(parent.document.getElementById('nncc_cardno_id')) {
+				parent.document.getElementById('nncc_cardno_id').value = '';
+			}
+			if(parent.document.getElementById('nncc_unique_id')) {
+				parent.document.getElementById('nncc_unique_id').value = '';
+			}
+			if(document.getElementById('nncc_cardno_id')) {
+				document.getElementById('nncc_cardno_id').value = '';
+			}
+			if(document.getElementById('nncc_unique_id')) {
+				document.getElementById('nncc_unique_id').value = '';
+			}
+			var submitbutton_ctrl = document.getElementById('nncc_iframeparent_submit_btn').value;
+			if(submitbutton_ctrl != 'NULL') {
+				$j(submitbutton_ctrl,window.parent.document).css('visibility','hidden'); 
+			}	
+			return false;
+		}, $j('#nncc_ccno_errormsg').val());
+
+		$j("#iframe_form").validate({
+			rules: {						
+				novalnetCc_cc_type: {
+					required:true
+				},
+				novalnetCc_cc_owner: {
+					required:true,
+					validcreditcardholder: true
+				},
+				novalnetCc_cc_number: {					
+					validcreditcardnumber: true
+				}, 
+				novalnetCc_expiration_yr: {
+					required:true,
+					validexpiry: true
+				},
+				novalnetCc_cc_cid: {
+					required:true,
+					number:true,
+					minlength: 3,
+					maxlength: 4
+				}
+			},
+			messages: {			
+				novalnetCc_cc_type: {
+					required: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />'
+				},
+				novalnetCc_cc_owner: {
+					required: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />',
+					validcreditcardholder: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />'
+				},
+				novalnetCc_cc_number: {					
+					validcreditcardnumber: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />'
+				}, 
+				novalnetCc_expiration_yr: {
+					required: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />',
+					validexpiry: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />'
+				},
+				novalnetCc_cc_cid: {
+					required: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />',
+					number: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />',
+					minlength: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />',
+					maxlength: '<img src="https://payport.novalnet.de/img/4/unchecked.gif" alt="unchecked" style="margin-left:5px;" />'
+				}
+			},
+			errorPlacement: function(error, element) { 
+				error.insertAfter('#'+element.attr('id'));
+				error.css('border','0px');
+				error.html(""); 
+				error.html("<img src='https://payport.novalnet.de/img/4/unchecked.gif' alt='unchecked' style='margin-left:5px;' />"); 
+			}, 
+			success: function(error, element) { 
+				error.html(""); 
+				error.html("<img src='https://payport.novalnet.de/img/4/checked.gif' alt='checked' style='margin-left:5px;' />"); 
+			}
+		});
+		
+		$j("#novalnetCc_cc_number").keypress(function(event) { return isNumber(event) });
+		$j("#novalnetCc_cc_cid").keypress(function(event) { return isNumber(event) });
+	*/	
+	});
+</script> 
+
+<span id='original_customstyle_css'>
+ 
+</span>
+<div>
+<label class="error" id='nnerrorlabel'></label>
+</div>
+<form name='iframe_form' id="iframe_form" action="#">
+      <table border="0" cellpadding="1" cellspacing="2">
+         <tr>
+            <td>Credit Card Type:</td>
+            <td>
+               <select id="novalnetCc_cc_type" name="novalnetCc_cc_type" onblur="ccnoupdated()">
+                  <option value="">--Please select--</option>
+                  <option value="VI">Visa</option>
+                  <option value="MC">MasterCard</option>
+               </select>
+            </td>
+         </tr>
+        
+         <tr>
+            <td>Credit Card Holder:</td>
+            <td><input type="text" title="Name on Card" id="novalnetCc_cc_owner" name="novalnetCc_cc_owner" value="" size="35" maxlength="255" style="height: 20px;" onblur="nnccvalidate()"/></td>
+         </tr>
+        
+         <tr>
+            <td>Credit Card No.:</td> 
+            <td><input type="text" id="novalnetCc_cc_number" name="novalnetCc_cc_number" title="Credit Card Number" value="" autocomplete="off" size="35" style="height: 20px;" onblur="ccnoupdated(this.value);"/></td>
+         </tr>
+        
+         <tr>
+            <td>Valid Date (Month/Year):</td>
+            <td>
+             <div class="v-fix">
+                <select id="novalnetCc_expiration" name="novalnetCc_expiration" style="width:140px;" onblur="nnccvalidate()">
+                  <option value="">Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+               </select>&nbsp; 
+             </div>
+                <div class="v-fix" style="padding-left:5px;">
+               <?php echo $curr_year = date('Y'); ?>
+               <select id="novalnetCc_expiration_yr"  name="novalnetCc_expiration_yr" onblur="nnccvalidate()">
+               <option value="" selected="selected">Year</option>
+               <option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option>
+               </select></div>
+            </td>
+         </tr>
+        
+         <tr> 
+            <td><label for="ccv">CVC (Approval Code): </label></td>
+               <td style="text-align:justify;">
+                 <div class="v-fix">  
+                <input type="text" title="Card Verification Number" id="novalnetCc_cc_cid" name="novalnetCc_cc_cid" value="" autocomplete="off" maxlength="4" style="width:40px;height: 20px;" onchange="nnccvalidate()"/></div> &nbsp;
+               <span class="ccv">
+                  <a class="tooltip" href="#"><img src="https://payport.novalnet.de/img/howto.png" border="0" style="margin-top:0px;" alt="CCV/CVC?">
+                 <span>3- to 4-digits Number at the backside of your Creditcard<br>
+           <img src="https://payport.novalnet.de/img/kk.jpg" border="0" style="float:left;"><br>This number is printed on your Visa and MasterCards in the signature area at the back of the card. It is the last 3 digits AFTER the credit card number in the signature field<br><br><br>
+          </span>
+                  </a>
+               </span>
+            </td>
+         </tr>
+   </table>
+	<input type='hidden' id='nncc_cardno_id' value='' /> 
+	<input type='hidden' id='nncc_unique_id' value='' /> 
+ </form>
+ <input type='hidden' id='nncc_vendor_id' value='4' />
+ <input type='hidden' id='nncc_form_name' value='NULL' />
+ <input type='hidden' id='nncc_iframeparent_submit_btn' value='NULL' />
+ <input type='hidden' id='nncc_vendor_authcode' value='NULL' />
+ <input type='hidden' id='nncc_original_pciconfirmation' value='1' /> 
+ <input type='hidden' id='nncc_postbackurl' value='1' />
+ <input type='hidden' id='nncc_https_status' value='https' />
+ <input type='hidden' id='nncc_old_ccno' value='' />
+ <script type='text/javascript'>
+  var url = window.location.href;
+  var urlArr = url.split('://');
+  var url_prefix = ((urlArr[0] != '' && urlArr[0] == 'https')?'https':'http');
+  document.getElementById("nncc_https_status").value = url_prefix;
+ 
+ </script>
+ <script src="https://payport.novalnet.de/js/hash/nncvalidate.js" type='text/javascript'></script>
+</html>
+<br />
