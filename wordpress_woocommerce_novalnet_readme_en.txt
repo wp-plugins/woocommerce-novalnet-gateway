@@ -65,7 +65,7 @@ You have to install php modules: curl and php-curl in your Webserver.
 Step 2: 
 ========
 
-To install NovalnetAG payment module, kindly refer "IG-wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.13_novalnet_v_1.0.4_en".
+To install NovalnetAG payment module, kindly refer "wordpress_woocommerce_novalnet_readme_en.txt".
 
 
 Step 3: 
