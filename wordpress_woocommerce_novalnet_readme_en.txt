@@ -1,4 +1,4 @@
-#################################################################
+﻿#################################################################
 #                                                               #
 #  INSTALLATION GUIDE                                           #
 #                                                               #
@@ -20,7 +20,7 @@
 #  appreciated.                                                 #
 #                                                               #
 #  				                                #
-#  Copyright (c) Novalnet AG   		                        #
+#  Copyright (c)  Novalnet AG          		                #
 #                                                               #
 #################################################################
 #					   	                #
@@ -28,13 +28,13 @@
 #					   	   		#
 #  Created	     			- Novalnet AG         	#
 #								#
-#  CMS(wordpress) Version         	- 3.5.1	                #
+#  CMS(wordpress) Version         	- 3.5.2	                #
 #					   	   		#
-#  Shop (woocommerce) Version   	- 2.0.12	        #
+#  Shop (woocommerce) Version   	- 2.0.13	        #
 #					   	   		#
-#  Novalnet Version  			- 1.0.3		        #
+#  Novalnet Version  			- 1.0.4		        #
 #					   	   		#
-#  Last Updated	     			- 18th June 2013	#
+#  Last Updated	     			- 03rd August 2013 	#
 #					   	   		#
 #  Categories	     			- Payment & Gateways  	#
 #					   	   		#
@@ -65,7 +65,7 @@ You have to install php modules: curl and php-curl in your Webserver.
 Step 2: 
 ========
 
-To install NovalnetAG payment module, kindly refer installation procedure in readme.txt file.
+To install NovalnetAG payment module, kindly refer "IG-wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.13_novalnet_v_1.0.4_en".
 
 
 Step 3: 
@@ -231,18 +231,12 @@ If you wish to display tid details on front end order history page,
 
 a. kindly search the following code on order-details.php under 'wp-content/plugins/woocommerce/templates/order/'
 
-if ($order->billing_phone) echo '<dt>'.__('Telephone:', 'woocommerce').'</dt><dd>'.$order->billing_phone.'</dd>';
-?>
-</dl>
+if ($order->billing_phone) echo '<dt>'.__( 'Telephone:', 'woocommerce' ).'</dt><dd>'.$order->billing_phone.'</dd>';
 
 and add the following code after the above searched lines.
 
-<dl class="customer_details">
-<?php 
 if ( substr(get_bloginfo('language'), 0, 2) == 'de') { echo('<dt>'.'Transaktions Informationen'.': </dt><dd>'.nl2br($order->customer_note).'</dd>'); }
 else { echo('<dt>'.'Transaction Information'.': </dt><dd>'.nl2br($order->customer_note).'</dd>'); }
-?>
-</dl>
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
@@ -255,16 +249,32 @@ Note: If you use Prepayment and/or Per Invoice then contact us for more details.
 
 On Any Technical Problems, please contact sales@novalnet.de / 0049-89-923 068 320.
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Important Notice for Online Transfer (Sofort�berweisung):
-
-If you use real transaction data (bank code, bank account number, ect.) real transactions will be performed, even though the test mode is on/activated!
---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Note: In Telephone payment method the guest user has to enter his/her address details in checkout form for both first call and second call.This is not necessary for registered user. [shop default flow]
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-Note: If you are already using .htaccess in root folder , please comment out the lines from line @66 to line @73 in novalnetpayments.php file
+Note:  If you wish to display credit card form in your specified template , kindly search the following codes on novalnetpayments.php 
+under'wp-content/plugin/woocommerce-novalnet-gateway/' and fill-out the respective values in below mentioned HTML tags
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// code to add css values
+
+<input type="hidden" id="original_customstyle_css" value="" />
+
+<input type="hidden" id="original_customstyle_cssval" value="" />
+
+// code to add css values
+
+for example :-
+
+<input type="hidden" id="original_customstyle_css" value="body~~~test~~~input" /><input type="hidden" id="original_customstyle_cssval" value="color:#222222;font:11px/14px Arial,Verdana,sans-serif;~~~color:red;clear:both;~~~color:red;" />
+
+-------------------------------------------------------------------------------
+
+
+Important Notice for Online Transfer (Sofortüberweisung):
+
+If you use real transaction data (bank code, bank account number, ect.) real transactions will be performed, even though the test mode is on/activated!
+-------------------------------------------------------------------------------
+
