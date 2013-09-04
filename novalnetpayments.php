@@ -1495,7 +1495,6 @@ function novalnetpayments_Load() {
             }
             var novalnetHiddenId = "novalnet_cc_formid";
             var getInputForm = document.getElementById("original_vendor_id");
-            getInputForm.value = novalnetHiddenId;
             if(getInputForm.form.getAttribute("id")==null || getInputForm.form.getAttribute("id") =="") {
 			getInputForm.form.setAttribute("id", novalnetHiddenId);
 			getFormId 				= getInputForm.form.getAttribute("id");
