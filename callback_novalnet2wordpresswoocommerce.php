@@ -15,7 +15,7 @@
 #  recommendation as well as a comment on merchant form #
 #  would be greatly appreciated.                        #
 #                                                       #
-#  Version : 1.0.4                                      #
+#  Version : 1.0.5                                      #
 #                                                       #
 #  Please contact sales@novalnet.de for enquiry or Info #
 #                                                       #
@@ -41,7 +41,7 @@
  *
  * @category   Novalnet
  * @package    Novalnet
- * @version    1.0.4
+ * @version    1.0.5
  * @copyright  Copyright (c)  Novalnet AG. (http://www.novalnet.de)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @notice     1. You have to adapt the value of all the variables
@@ -93,19 +93,6 @@ if (isset($_REQUEST['payment_type']) && $_REQUEST['payment_type'] == 'INVOICE_CR
         'tid' 		  => '');
 }
 
-/* formatted url
-  <SiteURL>/woocommerce-novalnet-gateway/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435&order_no=100
-
-  Parameters:
-
-  tid			Callscript Transaction TID
-  vendor_id		Merchant ID
-  status		Successfull payment transaction value
-  order_no		Existing shops order no which need to be update
-  payment_type  Types of payment process
-  tid_payment	Existing shops order transaction id
-  amount		Customer paid amount in cents
- */
 
 /* $hParamsTest = array(
   'vendor_id'		=> '4',
@@ -172,13 +159,13 @@ function sendEmailWordpresswoocommerce($emailBody) {
     ini_set('SMTP', $mailHost);
     ini_set('smtp_port', $mailPort);
 
-    @header('Content-Type: text/html; charset=iso-8859-1');
+    header('Content-Type: text/html; charset=iso-8859-1');
     $headers = 'From: ' . $emailFromAddr . "\r\n";
     try {
         if ($debug) {
             echo __FUNCTION__ . ': Sending Email suceeded!' . $lineBreak;
         }
-        $sendmail = @mail($emailToAddr, $emailSubject, $emailBodyT, $headers);
+        $sendmail = mail($emailToAddr, $emailSubject, $emailBodyT, $headers);
     } catch (Exception $e) {
         if ($debug) {
             echo 'Email sending failed: ' . $e->getMessage();
@@ -201,6 +188,10 @@ function checkParams($request) {
     }
     if (!isset($request['payment_type'])) {
         $emailBody .= "Novalnet callback received. But Param payment_type missing$lineBreak";
+        return false;
+    }
+    if (isset($request['payment_type']) && $request['payment_type'] == null ) {
+        $emailBody .= "Required param (payment_type) missing!$lineBreak";
         return false;
     }
     if (!in_array($request['payment_type'], $aPaymentTypes)) {
@@ -341,7 +332,7 @@ function setOrderStatus($incrementId) {
             }
         } else {
            // $emailBody .= "Novalnet callback received. Payment type is not Prepayment/Invoice/PayPal or the request order id/transaction id is mismatch!";
-$emailBody .= "Novalnet callback received. Order no is not valid ";
+				$emailBody .= "Novalnet callback received. Order no is not valid ";
             return false;
         }
     } catch (Exception $e) {
@@ -394,27 +385,31 @@ function checkIP($request) {
     }
     return true;
 }
-
+/**
+* Validate current user's IP address
+*/ 
 function isPublicIP($value) {
     if (!$value || count(explode('.', $value)) != 4)
         return false;
-    return !preg_match('~^((0|10|172\.16|192\.168|169\.254|255|127\.0)\.)~', $value);
+   return !preg_match('~^((0|10|172\.16|192\.168|169\.254|255|127\.0)\.)~', $value);
 }
-
+/**
+ * Get the real Ip Adress of the User
+ */
 function getRealIpAddr() {
-    if (isPublicIP(@$_SERVER['HTTP_X_FORWARDED_FOR']))
-        return @$_SERVER['HTTP_X_FORWARDED_FOR'];
-    if ($iplist = explode(',', @$_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        if (isPublicIP($iplist[0]))
-            return $iplist[0];
-    }
-    if (isPublicIP(@$_SERVER['HTTP_CLIENT_IP']))
-        return @$_SERVER['HTTP_CLIENT_IP'];
-    if (isPublicIP(@$_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-        return @$_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-    if (isPublicIP(@$_SERVER['HTTP_FORWARDED_FOR']))
-        return @$_SERVER['HTTP_FORWARDED_FOR'];
-    return @$_SERVER['REMOTE_ADDR'];
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $this -> isPublicIP($_SERVER['HTTP_X_FORWARDED_FOR']))
+return $_SERVER['HTTP_X_FORWARDED_FOR'];
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) {
+if ($this -> isPublicIP($iplist[0]))
+return $iplist[0];
+}
+if (isset($_SERVER['HTTP_CLIENT_IP']) && $this -> isPublicIP($_SERVER['HTTP_CLIENT_IP']))
+return $_SERVER['HTTP_CLIENT_IP'];
+if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && $this -> isPublicIP($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+if (isset($_SERVER['HTTP_FORWARDED_FOR']) && $this -> isPublicIP($_SERVER['HTTP_FORWARDED_FOR']))
+return $_SERVER['HTTP_FORWARDED_FOR'];
+return $_SERVER['REMOTE_ADDR'];
 }
 
 ?>

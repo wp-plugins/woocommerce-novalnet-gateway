@@ -3,8 +3,8 @@ Contributors: novalnet
 link: http://www.novalnet.de/
 Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, Direct Debit, invoice, prepayment, woocommerce extensions, wordpress payment gateway, woocommerce payment methods, woocommerce payment gateway integration, woocommerce credit card extension
 Requires at least: 3.3
-Tested up to: 3.5.2
-Stable tag: 1.0.4
+Tested up to: 3.6.1
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,7 +45,12 @@ In case you have any questions, you can contact us at any time at sales@novalnet
 
 = Important: This plugin requires a pre-installed and activated SSL certificate on your website! =
 
-[Novalnet](http://www.novalnet.de/ "Novalnet") is a financial services institute licensed and supervised by the Federal Financial Supervisory Authority (BaFin), specialized in payment solutions world-wide and meeting the highest standards. Years of experience in the e-commerce sector and a continuous development of its range of services and the corresponding service portfolio enable [Novalnet](http://www.novalnet.de/ "Novalnet") to provide maximal reliability and client focus to all customers – in every area of payment processing. This way, [Novalnet](http://www.novalnet.de/ "Novalnet") supports their customers from the setup process and offers a variety of implemented payment types and intelligent fraud prevention modules as well as a legitimate and reliable receivables and claims management.  
+[Novalnet](http://www.novalnet.de/ "Novalnet") is a financial services institute licensed and supervised by the Federal Financial Supervisory Authority (BaFin), specialized in payment solutions world-wide and meeting the highest standards. Years of experience in the e-commerce sector and a continuous development of its range of services and the corresponding service portfolio enable [Novalnet](http://www.novalnet.de/ "Novalnet") to provide maximal reliability and client focus to all customers – in every area of payment processing. This way, [Novalnet](http://www.novalnet.de/ "Novalnet") supports their customers from the setup process and offers a variety of implemented payment types and intelligent fraud prevention modules as well as a legitimate and reliable receivables and claims management.
+
+= Reference: =
+
+Please check out the  demo store at the following link. 
+https://woocommerce.novalnet.de/  
 -------------------------
 
 == Installation ==
