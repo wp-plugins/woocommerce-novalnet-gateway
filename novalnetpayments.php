@@ -1,14 +1,14 @@
 <?php
 /*
  * Plugin Name: Woocommerce Payment Gateway by Novalnet
- * Plugin URI:  http://www.novalnet.com/modul/woocommerce-payment-modul/
+ * Plugin URI:  http://www.novalnet.com/modul/woocommerce
  * Description: Adds Novalnet Payment Gateway to Woocommerce e-commerce plugin
  * Author:      Novalnet
  * Author URI:  https://www.novalnet.de
  * 
- * Version: 	 1.0.4 
+ * Version: 	 1.0.5 
  * Requires at least:   3.3
- * Tested up to:        3.5.2
+ * Tested up to:        3.6.1
  *
  * Text Domain:         woocommerce-novalnetpayment
  * Domain Path:         /languages/
@@ -26,7 +26,7 @@ if (!function_exists('novalnetpayments_activation')) {
     function novalnetpayments_activation() {
         /**
          * if you're already using .htaccess file please comment out these lines[line @30 to line @37]     
-         **/
+         */
 
         $htaccess_path = ABSPATH . 'wp-content/plugins/' . dirname(plugin_basename(__FILE__));
         copy($htaccess_path . '/htaccess.txt', ABSPATH . 'htaccess.txt');
@@ -57,7 +57,7 @@ if (!function_exists('novalnetpayments_uninstall')) {
 
 /**
  * Display admin notice at back-end during plugin activation
- **/
+ */
 function novalnetpayments_admin_notices() {
     if (!is_plugin_active('woocommerce/woocommerce.php')) {
         echo '<div id="notice" class="error"><p>';
@@ -82,28 +82,38 @@ function novalnetpayments_Load() {
 
                 var $novalnet_paygate_url 					= 'https://payport.novalnet.de/paygate.jsp';
                 var $novalnet_pci_payport_url 				= 'https://payport.novalnet.de/pci_payport';
-                var $novalnet_online_transfer_payport 		= 'https://payport.novalnet.de/online_transfer_payport';
+                var $novalnet_cc_form_display_url 			= 'https://payport.novalnet.de/direct_form.jsp';
+                var $novalnet_online_transfer_payport_url	= 'https://payport.novalnet.de/online_transfer_payport';
+                var $novlanet_cc3d_payport_url 				= 'https://payport.novalnet.de/global_pci_payport';
+                var $novlanet_paypal_payport_url 			= 'https://payport.novalnet.de/paypal_payport';
+                var $novlanet_tel_second_call_url			= 'https://payport.novalnet.de/nn_infoport.xml';
                 var $payment_key_for_cc_family 				= 6;
                 var $payment_key_for_at_family 				= 8;
                 var $payment_key_for_de_family 				= 2;
                 var $payment_key_for_invoice_prepayment 	= 27;
+                var $payment_key_for_tel					= 18;
+                var $payment_key_for_paypal					= 34;
+                var $payment_key_for_online_transfer		= 33;
+                var $payment_key_for_ideal					= 49;
                 var $front_end_form_available_array 		= array('novalnet_cc', 'novalnet_cc3d', 'novalnet_elv_de', 'novalnet_elv_at');
                 var $manual_check_limit_not_available_array = array('novalnet_banktransfer', 'novalnet_ideal', 'novalnet_invoice', 'novalnet_prepayment', 'novalnet_paypal', 'novalnet_tel');
                 var $return_url_parameter_for_array 		= array('novalnet_banktransfer', 'novalnet_cc_pci', 'novalnet_cc3d', 'novalnet_elv_at_pci', 'novalnet_elv_de_pci', 'novalnet_ideal', 'novalnet_paypal');
                 var $encode_applicable_for_array 			= array('novalnet_banktransfer', 'novalnet_cc_pci', 'novalnet_elv_at_pci', 'novalnet_elv_de_pci', 'novalnet_ideal', 'novalnet_paypal');
                 var $user_variable_parameter_for_arrray 	= array('novalnet_banktransfer', 'novalnet_paypal', 'novalnet_ideal');
+                var $novalnet_pci_method_array 				= array('novalnet_cc_pci', 'novalnet_elv_at_pci', 'novalnet_elv_de_pci');
                 var $language_supported_array 				= array('en', 'de');
 				
 				/**
 				 * Telephone payment second call request
-				 **/ 
+				 */ 
                 public function do_make_second_call_for_novalnet_telephone($order_id) {
+					$order = new WC_Order($order_id);
                     ### Process the payment to payport ##
                     $urlparam = '<nnxml><info_request><vendor_id>' . $this->vendor_id . '</vendor_id>';
                     $urlparam .= '<vendor_authcode>' . $this->auth_code . '</vendor_authcode>';
                     $urlparam .= '<request_type>NOVALTEL_STATUS</request_type><tid>' . $_SESSION['novalnet_tel_tid'] . '</tid>';
                     $urlparam .= '<lang>' . strtoupper($this->language) . '</lang></info_request></nnxml>';
-                    list($errno, $errmsg, $data) = $this->perform_https_request($this->payport_or_paygate_url, $urlparam);
+                    list($errno, $errmsg, $data) = $this->perform_https_request($this->novlanet_tel_second_call_url, $urlparam);
                     if (strstr($data, '<novaltel_status>')) {
                         preg_match('/novaltel_status>?([^<]+)/i', $data, $matches);
                         $aryResponse['status'] = $matches[1];
@@ -120,17 +130,18 @@ function novalnetpayments_Load() {
                     }
                     $aryResponse['tid'] 			= $_SESSION['novalnet_tel_tid'];
                     $aryResponse['test_mode'] 		= $_SESSION['novalnet_tel_test_mode'];
-                    $aryResponse['order_no'] 		= $order_id;
+                    $aryResponse['order_no'] 		= ltrim( $order->get_order_number(), __( '#', 'hash before order number', 'woocommerce-novalnetpayment' ) );
+					$aryResponse['inputval1'] 		= $order_id;
                     // Manual Testing
-                    //      $aryResponse['status_desc'] = __('Successful', 'woocommerce-novalnetpayment');
-                    //      $aryResponse['status'] 		= 100;
+                    //        $aryResponse['status_desc'] = __('Successful', 'woocommerce-novalnetpayment');
+                    //        $aryResponse['status'] 		= 100;
                     // Manual Testing
                     return($this->do_check_novalnet_status($aryResponse, $order_id));
                 }
 				
 				/**
 				 * Clears Telephone payment session value
-				 **/ 
+				 */ 
                 public function do_unset_novalnet_telephone_sessions() {
                     unset($_SESSION['novalnet_tel_tid']);
                     unset($_SESSION['novalnet_tel_test_mode']);
@@ -139,7 +150,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * process Telephone payment server response
-				 **/ 
+				 */ 
                 public function do_check_novalnet_tel_payment_status(&$aryResponse, $order) {
                     global $woocommerce;
                     $new_line = "<br />";
@@ -182,7 +193,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Validate cart amount
-				 **/ 
+				 */ 
                 public function do_validate_amount() {
                     global $woocommerce;
                     if ($this->amount < 99 || $this->amount > 1000) {
@@ -193,7 +204,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Validate amount variations in cart
-				 **/ 
+				 */ 
                 public function do_validate_amount_variations() {
                     global $woocommerce;
                     if (isset($_SESSION['novalnet_tel_amount']) && $_SESSION['novalnet_tel_amount'] != $this->amount) {
@@ -223,7 +234,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * process parameters before sending to server
-				 **/ 
+				 */ 
                 public function do_necessary_actions_before_prepare_to_novalnet_payport_or_paygate($order) {
                     $this->user_ip = $this->getRealIpAddr();
                     $this->do_check_curl_installed_or_not();
@@ -235,7 +246,7 @@ function novalnetpayments_Load() {
 
                 /**
                  * Generate Novalnet secure form
-                 **/
+                 */
                 public function get_novalnet_form_html($order) {
                     global $woocommerce;
                     $novalnet_args_array = array();
@@ -243,38 +254,34 @@ function novalnetpayments_Load() {
                         $novalnet_args_array[] = '<input type="hidden" name="' . esc_attr($key) . '" id="' . esc_attr($key) . '" value="' . esc_attr($value) . '" />';
                     }
                     $woocommerce->add_inline_js('
-            jQuery("body").block({
-            message: "<img src=\"' . esc_url(apply_filters('woocommerce_ajax_loader_url', $woocommerce->plugin_url() . '/assets/images/ajax-loader.gif')) . '\" alt=\"' . __('Redirecting...', 'woocommerce-novalnetpayment') . '&hellip;\" style=\"float:left; margin-right: 10px;\" />' . __('You will be redirected to Novalnet AG in a few seconds. <br>', 'woocommerce-novalnetpayment') . '",
-            overlayCSS:
-            {
-            background: "#fff",
-            opacity: 0.6
-            },
-            css: {
-            padding:        20,
-            textAlign:      "center",
-            color:          "#555",
-            border:         "3px solid #aaa",
-            backgroundColor:"#fff",
-            cursor:         "wait",
-            lineHeight:		"32px"
-            }
-            });
-            ');
-                    $novalnet_form_html = '<form name="frmnovalnet" id="frmnovalnet" method="post" action="' . $this->payport_or_paygate_url . '" target="_top">
-            ' . implode('', $novalnet_args_array) . '
-            <a class="button cancel" href="' . esc_url($order->get_cancel_order_url()) . '">' . __('Cancel order &amp; restore cart', 'woocommerce-novalnetpayment') . '</a>
-            </form>
-            <script type="text/javascript" language="javascript">
-            window.onload = function() { document.forms.frmnovalnet.submit(); }
-            </script>
-            ';
-                    return($novalnet_form_html);
+						jQuery("body").block({
+								message: "<img src=\"' . esc_url(apply_filters('woocommerce_ajax_loader_url', $woocommerce->plugin_url() . '/assets/images/ajax-loader.gif')) . '\" alt=\"' . __('Redirecting...', 'woocommerce-novalnetpayment') . '&hellip;\" style=\"float:left; margin-right: 10px;\" />' . __('You will be redirected to Novalnet AG in a few seconds. <br>', 'woocommerce-novalnetpayment') . '",
+								baseZ: 99999,
+								overlayCSS:
+								{
+								background: "#fff",
+								opacity: 0.6
+								},
+								css: {
+								padding:        20,
+								textAlign:      "center",
+								color:          "#555",
+								border:         "3px solid #aaa",
+								backgroundColor:"#fff",
+								cursor:         "wait",
+								lineHeight:		"32px"
+								}
+								});
+						jQuery("#submit_novalnet_payment_form").click();
+					');
+					return '<form id="frmnovalnet" name="frmnovalnet" action="' . $this->payport_or_paygate_url . '" method="post" target="_top">' . implode('', $novalnet_args_array) . '
+					<input type="submit" class="button-alt" id="submit_novalnet_payment_form" value="' . __('Pay via Novalnet', 'woocommerce-novalnetpayment') . '" /> <a class="button cancel" href="' . esc_url($order->get_cancel_order_url()) . '">' . __('Cancel order &amp; restore cart', 'woocommerce-novalnetpayment') . '</a>
+				</form>';
                 }
 				
 				/**
 				 * Validate curl extension
-				 **/ 
+				 */ 
                 public function do_check_curl_installed_or_not() {
                     global $woocommerce;
                     if (!function_exists('curl_init') && !in_array($this->novalnet_payment_method, $this->return_url_parameter_for_array)) {
@@ -286,19 +293,19 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Collects novalnet payment parameters
-				 **/ 
+				 */ 
                 public function do_form_payment_parameters($order) {
                     $this->get_backend_hash_parameter_array();
                     $this->get_backend_variation_parameter_array();
                     $this->get_user_variable_parameter_array();
                     $this->get_return_url_parameter_array();
                     $this->get_backend_additional_parameter_array($order);
-                    $this->get_backend_common_parameter_array($order);
+                    $this->get_backend_common_parameter_array($order);               
                 }
 				
 				/**
 				 * Get back-end hash parameter
-				 **/ 
+				 */ 
                 public function get_backend_hash_parameter_array() {
                     if (in_array($this->novalnet_payment_method, $this->encode_applicable_for_array)) {
                         $this->auth_code 	= $this->encode($this->auth_code);
@@ -320,7 +327,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Get back-end variation parameter
-				 **/ 
+				 */ 
                 public function get_backend_variation_parameter_array() {
                     if ($this->novalnet_payment_method == 'novalnet_cc_pci' || $this->novalnet_payment_method == 'novalnet_elv_at_pci' || $this->novalnet_payment_method == 'novalnet_elv_de_pci') {
                         $this->payment_parameters['vendor_id'] 		= $this->vendor_id;
@@ -338,7 +345,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Get user variable parameter
-				 **/ 
+				 */ 
                 public function get_user_variable_parameter_array() {
                     if (in_array($this->novalnet_payment_method, $this->user_variable_parameter_for_arrray)) {
                         $this->payment_parameters['user_variable_0'] = site_url();
@@ -347,7 +354,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Get return url parameter 
-				 **/ 
+				 */ 
                 public function get_return_url_parameter_array() {
                     $return_url = get_permalink(get_option('woocommerce_checkout_page_id'));
                     if (in_array($this->novalnet_payment_method, $this->return_url_parameter_for_array)) {
@@ -361,21 +368,26 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Get back-end additional parameters
-				 **/ 
+				 */ 
                 public function get_backend_additional_parameter_array($order) {
                     global $woocommerce;
                     if ($this->novalnet_payment_method == 'novalnet_invoice' || $this->novalnet_payment_method == 'novalnet_prepayment') {
                         $this->invoice_type = strtoupper(substr($this->novalnet_payment_method, strpos($this->novalnet_payment_method, '_') + 1, strlen($this->novalnet_payment_method)));
-                        $this->invoice_ref = "BNR-" . $this->product_id . "-" . $order->id;
+                        $this->invoice_ref = "BNR-" . $this->product_id . "-" . ltrim( $order->get_order_number(), __( '#', 'hash before order number', 'woocommerce-novalnetpayment' ) );
                         $this->payment_parameters['invoice_type'] = $this->invoice_type;
                         $this->payment_parameters['invoice_ref']  = $this->invoice_ref;
                     }
-                    if ($this->novalnet_payment_method == 'novalnet_invoice') {
-                        if ($this->payment_duration) {
+                    if ($this->novalnet_payment_method == 'novalnet_invoice') {		
+                        if (is_numeric($this->payment_duration)) {
+                        if ($this->payment_duration>0) {
                             $this->due_date = date("Y-m-d", mktime(0, 0, 0, date("m"), (date("d") + $this->payment_duration), date("Y")));
                         } else {
                             $this->due_date = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
                         }
+					}
+					else{
+						$this->due_date = '';
+					}
                         $this->payment_parameters['due_date'] = $this->due_date;
                         $this->payment_parameters['end_date'] = $this->due_date;
                     }
@@ -418,7 +430,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Get common payment parameters (for all payment methods)
-				 **/ 
+				 */ 
                 public function get_backend_common_parameter_array($order) {
                     $this->payment_parameters['key'] 		= $this->payment_key;
                     $this->payment_parameters['test_mode'] 	= $this->test_mode;
@@ -440,7 +452,12 @@ function novalnetpayments_Load() {
                     // $this->payment_parameters['fax'] 	= "";
                     //  $this->payment_parameters['birthday'] = ;
                     $this->payment_parameters['remote_ip'] 	= $this->user_ip;
-                    $this->payment_parameters['order_no'] 	= $order->id;
+                    
+                    // added support for woocommerce sequential order no
+					$this->payment_parameters['order_no'] 	= ltrim( $order->get_order_number(), __( '#', 'hash before order number', 'woocommerce-novalnetpayment' ) );
+                    $this->payment_parameters['input1']		= 'nnshop_nr';
+                    $this->payment_parameters['inputval1']	= $order->id;
+                    
                     $this->payment_parameters['customer_no']= $order->user_id > 0 ? $order->user_id : __('Guest', 'woocommerce-novalnetpayment');
                     $this->payment_parameters['use_utf8'] 	= 1;
                     $this->payment_parameters['amount'] 	= $this->amount;
@@ -448,7 +465,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * process data before payport sever
-				 **/ 
+				 */ 
                 public function do_prepare_to_novalnet_payport($order) {
                     if (!isset($_SESSION['novalnet_receipt_page_got'])) {
                         echo '<p>' . __('You will be redirected to Novalnet AG in a few seconds. <br>', 'woocommerce-novalnetpayment') . '<input type="submit" name="enter" id="enter" onClick="document.getElementById(\'enter\').disabled=\'true\';document.forms.frmnovalnet.submit();" value="' . __('Redirecting...', 'woocommerce-novalnetpayment') . '" /></p>';
@@ -459,7 +476,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * display error and message
-				 **/ 
+				 */ 
                 public function do_check_and_add_novalnet_errors_and_messages($message, $message_type = 'error') {
                     global $woocommerce;
                     switch ($message_type) {
@@ -482,7 +499,7 @@ function novalnetpayments_Load() {
 
                 /**
                  * Validate credit card form fields
-                 **/
+                 */
                 public function do_validate_cc_form_elements($cc_holder, $cc_number, $exp_month, $exp_year, $cvv_cvc, $cc_type = null, $unique_id = null, $pan_hash = null) {
                     global $woocommerce;
                     $error = '';
@@ -549,7 +566,7 @@ function novalnetpayments_Load() {
 
                 /**
                  * validate Direct Debit form fields
-                 **/
+                 */
                 public function do_validate_elv_at_elv_de_form_elements($bank_account_holder, $bank_account, $bank_code, $acdc = '') {
                     global $woocommerce;
                     $error = '';
@@ -573,7 +590,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * process novalnet payment methods
-				 **/ 
+				 */ 
                 public function do_process_payment_from_novalnet_payments($order_id) {
                     $order = new WC_Order($order_id);
                     if ($this->novalnet_payment_method == 'novalnet_tel') {
@@ -609,7 +626,7 @@ function novalnetpayments_Load() {
                             if ($return)
                                 return($return);
                         } else if ($this->novalnet_payment_method == 'novalnet_elv_de') {
-                            $return = $this->do_validate_elv_at_elv_de_form_elements(trim($_REQUEST['bank_account_holder_de'], '&'), str_replace(' ', '', $_REQUEST['bank_account_de']), str_replace(' ', '', $_REQUEST['bank_code_de']), @$_REQUEST['acdc']);
+                            $return = $this->do_validate_elv_at_elv_de_form_elements(trim($_REQUEST['bank_account_holder_de'], '&'), str_replace(' ', '', $_REQUEST['bank_account_de']), str_replace(' ', '', $_REQUEST['bank_code_de']), isset($_REQUEST['acdc'])?$_REQUEST['acdc']:null);
                             if ($return)
                                 return($return);
                         }
@@ -621,7 +638,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * get url for direct form payment methods
-				 **/ 
+				 */ 
                 public function do_return_redirect_page_for_pay_or_thanks_page($result, $redirect_url) {
                     return array(
                         'result' => $result,
@@ -631,7 +648,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Validate back-end data
-				 **/ 
+				 */ 
                 public function do_check_novalnet_backend_data_validation_from_frontend() {
                     global $woocommerce;
                     $error = '';
@@ -643,8 +660,6 @@ function novalnetpayments_Load() {
                         if (empty($this->product_id_2) || empty($this->tariff_id_2)) {
                             $error = __('Product-ID2 and/or Tariff-ID2 missing!', 'woocommerce-novalnetpayment');
                         }
-                    } elseif (!empty($this->product_id_2) || !empty($this->tariff_id_2)) {
-                        $error = __('Manual Check limit field missing!', 'woocommerce-novalnetpayment');
                     }
                     if ($error) {
                         $this->do_check_and_add_novalnet_errors_and_messages($error, 'error');
@@ -655,17 +670,17 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * build redirect url for direct form payment methods
-				 **/ 
+				 */ 
                 public function do_build_redirect_url($order, $page) {
                     return(add_query_arg('order', $order->id, add_query_arg('key', $order->order_key, get_permalink(woocommerce_get_page_id($page)))));
                 }
 				
 				/**
 				 * Get pci compliant secure credit card form from Novalnet server 
-				 **/ 
+				 */ 
                 public function do_check_is_any_request_to_print_cc_iframe() {
                     global $woocommerce;
-                    if ($this->novalnet_payment_method == 'novalnet_cc' && !strstr(@$_SERVER['HTTP_REFERER'], 'wp-admin')) {
+                    if ($this->novalnet_payment_method == 'novalnet_cc' && isset($_SERVER['HTTP_REFERER']) && !strstr($_SERVER['HTTP_REFERER'], 'wp-admin')) {
                         $this->payport_or_paygate_form_display = $this->payment_details['novalnet_cc']['payport_or_paygate_form_display'];
                         $form_parameters = array(
                             'nn_lang_nn' => strtoupper($this->language),
@@ -680,7 +695,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Display direct debit form fields
-				 **/ 
+				 */ 
                 public function do_print_form_elements_for_novalnet_elv_de_at($suffix) {
                     $payment_field_html = '<div>&nbsp;</div><div>
             <div style="float:left;width:50%;">' . __('Account holder', 'woocommerce-novalnetpayment') . ':<span style="color:red;">*</span></div>
@@ -714,20 +729,20 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * validate novalnet configuration parameter
-				 **/ 
+				 */ 
                 public function novalnet_backend_validation_from_backend($request) {
                     $vendor_id = $request['woocommerce_' . $this->novalnet_payment_method . '_merchant_id'];
                     $auth_code = $request['woocommerce_' . $this->novalnet_payment_method . '_auth_code'];
                     $product_id = $request['woocommerce_' . $this->novalnet_payment_method . '_product_id'];
                     $tariff_id = $request['woocommerce_' . $this->novalnet_payment_method . '_tariff_id'];
-                    $payment_duration = @$request['woocommerce_' . $this->novalnet_payment_method . '_payment_duration'];
-                    $key_password = @$request['woocommerce_' . $this->novalnet_payment_method . '_key_password'];
-                    $api_username = @$request['woocommerce_' . $this->novalnet_payment_method . '_api_username'];
-                    $api_password = @$request['woocommerce_' . $this->novalnet_payment_method . '_api_password'];
-                    $api_signature = @$request['woocommerce_' . $this->novalnet_payment_method . '_api_signature'];
-                    $manual_check_limit = @$request['woocommerce_' . $this->novalnet_payment_method . '_manual_check_limit'];
-                    $product_id_2 = @$request['woocommerce_' . $this->novalnet_payment_method . '_product_id_2'];
-                    $tariff_id_2 = @$request['woocommerce_' . $this->novalnet_payment_method . '_tariff_id_2'];
+                    $payment_duration = isset($request['woocommerce_' . $this->novalnet_payment_method . '_payment_duration'])?$request['woocommerce_' . $this->novalnet_payment_method . '_payment_duration']:null;
+                    $key_password = isset($request['woocommerce_' . $this->novalnet_payment_method . '_key_password'])?$request['woocommerce_' . $this->novalnet_payment_method . '_key_password']:null;
+                    $api_username = isset($request['woocommerce_' . $this->novalnet_payment_method . '_api_username'])?$request['woocommerce_' . $this->novalnet_payment_method . '_api_username']:null;
+                    $api_password = isset($request['woocommerce_' . $this->novalnet_payment_method . '_api_password'])?$request['woocommerce_' . $this->novalnet_payment_method . '_api_password']:null;
+                    $api_signature = isset($request['woocommerce_' . $this->novalnet_payment_method . '_api_signature'])?$request['woocommerce_' . $this->novalnet_payment_method . '_api_signature']:null;
+                    $manual_check_limit = isset($request['woocommerce_' . $this->novalnet_payment_method . '_manual_check_limit'])?$request['woocommerce_' . $this->novalnet_payment_method . '_manual_check_limit']:null;
+                    $product_id_2 = isset($request['woocommerce_' . $this->novalnet_payment_method . '_product_id_2'])?$request['woocommerce_' . $this->novalnet_payment_method . '_product_id_2']:null;
+                    $tariff_id_2 = isset($request['woocommerce_' . $this->novalnet_payment_method . '_tariff_id_2'])?$request['woocommerce_' . $this->novalnet_payment_method . '_tariff_id_2']:null;
                     foreach ($this->language_supported_array as $language) {
                         if (!$request['woocommerce_' . $this->novalnet_payment_method . '_title_' . $language])
                             return(__('Please enter valid Payment Title', 'woocommerce-novalnetpayment'));
@@ -760,16 +775,10 @@ function novalnetpayments_Load() {
                             return(__('Please enter valid Novalnet Second Tariff ID', 'woocommerce-novalnetpayment'));
                         }
                     } else if (isset($product_id_2) && $product_id_2 && $this->is_digits($product_id_2)) {
-                        if (isset($manual_check_limit) && ($manual_check_limit == '' || !$this->is_digits($manual_check_limit))) {
-                            return(__('Please enter valid Manual checking amount', 'woocommerce-novalnetpayment'));
-                        }
                         if (isset($tariff_id_2) && ($tariff_id_2 == '' || !$this->is_digits($tariff_id_2))) {
                             return(__('Please enter valid Novalnet Second Tariff ID', 'woocommerce-novalnetpayment'));
                         }
                     } else if (isset($tariff_id_2) && $tariff_id_2 && $this->is_digits($tariff_id_2)) {
-                        if (isset($manual_check_limit) && ($manual_check_limit == '' || !$this->is_digits($manual_check_limit))) {
-                            return(__('Please enter valid Manual checking amount', 'woocommerce-novalnetpayment'));
-                        }
                         if (isset($product_id_2) && ($product_id_2 == '' || !$this->is_digits($product_id_2))) {
                             return(__('Please enter valid Novalnet Second Product ID', 'woocommerce-novalnetpayment'));
                         }
@@ -779,7 +788,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Validate payment gateway settings
-				 **/ 
+				 */ 
                 public function do_check_novalnet_backend_data_validation_from_backend($request) {
                     if (isset($request['save']) && isset($request['subtab']) && ($request['subtab'] == '#gateway-' . $this->novalnet_payment_method || isset($request['section']) && $request['section'] == $this->novalnet_payment_method)) {
                         $is_backend_error = $this->novalnet_backend_validation_from_backend($request);
@@ -803,7 +812,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * list order status
-				 **/ 
+				 */ 
                 public function list_order_statuses() {
                     global $wpdb;
                     $sql = "select name, slug from $wpdb->terms where term_id in (select term_id from $wpdb->term_taxonomy where taxonomy='%s')";
@@ -816,7 +825,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Validate order status
-				 **/ 
+				 */ 
                 public function do_check_novalnet_order_status() {
                     if (in_array($this->order_status, array('failed')))
                         return(false);
@@ -839,7 +848,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * trim server resonse
-				 **/ 
+				 */ 
                 public function do_trim_array_values(&$array) {
                     if (isset($array) && is_array($array))
                         foreach ($array as $key => $val) {
@@ -850,12 +859,12 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * set-up configuration details  for payment methods
-				 **/
+				 */
                 public function do_make_payment_details_array() {
                     $this->payment_details = array(
                         'novalnet_banktransfer'		=> array(
-                            'payment_key' 				=> 33,
-                            'payport_or_paygate_url' 	=> $this->novalnet_online_transfer_payport,
+                            'payment_key' 				=> $this->payment_key_for_online_transfer,
+                            'payport_or_paygate_url' 	=> $this->novalnet_online_transfer_payport_url,
                             'second_call_url' 			=> '',
                             'payment_name' 				=> __('Instant Bank Transfer', 'woocommerce-novalnetpayment'),
                             'payment_logo' 				=> __('www.novalnet.de/img/sofort_Logo_en.png', 'woocommerce-novalnetpayment')
@@ -863,7 +872,7 @@ function novalnetpayments_Load() {
                         'novalnet_cc' 				=> array(
                             'payment_key' 				=> $this->payment_key_for_cc_family,
                             'payport_or_paygate_url' 	=> $this->novalnet_paygate_url,
-                            'payport_or_paygate_form_display' => 'https://payport.novalnet.de/direct_form.jsp',
+                            'payport_or_paygate_form_display' => $this->novalnet_cc_form_display_url,
                             'second_call_url' 			=> '',
                             'payment_name' 				=> __('Credit Card', 'woocommerce-novalnetpayment'),
                             'payment_logo' 				=> __('www.novalnet.de/img/creditcard_small.jpg', 'woocommerce-novalnetpayment')
@@ -877,7 +886,7 @@ function novalnetpayments_Load() {
                         ),
                         'novalnet_cc3d' => array(
                             'payment_key' => $this->payment_key_for_cc_family,
-                            'payport_or_paygate_url' => 'https://payport.novalnet.de/global_pci_payport',
+                            'payport_or_paygate_url' => $this->novlanet_cc3d_payport_url,
                             'second_call_url' => '',
                             'payment_name' => __('Credit Card 3D Secure', 'woocommerce-novalnetpayment'),
                             'payment_logo' => __('www.novalnet.de/img/creditcard_small.jpg', 'woocommerce-novalnetpayment')
@@ -911,8 +920,8 @@ function novalnetpayments_Load() {
                             'payment_logo' => __('www.novalnet.de/img/ELV_Logo.png', 'woocommerce-novalnetpayment')
                         ),
                         'novalnet_ideal' => array(
-                            'payment_key' => 49,
-                            'payport_or_paygate_url' => $this->novalnet_online_transfer_payport,
+                            'payment_key' => $this->payment_key_for_ideal,
+                            'payport_or_paygate_url' => $this->novalnet_online_transfer_payport_url,
                             'second_call_url' => '',
                             'payment_name' => __('iDEAL', 'woocommerce-novalnetpayment'),
                             'payment_logo' => __('www.novalnet.de/img/ideal_payment_small.png', 'woocommerce-novalnetpayment')
@@ -925,8 +934,8 @@ function novalnetpayments_Load() {
                             'payment_logo' => __('www.novalnet.de/img/kauf-auf-rechnung.jpg', 'woocommerce-novalnetpayment')
                         ),
                         'novalnet_paypal' => array(
-                            'payment_key' => 34,
-                            'payport_or_paygate_url' => 'https://payport.novalnet.de/paypal_payport',
+                            'payment_key' => $this->payment_key_for_paypal,
+                            'payport_or_paygate_url' => $this->novlanet_paypal_payport_url,
                             'second_call_url' => '',
                             'payment_name' => __('PayPal', 'woocommerce-novalnetpayment'),
                             'payment_logo' => __('www.novalnet.de/img/paypal-small.png', 'woocommerce-novalnetpayment')
@@ -939,9 +948,9 @@ function novalnetpayments_Load() {
                             'payment_logo' => __('www.novalnet.de/img/vorauskasse.jpg', 'woocommerce-novalnetpayment')
                         ),
                         'novalnet_tel' => array(
-                            'payment_key' => 18,
+                            'payment_key' => $this->payment_key_for_tel,
                             'payport_or_paygate_url' => $this->novalnet_paygate_url,
-                            'second_call_url' => 'https://payport.novalnet.de/nn_infoport.xml',
+                            'second_call_url' => $this->novlanet_tel_second_call_url,
                             'payment_name' => __('Telephone Payment', 'woocommerce-novalnetpayment'),
                             'payment_logo' => __('www.novalnet.de/img/novaltel_logo.png', 'woocommerce-novalnetpayment')
                         )
@@ -950,7 +959,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Assign variables to payment parameters
-				 **/ 
+				 */ 
                 public function do_assign_config_vars_to_members() {
                     $this->do_trim_array_values($this->settings);
                     $this->do_make_payment_details_array();
@@ -984,35 +993,34 @@ function novalnetpayments_Load() {
                     $this->method_title = $this->payment_details[$this->novalnet_payment_method]['payment_name'];
                     $this->title = $this->settings['title_' . strtolower($this->language)];
                     $this->description = $this->settings['description_' . strtolower($this->language)];
-                    $this->novalnet_logo = $this->settings['novalnet_logo'];
                     $this->payment_logo = $this->settings['payment_logo'];
                     $this->icon = (is_ssl() ? 'https://' : 'http://') . $this->payment_details[$this->novalnet_payment_method]['payment_logo'];
                 }
 				
 				/**
 				 * Validate account digits
-				 **/ 
+				 */ 
                 public function is_digits($element) {
                     return(preg_match("/^[0-9]+$/", $element));
                 }
 				
 				/**
 				 * Validate account holder name
-				 **/ 
+				 */ 
                 public function is_invalid_holder_name($element) {
                     return preg_match("/[#%\^<>@$=*!]/", $element);
                 }
 				
 				/**
 				 * Format amount in cents
-				 **/ 
+				 */ 
                 public function do_format_amount($amount) {
                     $this->amount = str_replace(',', '', number_format($amount, 2)) * 100;
                 }
 
                 /**
                  * Assign Manual Check-Limit 
-                 **/
+                 */
                 public function do_check_and_assign_manual_check_limit() {
                     if (isset($this->manual_check_limit) && $this->manual_check_limit && $this->amount >= $this->manual_check_limit) {
                         if ($this->product_id_2 && $this->tariff_id_2) {
@@ -1024,31 +1032,39 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Get Server Response message
-				 **/ 
+				 */ 
                 public function do_get_novalnet_response_text($request) {
-                    return($request['status_text'] ? $request['status_text'] : ($request['status_desc'] ? $request['status_desc'] : __('Successful', 'woocommerce-novalnetpayment')));
+                    return(isset($request['status_text']) ? $request['status_text'] : (isset($request['status_desc']) ? $request['status_desc'] : __('Successful', 'woocommerce-novalnetpayment')));
                 }
 
-                /*
+                /**
                  * Successful payment
                  */
                 public function do_novalnet_success($request, $message) {
-                    global $woocommerce, $wp_taxonomies, $wpdb;
+                    global $woocommerce, $wpdb;
                     $this->do_trim_array_values($request);
-                    $order_no = $request['order_no'];
+                    if (in_array($this->novalnet_payment_method, $this->novalnet_pci_method_array)) {
+                    $order_no = $request['nnshop_nr'];
+				}	else {
+					$order_no = $request['inputval1'];
+				}
+                    $woo_seq_nr = $request['order_no'];
                     $GLOBALS['wp_rewrite'] = new WP_Rewrite();
-                    if (in_array($this->novalnet_payment_method, $this->encode_applicable_for_array))
+                    if (in_array($this->novalnet_payment_method, $this->encode_applicable_for_array)) {
                         $request['test_mode'] = $this->decode($request['test_mode']);
+                        $this->amount = $this->decode($request['amount']);
+                        $this->do_check_and_assign_manual_check_limit();
+					}
                     $order = new WC_Order($order_no);
-                    $this->post_back_param($request, $order_no);
+                    $this->post_back_param($request, $woo_seq_nr);
                     $new_line = "\n";
-                    $novalnet_comments = $this->title . $new_line;
+                    $novalnet_comments = $new_line . $this->title . $new_line;
                     $novalnet_comments .= __('Novalnet Transaction ID', 'woocommerce-novalnetpayment') . ': ' . $request['tid'] . $new_line;
                     $novalnet_comments .= ((isset($request['test_mode']) && $request['test_mode'] == 1) || (isset($this->test_mode) && $this->test_mode == 1)) ? __('Test order', 'woocommerce-novalnetpayment') : '';
                     if ($this->novalnet_payment_method == 'novalnet_invoice' || $this->novalnet_payment_method == 'novalnet_prepayment') {
                         $novalnet_comments .= $request['test_mode'] ? $new_line . $new_line : $new_line;
                         $novalnet_comments .= __('Please transfer the amount to the following information to our payment service Novalnet AG', 'woocommerce-novalnetpayment') . $new_line;
-                        if ($this->payment_duration) {
+                        if ($this->novalnet_payment_method == 'novalnet_invoice' && is_numeric($this->payment_duration)) {
                             $novalnet_comments.= __('Due date', 'woocommerce-novalnetpayment') . " : " . date_i18n(get_option('date_format'), strtotime($this->due_date)) . $new_line;
                         }
                         $novalnet_comments.= __('Account holder : Novalnet AG', 'woocommerce-novalnetpayment') . $new_line;
@@ -1071,7 +1087,7 @@ function novalnetpayments_Load() {
                     }
                     else
                         $order->customer_note .= html_entity_decode($novalnet_comments, ENT_QUOTES, 'UTF-8');
-                    $sql = "update $wpdb->posts set post_excerpt='" . $wpdb->escape($order->customer_note) . "' where ID='$order_no'";
+                    $sql = "update $wpdb->posts set post_excerpt='" . esc_sql($order->customer_note) . "' where ID='$order_no'";
                     $row = $wpdb->query($sql);
                     $order->customer_note = nl2br($order->customer_note);
                     $order->update_status($this->order_status, $message);
@@ -1098,7 +1114,7 @@ function novalnetpayments_Load() {
 
                 /**
                  * Transfer data via curl library (consists of various protocols)
-                 **/
+                 */
                 public function perform_https_request($url, $form) {
                     global $globaldebug;
                     ## requrl: the URL executed later on
@@ -1153,7 +1169,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Validate Hash parameter
-				 **/ 
+				 */ 
                 public function checkHash(&$request) {
                     if ($this->novalnet_payment_method == 'novalnet_cc' || $this->novalnet_payment_method == 'novalnet_cc_pci' || $this->novalnet_payment_method == 'novalnet_elv_at_pci' || $this->novalnet_payment_method == 'novalnet_elv_de_pci') {
                         $h['authcode'] 		= $request['vendor_authcode']; #encoded
@@ -1177,7 +1193,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Encode payment parameters
-				 **/ 
+				 */ 
                 public function encode($data) {
                     $data = trim($data);
                     if ($data == '')
@@ -1198,7 +1214,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Decode payment parameters
-				 **/ 
+				 */ 
                 public function decode($data) {
                     $data = trim($data);
                     if ($data == '') {
@@ -1228,7 +1244,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Validate current user's IP address
-				 **/ 
+				 */ 
                 public function isPublicIP($value) {
                     if (!$value || count(explode('.', $value)) != 4)
                         return false;
@@ -1237,30 +1253,29 @@ function novalnetpayments_Load() {
 
                 /**
                  * Get the real Ip Adress of the User
-				**/
+				*/
                 public function getRealIpAddr() {
-                    if ($this->isPublicIP(@$_SERVER['HTTP_X_FORWARDED_FOR']))
-                        return @$_SERVER['HTTP_X_FORWARDED_FOR'];
-                    if ($iplist = explode(',', @$_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                        if ($this->isPublicIP($iplist[0]))
-                            return $iplist[0];
-                    }
-                    if ($this->isPublicIP(@$_SERVER['HTTP_CLIENT_IP']))
-                        return @$_SERVER['HTTP_CLIENT_IP'];
-                    if ($this->isPublicIP(@$_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-                        return @$_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-                    if ($this->isPublicIP(@$_SERVER['HTTP_FORWARDED_FOR']))
-                        return @$_SERVER['HTTP_FORWARDED_FOR'];
-                    return @$_SERVER['REMOTE_ADDR'];
-                }
+					if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $this -> isPublicIP($_SERVER['HTTP_X_FORWARDED_FOR']))
+						return $_SERVER['HTTP_X_FORWARDED_FOR'];
+					if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) {
+						if ($this -> isPublicIP($iplist[0]))
+							return $iplist[0];
+					}
+					if (isset($_SERVER['HTTP_CLIENT_IP']) && $this -> isPublicIP($_SERVER['HTTP_CLIENT_IP']))
+						return $_SERVER['HTTP_CLIENT_IP'];
+					if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && $this -> isPublicIP($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+						return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+					if (isset($_SERVER['HTTP_FORWARDED_FOR']) && $this -> isPublicIP($_SERVER['HTTP_FORWARDED_FOR']))
+						return $_SERVER['HTTP_FORWARDED_FOR'];
+					return $_SERVER['REMOTE_ADDR'];
+				}
 				
 				/**
 				 * Order Cancellation
-				 **/ 
+				 */ 
                 public function do_novalnet_cancel($request, $message, $order_no) {
-                    global $woocommerce, $wp_taxonomies, $wpdb;
+                    global $woocommerce, $wpdb;
                     $GLOBALS['wp_rewrite'] = new WP_Rewrite();
-                    $wp_taxonomies['shop_order_status'] = '';
                     $order = new WC_Order($order_no);
                     $new_line 						 = "\n";
                     $novalnet_comments 				 = $this->title . $new_line;
@@ -1275,13 +1290,13 @@ function novalnetpayments_Load() {
                     }
                     else
                         $order->customer_note .= html_entity_decode($novalnet_comments, ENT_QUOTES, 'UTF-8');
-                    $sql = "update $wpdb->posts set post_excerpt='" . $wpdb->escape($order->customer_note) . "' where ID='$order_no'";
+                    $sql = "update $wpdb->posts set post_excerpt='" . esc_sql($order->customer_note) . "' where ID='$order_no'";
                     $row = $wpdb->query($sql);
                     $order->customer_note = nl2br($order->customer_note);
                     $order->cancel_order($message);
                     // Message
                     $this->do_check_and_add_novalnet_errors_and_messages($message, 'error');
-                    do_action('woocommerce_cancelled_order', $request['order_no']);
+                    do_action('woocommerce_cancelled_order', $order_no);
                     $this->do_unset_novalnet_telephone_sessions();
                     return($this->do_return_redirect_page_for_pay_or_thanks_page('success', $woocommerce->cart->get_checkout_url()));
                 }
@@ -1300,12 +1315,16 @@ function novalnetpayments_Load() {
                 }
 				
 				/**
-				 * Order cancellation for direct form payment
-				 **/ 
+				 * Order cancellation for re-direct form payment
+				 */ 
                 public function do_nn_cancel($request, $message) {
-                    global $woocommerce, $wp_taxonomies, $wpdb;
+                    global $woocommerce, $wpdb;
                     $GLOBALS['wp_rewrite'] = new WP_Rewrite();
-                    $order_no = $request['order_no'];
+                    if (in_array($this->novalnet_payment_method, $this->novalnet_pci_method_array)) {
+                    $order_no = $request['nnshop_nr'];
+				}	else {
+					$order_no = $request['inputval1'];
+				}
                     $order = new WC_Order($order_no);
                     $new_line = "\n";
                     $novalnet_comments 			 	 = $this->title . $new_line;
@@ -1314,7 +1333,7 @@ function novalnetpayments_Load() {
                     if ($order->customer_note)
                         $order->customer_note		.= $new_line;
                     $order->customer_note 			.= html_entity_decode($novalnet_comments, ENT_QUOTES, 'UTF-8');
-                    $sql = "update $wpdb->posts set post_excerpt='" . $wpdb->escape($order->customer_note) . "' where ID='$order_no'";
+                    $sql = "update $wpdb->posts set post_excerpt='" . esc_sql($order->customer_note) . "' where ID='$order_no'";
 								$row 				 = $wpdb->query($sql);
                     $order->customer_note 			 = nl2br($order->customer_note);
                     $order->cancel_order($message);
@@ -1328,7 +1347,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * Process order status repsonse
-				 **/ 
+				 */ 
                 public function do_check_nn_status($request) {
                     if (isset($request['status'])) {
                         if ($request['novalnet_payment_method'] == 'novalnet_paypal' && $request['status'] == 90) {
@@ -1345,7 +1364,7 @@ function novalnetpayments_Load() {
 				
 				/**
 				 * validate novalnet server response
-				 **/ 
+				 */ 
                 public function do_check_novalnet_payment_status() {
                     if (isset($_REQUEST['hash'])) {
                         if (!$this->checkHash($_REQUEST)) {
@@ -1361,16 +1380,17 @@ function novalnetpayments_Load() {
 
                 /**
                  * Send acknowledgement parameters to Novalnet server after payment success 
-                 **/
+                 */
                 public function post_back_param($request, $order_id) {
-                    $urlparam = 'vendor=' . $this->vendor_id . '&product=' . $this->product_id . '&key=' . $this->payment_key . '&tariff=' . $this->tariff_id . '&auth_code=' . $this->auth_code;
-                    $urlparam .= '&status=100&tid=' . $request['tid'] . '&vwz2=' . $order_id . '&vwz3=' . date('Y-m-d H:i:s') . '&order_no=' . $order_id;
+                    $urlparam = 'vendor=' . $this->vendor_id . '&product=' . $this->product_id . '&key=' . $this->payment_key . '&tariff=' . $this->tariff_id . '&auth_code=' . $this->auth_code . '&status=100&tid=' . $request['tid'] . '&order_no=' . $order_id;
+                    if ($this->novalnet_payment_method == 'novalnet_invoice' || $this->novalnet_payment_method == 'novalnet_prepayment')
+                    $urlparam .='&invoice_ref='. "BNR-" . $this->product_id . "-" . $order_id;
                     list($errno, $errmsg, $data) = $this->perform_https_request($this->novalnet_paygate_url, $urlparam);
                 }
 
                 /**
                  * Constructor for the Novalnet gateway
-                 **/
+                 */
                 public function __construct() {
                     global $woocommerce;
                     @session_start();
@@ -1422,10 +1442,9 @@ function novalnetpayments_Load() {
                     $this->chosen = true;
                 }
 
-                /*
+                /**
                  * Displays payment method icon
                  */
-
                 public function get_icon() {
                     $icon_html = '';
                     if ($this->payment_logo)
@@ -1433,21 +1452,16 @@ function novalnetpayments_Load() {
                     return($icon_html);
                 }
 
-                /*
+                /**
                  * Displays Novalnet Logo icon
                  */
-
                 public function get_title() {
-                    $novalnet_logo_html = '';
-                    if ($this->novalnet_logo && !strstr(@$_SERVER['HTTP_REFERER'], 'wp-admin') && ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'woocommerce_update_order_review' && @$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') || (!isset($_REQUEST['woocommerce_pay']) && isset($_GET['pay_for_order']) && isset($_GET['order_id']) && isset($_GET['order']))))
-                        $novalnet_logo_html = '<a href="' . (strtolower($this->language) == 'de' ? 'https://' : 'http://') . 'www.' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" target="_new"><img src="' . (is_ssl() ? 'https://' : 'http://') . __('www.novalnet.de/img/NN_Logo_T.png', 'woocommerce-novalnetpayment') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" /></a>&nbsp;';
-                    return($novalnet_logo_html . $this->title);
+                    return($this->title);
                 }
 
-                /*
+                /**
                  * Payment field to display description and additional info in the checkout form	 
                  */
-
                 public function payment_fields() {
                     
                     // payment description
@@ -1463,7 +1477,7 @@ function novalnetpayments_Load() {
                     // payment form
                     switch ($this->novalnet_payment_method) {
                         case 'novalnet_cc':
-                            print '<br /><div id="loading_iframe_div" style="display:;"><img alt="' . __('Loading...', 'woocommerce-novalnetpayment') . '" src="' . (is_ssl() ? 'https://www.novalnet.de/img/novalnet-loading-icon.gif' : 'http://www.novalnet.de/img/novalnet-loading-icon.gif') . '"></div><input type="hidden" name="cc_type" id="cc_type" value="" /><input type="hidden" name="cc_holder" id="cc_holder" value="" /><input type="hidden" name="cc_exp_month" id="cc_exp_month" value="" /><input type="hidden" name="cc_exp_year" id="cc_exp_year" value="" /><input type="hidden" name="cc_cvv_cvc" id="cc_cvv_cvc" value="" /><input type="hidden" id="original_vendor_id" value="' . ($this->vendor_id) . '" /><input type="hidden" id="original_vendor_authcode" value="' . ($this->auth_code) . '" /><input type="hidden" id="original_customstyle_css" value="" /><input type="hidden" id="original_customstyle_cssval" value="" /><input type="hidden" name="nn_unique_id" id="nn_unique_id" value="" /><input type="hidden" name="nn_cardno_id" id="nn_cardno_id" value="" /><iframe onLoad="doHideLoadingImageAndDisplayIframe(this);" name="novalnet_cc_iframe" id="novalnet_cc_iframe" src="' . site_url() . '/wp-content/plugins/woocommerce-novalnet-gateway/includes/novalnet_cc_iframe.html" scrolling="no" frameborder="0" style="width:100%; height:260px; border:none; display:none;"></iframe>
+                            print '<br /><div id="loading_iframe_div" style="display:;"><img alt="' . __('Loading...', 'woocommerce-novalnetpayment') . '" src="' . (is_ssl() ? 'https://www.novalnet.de/img/novalnet-loading-icon.gif' : 'http://www.novalnet.de/img/novalnet-loading-icon.gif') . '"></div><input type="hidden" name="cc_type" id="cc_type" value="" /><input type="hidden" name="cc_holder" id="cc_holder" value="" /><input type="hidden" name="cc_exp_month" id="cc_exp_month" value="" /><input type="hidden" name="cc_exp_year" id="cc_exp_year" value="" /><input type="hidden" name="cc_cvv_cvc" id="cc_cvv_cvc" value="" /><input type="hidden" id="original_vendor_id" value="' . ($this->vendor_id) . '" /><input type="hidden" id="original_vendor_authcode" value="' . ($this->auth_code) . '" /><input type="hidden" id="original_customstyle_css" value="" /><input type="hidden" id="original_customstyle_cssval" value="" /><input type="hidden" name="nn_unique_id" id="nn_unique_id" value="" /><input type="hidden" name="nn_cardno_id" id="nn_cardno_id" value="" /><iframe onLoad="doHideLoadingImageAndDisplayIframe(this);" name="novalnet_cc_iframe" id="novalnet_cc_iframe" src="' . site_url() . '/wp-content/plugins/woocommerce-novalnet-gateway/includes/novalnet_cc_iframe.html" scrolling="no" frameborder="0" style="width:100%; height:280px; border:none; display:none;"></iframe>
             <script type="text/javascript" language="javascript">
             function doHideLoadingImageAndDisplayIframe(element) {
             document.getElementById("loading_iframe_div").style.display="none";
@@ -1501,7 +1515,7 @@ function novalnetpayments_Load() {
 			}else{
 			getFormId 				= getInputForm.form.getAttribute("id");
 			}
-            document.getElementById(getFormId).onsubmit = function(){
+            document.getElementById(getFormId).onclick = function(){
 			var iform = document.getElementById("novalnet_cc_iframe");
 			var novalnet_cc_iframe = (iform.contentWindow || iform.contentDocument);
 			if (novalnet_cc_iframe.document) novalnet_cc_iframe=novalnet_cc_iframe.document;
@@ -1563,14 +1577,13 @@ function novalnetpayments_Load() {
                 /*
                  * Process the payment and return the result
                  */
-
                 public function process_payment($order_id) {
                     return($this->do_process_payment_from_novalnet_payments($order_id));
                 }
 
                 /**
                  * Receipt_page
-                 **/
+                 */
                 public function receipt_page($order_id) {
                     $order = new WC_Order($order_id);
                     $this->do_necessary_actions_before_prepare_to_novalnet_payport_or_paygate($order);
@@ -1591,190 +1604,184 @@ function novalnetpayments_Load() {
 
                 /**
                  * Admin Panel Options 
-                 **/
+                 */
                 public function admin_options() {
-                    ?>
-                    <h3><?php echo '<a href="' . (strtolower($this->language) == 'de' ? 'https://' : 'http://') . 'www.' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" target="_new"><img src="' . (is_ssl() ? 'https://' : 'http://') . __('www.novalnet.de/img/NN_Logo_T.png', 'woocommerce-novalnetpayment') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" /></a>&nbsp;' . $this->payment_details[$this->novalnet_payment_method]['payment_name'] . ' ' . '<a href="' . (strtolower($this->language) == 'de' ? 'https://www.novalnet.de' : 'http://www.novalnet.com') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" target="_new"><img height ="30" src="' . $this->icon . '" alt="' . $this->method_title . '" /></a>'; ?></h3>
-                    <p><?php echo __('Configure with Novalnet dealer details.If you need more information<br><br>you can visit our website for end-customers visit on <a href="https://www.novalnet.de/" target="_blank"> https://www.novalnet.de</a> or please contact our Sales Team <a href="mailto:sales@novalnet.de">sales@novalnet.de</a>.', 'woocommerce-novalnetpayment'); ?></p>
-                    <table class="form-table">
-                    <?php
-                    if (!$this->do_check_novalnet_order_status()) {
-                        ?>
-                            <div class="inline error"><p><strong><?php
-                        echo __('Gateway Disabled', 'woocommerce-novalnetpayment');
-                        ;
-                        ?></strong>: <?php echo $this->title . __(' will be disabled for this order status. And, this payment will be hidden in front end.', 'woocommerce-novalnetpayment'); ?></p></div>
-                        <?php
-                    }
-                    // Generate the HTML For the settings form.
-                    $this->generate_settings_html();
-                    ?>
-                    </table><!--/.form-table-->
-                    <?php
-                }
 
-                /**
-                 * Initialise Novalnet Gateway Settings Form Fields
-                 **/
-                public function init_form_fields() {
-                    $order_statuses = $this->list_order_statuses();
-                    $this->form_fields['enabled'] = array(
-                        'title' 		=> __('Enable module', 'woocommerce-novalnetpayment'),
-                        'type' 			=> 'checkbox',
-                        'label' 		=> '',
-                        'default' 		=> ''
-                    );
-                    foreach ($this->language_supported_array as $language) {
-                        $this->form_fields['title_' . $language] = array(
-                            'title' 	=> __('Payment Title', 'woocommerce-novalnetpayment') . ' (' . $language . ')<span style="color:red;">*</span>',
-                            'type' 		=> 'text',
-                            'description' => '',
-                            'default' 	=> ''
-                        );
-                        $this->form_fields['description_' . $language] = array(
-                            'title' 	=> __('Description', 'woocommerce-novalnetpayment') . ' (' . $language . ')',
-                            'type' 		=> 'textarea',
-                            'description' => '',
-                            'default' 	=> ''
-                        );
-                    }
-                    $this->form_fields['test_mode'] = array(
-                        'title' 		=> __('Enable Test Mode', 'woocommerce-novalnetpayment'),
-                        'type' 			=> 'select',
-                        'options' 		=> array('0' => __('No', 'woocommerce-novalnetpayment'), '1' => __('Yes', 'woocommerce-novalnetpayment')),
-                        'description' 	=> '',
-                        'default' 		=> ''
-                    );
-                    $this->form_fields['merchant_id'] = array(
-                        'title' 		=> __('Novalnet Merchant ID', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                        'type' 			=> 'text',
-                        'description' 	=> __('Enter your Novalnet Merchant ID', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                    $this->form_fields['auth_code'] = array(
-                        'title' 		=> __('Novalnet Merchant Authorisation code', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                        'type' 			=> 'text',
-                        'description' 	=> __('Enter your Novalnet Merchant Authorisation code', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                    $this->form_fields['product_id'] = array(
-                        'title' 		=> __('Novalnet Product ID', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                        'type' 			=> 'text',
-                        'description' 	=> __('Enter your Novalnet Product ID', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                    $this->form_fields['tariff_id'] = array(
-                        'title' 		=> __('Novalnet Tariff ID', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                        'type' 			=> 'text',
-                        'description' 	=> __('Enter your Novalnet Tariff ID', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                    if (in_array($this->novalnet_payment_method, $this->encode_applicable_for_array)) {
-                        $this->form_fields['key_password'] = array(
-                            'title' 	=> __('Novalnet Payment access key', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                            'type' 		=> 'text',
-                            'description' => __('Enter your Novalnet payment access key', 'woocommerce-novalnetpayment'),
-                            'default' 	=> ''
-                        );
-                    }
-                    if ($this->novalnet_payment_method == 'novalnet_elv_de') {
-                        $this->form_fields['acdc'] = array(
-                            'title' 	=> __('Enable credit rating check', 'woocommerce-novalnetpayment'),
-                            'type' 		=> 'checkbox',
-                            'label' 	=> '',
-                            'default' 	=> ''
-                        );
-                    }
-                    if ($this->novalnet_payment_method == 'novalnet_invoice') {
-                        $this->form_fields['payment_duration'] = array(
-                            'title' 	=> __('Payment period in days', 'woocommerce-novalnetpayment'),
-                            'type' 		=> 'text',
-                            'label' 	=> '',
-                            'default' 	=> ''
-                        );
-                    }
-                    if (!in_array($this->novalnet_payment_method, $this->manual_check_limit_not_available_array)) {
-                        $this->form_fields['manual_check_limit'] = array(
-                            'title' 	=> __('Manual checking amount in cents', 'woocommerce-novalnetpayment'),
-                            'type' 		=> 'text',
-                            'description' => __('Please enter the amount in cents', 'woocommerce-novalnetpayment'),
-                            'default' 	=> ''
-                        );
-                        $this->form_fields['product_id_2'] = array(
-                            'title' 	=> __('Second Product ID in Novalnet', 'woocommerce-novalnetpayment'),
-                            'type' 		=> 'text',
-                            'description' => __('for the manual checking', 'woocommerce-novalnetpayment'),
-                            'default' 	=> ''
-                        );
-                        $this->form_fields['tariff_id_2'] = array(
-                            'title' 	=> __('Second Tariff ID in Novalnet', 'woocommerce-novalnetpayment'),
-                            'type' 		=> 'text',
-                            'description' => __('for the manual checking', 'woocommerce-novalnetpayment'),
-                            'default' 	=> ''
-                        );
-                    }
-                    if ($this->novalnet_payment_method == 'novalnet_paypal') {
-                        $this->form_fields['api_username'] = array(
-                            'title' 	=> __('PayPal API User Name', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                            'type' 		=> 'text',
-                            'description' => __('Please enter your PayPal API username', 'woocommerce-novalnetpayment'),
-                            'default' 	=> ''
-                        );
-                        $this->form_fields['api_password'] = array(
-                            'title' 	=> __('PayPal API Password', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                            'type' 		=> 'text',
-                            'description' => __('Please enter your PayPal API password', 'woocommerce-novalnetpayment'),
-                            'default' 	=> ''
-                        );
-                        $this->form_fields['api_signature'] = array(
-                            'title' 	=> __('PayPal API Signature', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
-                            'type' 		=> 'text',
-                            'description' => __('Please enter your PayPal API signature', 'woocommerce-novalnetpayment'),
-                            'default' 	=> ''
-                        );
-                    }
-                    $this->form_fields['payment_proxy'] = array(
-                        'title' 		=> __('Proxy-Server', 'woocommerce-novalnetpayment'),
-                        'type' 			=> 'text',
-                        'description' 	=> __('If you use a Proxy Server, enter the Proxy Server IP with port here (e.g. www.proxy.de:80)', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                    $this->form_fields['order_status'] = array(
-                        'title' 		=> __('Set order Status', 'woocommerce-novalnetpayment'),
-                        'type' 			=> 'select',
-                        'options' 		=> $order_statuses,
-                        'description' 	=> __('Set the status of orders made with this payment module to this value', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                    $this->form_fields['novalnet_logo'] = array(
-                        'title' 		=> __('Enable Novalnet Logo', 'woocommerce-novalnetpayment'),
-                        'type' 			=> 'select',
-                        'options' 		=> array('0' => __('No', 'woocommerce-novalnetpayment'), '1' => __('Yes', 'woocommerce-novalnetpayment')),
-                        'description' 	=> __('To display Novalnet logo in front end', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                    $this->form_fields['payment_logo'] = array(
-                        'title' 		=> __('Enable Payment Logo', 'woocommerce-novalnetpayment'),
-                        'type' 			=> 'select',
-                        'options' 		=> array('0' => __('No', 'woocommerce-novalnetpayment'), '1' => __('Yes', 'woocommerce-novalnetpayment')),
-                        'description' 	=> __('To display Payment logo in front end', 'woocommerce-novalnetpayment'),
-                        'default' 		=> ''
-                    );
-                }
+?>
+<h3><?php echo '<a href="' . (strtolower($this -> language) == 'de' ? 'https://' : 'http://') . 'www.' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" target="_new"><img src="' . (is_ssl() ? 'https://' : 'http://') . __('www.novalnet.de/img/NN_Logo_T.png', 'woocommerce-novalnetpayment') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" /></a>&nbsp;' . $this -> payment_details[$this -> novalnet_payment_method]['payment_name'] . ' ' . '<a href="' . (strtolower($this -> language) == 'de' ? 'https://www.novalnet.de' : 'http://www.novalnet.com') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" target="_new"><img height ="30" src="' . $this -> icon . '" alt="' . $this -> method_title . '" /></a>'; ?></h3>
+<p><?php echo __('Configure with Novalnet dealer details.If you need more information<br><br>you can visit our website for end-customers visit on <a href="https://www.novalnet.de/" target="_blank"> https://www.novalnet.de</a> or please contact our Sales Team <a href="mailto:sales@novalnet.de">sales@novalnet.de</a>.', 'woocommerce-novalnetpayment'); ?></p>
+<table class="form-table">
+<?php
+if (!$this->do_check_novalnet_order_status()) {
+?>
+<div class="inline error"><p><strong><?php
+echo __('Gateway Disabled', 'woocommerce-novalnetpayment'); ;
+?><
+/strong>: <?php echo $this -> title . __(' will be disabled for this order status. And, this payment will be hidden in front end.', 'woocommerce-novalnetpayment'); ?></p></div>
+<?php
+}
+// Generate the HTML For the settings form.
+$this->generate_settings_html();
+?>
+</table><!--/.form-table-->
+<?php
+}
 
-            }
+/**
+* Initialise Novalnet Gateway Settings Form Fields
+*/
+public function init_form_fields() {
+$order_statuses = $this->list_order_statuses();
+$this->form_fields['enabled'] = array(
+'title' 		=> __('Enable module', 'woocommerce-novalnetpayment'),
+'type' 			=> 'checkbox',
+'label' 		=> '',
+'default' 		=> ''
+);
+foreach ($this->language_supported_array as $language) {
+$this->form_fields['title_' . $language] = array(
+'title' 	=> __('Payment Title', 'woocommerce-novalnetpayment') . ' (' . $language . ')<span style="color:red;">*</span>',
+'type' 		=> 'text',
+'description' => '',
+'default' 	=> ''
+);
+$this->form_fields['description_' . $language] = array(
+'title' 	=> __('Description', 'woocommerce-novalnetpayment') . ' (' . $language . ')',
+'type' 		=> 'textarea',
+'description' => '',
+'default' 	=> ''
+);
+}
+$this->form_fields['test_mode'] = array(
+'title' 		=> __('Enable Test Mode', 'woocommerce-novalnetpayment'),
+'type' 			=> 'select',
+'options' 		=> array('0' => __('No', 'woocommerce-novalnetpayment'), '1' => __('Yes', 'woocommerce-novalnetpayment')),
+'description' 	=> '',
+'default' 		=> ''
+);
+$this->form_fields['merchant_id'] = array(
+'title' 		=> __('Novalnet Merchant ID', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 			=> 'text',
+'description' 	=> __('Enter your Novalnet Merchant ID', 'woocommerce-novalnetpayment'),
+'default' 		=> ''
+);
+$this->form_fields['auth_code'] = array(
+'title' 		=> __('Novalnet Merchant Authorisation code', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 			=> 'text',
+'description' 	=> __('Enter your Novalnet Merchant Authorisation code', 'woocommerce-novalnetpayment'),
+'default' 		=> ''
+);
+$this->form_fields['product_id'] = array(
+'title' 		=> __('Novalnet Product ID', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 			=> 'text',
+'description' 	=> __('Enter your Novalnet Product ID', 'woocommerce-novalnetpayment'),
+'default' 		=> ''
+);
+$this->form_fields['tariff_id'] = array(
+'title' 		=> __('Novalnet Tariff ID', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 			=> 'text',
+'description' 	=> __('Enter your Novalnet Tariff ID', 'woocommerce-novalnetpayment'),
+'default' 		=> ''
+);
+if (in_array($this->novalnet_payment_method, $this->encode_applicable_for_array)) {
+$this->form_fields['key_password'] = array(
+'title' 	=> __('Novalnet Payment access key', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 		=> 'text',
+'description' => __('Enter your Novalnet payment access key', 'woocommerce-novalnetpayment'),
+'default' 	=> ''
+);
+}
+if ($this->novalnet_payment_method == 'novalnet_elv_de') {
+$this->form_fields['acdc'] = array(
+'title' 	=> __('Enable credit rating check', 'woocommerce-novalnetpayment'),
+'type' 		=> 'checkbox',
+'label' 	=> '',
+'default' 	=> ''
+);
+}
+if ($this->novalnet_payment_method == 'novalnet_invoice') {
+$this->form_fields['payment_duration'] = array(
+'title' 	=> __('Payment period in days', 'woocommerce-novalnetpayment'),
+'type' 		=> 'text',
+'label' 	=> '',
+'default' 	=> ''
+);
+}
+if (!in_array($this->novalnet_payment_method, $this->manual_check_limit_not_available_array)) {
+$this->form_fields['manual_check_limit'] = array(
+'title' 	=> __('Manual checking amount in cents', 'woocommerce-novalnetpayment'),
+'type' 		=> 'text',
+'description' => __('Please enter the amount in cents', 'woocommerce-novalnetpayment'),
+'default' 	=> ''
+);
+$this->form_fields['product_id_2'] = array(
+'title' 	=> __('Second Product ID in Novalnet', 'woocommerce-novalnetpayment'),
+'type' 		=> 'text',
+'description' => __('for the manual checking', 'woocommerce-novalnetpayment'),
+'default' 	=> ''
+);
+$this->form_fields['tariff_id_2'] = array(
+'title' 	=> __('Second Tariff ID in Novalnet', 'woocommerce-novalnetpayment'),
+'type' 		=> 'text',
+'description' => __('for the manual checking', 'woocommerce-novalnetpayment'),
+'default' 	=> ''
+);
+}
+if ($this->novalnet_payment_method == 'novalnet_paypal') {
+$this->form_fields['api_username'] = array(
+'title' 	=> __('PayPal API User Name', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 		=> 'text',
+'description' => __('Please enter your PayPal API username', 'woocommerce-novalnetpayment'),
+'default' 	=> ''
+);
+$this->form_fields['api_password'] = array(
+'title' 	=> __('PayPal API Password', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 		=> 'text',
+'description' => __('Please enter your PayPal API password', 'woocommerce-novalnetpayment'),
+'default' 	=> ''
+);
+$this->form_fields['api_signature'] = array(
+'title' 	=> __('PayPal API Signature', 'woocommerce-novalnetpayment') . '<span style="color:red;">*</span>',
+'type' 		=> 'text',
+'description' => __('Please enter your PayPal API signature', 'woocommerce-novalnetpayment'),
+'default' 	=> ''
+);
+}
+$this->form_fields['payment_proxy'] = array(
+'title' 		=> __('Proxy-Server', 'woocommerce-novalnetpayment'),
+'type' 			=> 'text',
+'description' 	=> __('If you use a Proxy Server, enter the Proxy Server IP with port here (e.g. www.proxy.de:80)', 'woocommerce-novalnetpayment'),
+'default' 		=> ''
+);
+$this->form_fields['order_status'] = array(
+'title' 		=> __('Set order Status', 'woocommerce-novalnetpayment'),
+'type' 			=> 'select',
+'options' 		=> $order_statuses,
+'description' 	=> __('Set the status of orders made with this payment module to this value', 'woocommerce-novalnetpayment'),
+'default' 		=> ''
+);
+$this->form_fields['payment_logo'] = array(
+'title' 		=> __('Enable Payment Logo', 'woocommerce-novalnetpayment'),
+'type' 			=> 'select',
+'options' 		=> array('0' => __('No', 'woocommerce-novalnetpayment'), '1' => __('Yes', 'woocommerce-novalnetpayment')),
+'description' 	=> __('To display Payment logo in front end', 'woocommerce-novalnetpayment'),
+'default' 		=> ''
+);
+}
 
-        }
-    }
+}
+
+}
+}
 }
 
 if (strstr($_SERVER['REQUEST_URI'], '/woocommerce-novalnet-gateway/callback_novalnet2wordpresswoocommerce.php'))
-    require_once(dirname(__FILE__) . '/callback_novalnet2wordpresswoocommerce.php');
+require_once(dirname(__FILE__) . '/callback_novalnet2wordpresswoocommerce.php');
 if (isset($_REQUEST['novalnet_payment_method']) && in_array($_REQUEST['novalnet_payment_method'], $novalnet_payment_methods)) {
-    require_once(dirname(__FILE__) . '/includes/' . @$_REQUEST['novalnet_payment_method'] . '.php');
+require_once(dirname(__FILE__) . '/includes/' . $_REQUEST['novalnet_payment_method'] . '.php');
 } else {
-    foreach ($novalnet_payment_methods as $novalnet_payment_method)
-        require_once(dirname(__FILE__) . '/includes/' . $novalnet_payment_method . '.php');
-    ob_get_clean();
+foreach ($novalnet_payment_methods as $novalnet_payment_method)
+require_once(dirname(__FILE__) . '/includes/' . $novalnet_payment_method . '.php');
+ob_get_clean();
 }
 ?>
