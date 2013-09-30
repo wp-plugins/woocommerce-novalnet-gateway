@@ -110,6 +110,14 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 == Changelog ==
 
+= 1.0.5 =
+
+ __version: wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.0.5__
+
+  * Added support for Woocommerce Sequential Order Numbers plugin
+  * Compatibility has been verified  
+  * Code optimization has been done.
+
 = 1.0.4 =
 
   __version: wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.13_novalnet_v_1.0.4__
