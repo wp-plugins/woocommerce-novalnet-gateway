@@ -1,16 +1,16 @@
 CALLBACK SCRIPT TESTING PROCEDURE:
 ----------------------------------
 
-
-Kindly follow the below steps to test the callback script for Invoice and Prepayment payment methods:
+Kindly follow the below steps to test the callback script for Invoice, Prepayment and PayPal payment methods:
 
 
 Url: <siteurl>/<callaback script file name>
-Ex: https://woocommerce.novalnet.de/woocommerce-novalnet-gateway/callback_novalnet2wordpresswoocommerce.php
+[Ex: https://woocommerce.novalnet.de/callback_novalnet2wordpresswoocommerce.php]
 
 Note:
+-----
 
- For testing callback script, kindly make the following changes in <callaback script file> Ex: callback_novalnet2wordpresswoocommerce.php
+ For testing callback script, kindly make the following changes in callback_novalnet2wordpresswoocommerce.php
 
  1) $debug = true; 
 
@@ -18,13 +18,15 @@ Note:
 
  3) a) formatted URL for invoice and prepayment:-
 
-<Site URL>/woocommerce-novalnet-gateway/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435&order_no=100
+<Site URL>/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435
 
     b) formatted URL for paypal:-
 
-<Site URL>/woocommerce-novalnet-gateway/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435&order_no=100
+<Site URL>/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435
+
 
 Parameters:
+-----------
 
 	vendor_id      -	Merchant ID
 	
@@ -32,15 +34,16 @@ Parameters:
 	
 	payment_type   -	Type of payment process
 	
-	tid_payment    -	Existing appropriate order transaction id (only for invoice/prepayment module)
+	tid_payment    -	Existing appropriate order transaction id           (only for Invoice/Prepayment mothods)
 	
 	amount	       -	Customer paid amount in cents
 	
 	tid	       -	Callback script Transaction TID
             
-        order_no       -        Existing appropriate order number
+      
 
  4) Mail Configuration:
+    -------------------
 
 	//Reporting Email Address Settings
 
@@ -65,16 +68,18 @@ Parameters:
 
 
 
-For Real Time Transaction
+For Real Time Transaction:
+--------------------------
 
 
-Kindly do the following changes in the <callback script file> Ex: callback_novalnet2wordpresswoocommerce.php
+Kindly make the following changes in callback_novalnet2wordpresswoocommerce.php
 
  1) $debug = false; 
 
  2) $test = false;
 
- 3) Set Email Configuration adapt for live
+ 3) Set Email Configuration adapt for live:
+    ---------------------------------------
 
 	//Reporting Email Address Settings
 	

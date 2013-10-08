@@ -18,18 +18,18 @@
 /*
  * Installs PREPAYMENT payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[11] . '_Load', 0);
+add_action('plugins_loaded', $novalnet_payment_methods[8] . '_Load', 0);
 
 function novalnet_prepayment_Load() {
     global $novalnet_payment_methods;
     if (class_exists('novalnetpayments')) {
-        if (!class_exists($novalnet_payment_methods[11])) {
+        if (!class_exists($novalnet_payment_methods[8])) {
 
             class novalnet_prepayment extends novalnetpayments {
                 
             }
 
-            $obj = new $novalnet_payment_methods[11]();
+            $obj = new $novalnet_payment_methods[8]();
         }
     } else {
         return;
@@ -46,9 +46,9 @@ function novalnet_prepayment_Load() {
 
 function add_novalnet_prepayment_gateway($methods) {
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[11];
+    $methods[] = $novalnet_payment_methods[8];
     return $methods;
 }
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[11] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[8] . '_gateway');
 ?>

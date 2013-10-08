@@ -5,7 +5,6 @@
 #  Direct Debit (German/Austria),                               #
 #  Credit Card,	Credit Card 3D Secure,                          #
 #  Prepayment, Invoice, Online Transfer, iDEAL			#
-#  PCI Standard (Credit Card/Austria/German)                    #
 #  PayPal, Telephone Payment				        #
 #  								#
 #                                                               #
@@ -23,18 +22,18 @@
 #  Copyright (c)  Novalnet AG          		                #
 #                                                               #
 #################################################################
-#					   	               	#
+#					   	                #
 #  SPECIFICATION DETAILS		   	   		#
 #					   	   		#
 #  Created	     			- Novalnet AG         	#
 #								#
-#  CMS(wordpress) Version         	- 3.6.1	               	#	
+#  CMS(wordpress) Version         	- 3.6.1	                #
 #					   	   		#
 #  Shop (woocommerce) Version   	- 2.0.14	        #
 #					   	   		#
-#  Novalnet Version  			- 1.0.5		        #
+#  Novalnet Version  			- 1.1.0		        #
 #					   	   		#
-#  Last Updated	     			- 23rd September 2013 	#
+#  Last Updated	     			- 7th October 2013 	#
 #					   	   		#
 #  Categories	     			- Payment & Gateways  	#
 #					   	   		#
@@ -65,67 +64,23 @@ You have to install php modules: curl and php-curl in your Webserver.
 Step 2: 
 ========
 
-To install NovalnetAG payment module, kindly refer "IG-wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.0.5".
+a) To install NovalnetAG payment module, 
+
+	kindly refer "IG-wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.1.0_en.pdf". (please download it from here svn.wp-plugins.org/woocommerce-novalnet-gateway/assets/IG-wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.1.0_en.pdf)
+
+b) To install NovalnetAG Callback Script,
+ 
+  Please Copy the 'callback_novalnet2wordpresswoocommerce.php' file and place into the " Wordpress <Root_Directory>/ ". 
+  Example: /var/www/wordpress/ 
 
 
 Step 3: 
 ========
 
-----------------------------
-I. For woocommerce < 2.0.0
-----------------------------
-
-
-If you wish to display tid details on order email, please open the file 'class-wc-email.php' under 'wp-content/plugins/woocommerce/classes/'.
-
-a. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/admin-new-order.php', array(
-
-and add the following code before the above searched lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) $order->customer_note.="\n".@$GLOBALS['novalnet_comments'];
-		$order->customer_note = nl2br($order->customer_note); 
-
-b. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/customer-processing-order.php', array(
-
-and add the following code before the above searched lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) $order->customer_note.="\n".@$GLOBALS['novalnet_comments'];
-		$order->customer_note = nl2br($order->customer_note);
-
-c. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/customer-completed-order.php', array(
-
-and add the following code before the above searched lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) $order->customer_note.="\n".@$GLOBALS['novalnet_comments'];
-		$order->customer_note = nl2br($order->customer_note);  
-
-d. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/customer-invoice.php', array(
-
-and add the following code before the above searched lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) $order->customer_note.="\n".@$GLOBALS['novalnet_comments'];
-		$order->customer_note = nl2br($order->customer_note);  
-
----------------------------------------------------------------------------------------------------------------------------------------------------------------
+If you wish to add line breaks for Order Transaction detail in notification emails, please follow the below procedures
 
 ----------------------------
-II. For woocommerce >= 2.0.0
+I. For woocommerce version >= 2.0.0
 ----------------------------
 
 a. please open the file 'class-wc-email-customer-completed-order.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
@@ -134,22 +89,20 @@ a. please open the file 'class-wc-email-customer-completed-order.php' under 'wp-
 
 	function get_content_html() {
 		
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
 		
-	// code to add for displaying Novalnet Transaction Details in completed order email (html format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];		
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
 
  ii. kindly search the following function
 
 	function get_content_plain() {
 
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
 
-	// code to add for displaying Novalnet Transaction Details in completed order email (text format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];		
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
 
 b. please open the file 'class-wc-email-customer-invoice.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
@@ -158,21 +111,19 @@ b. please open the file 'class-wc-email-customer-invoice.php' under 'wp-content/
 
 	function get_content_html() {
 		
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
 
-	// code to add for displaying Novalnet Transaction Details in customer invoice email (html format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];		
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
  ii. kindly search the following function
 
 	function get_content_plain() {
 
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
 	
-	// code to add for displaying Novalnet Transaction Details in customer invoice email (text format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];		
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
 
 c. please open the file 'class-wc-email-customer-processing-order.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
@@ -181,22 +132,20 @@ c. please open the file 'class-wc-email-customer-processing-order.php' under 'wp
 
 	function get_content_html() {
 
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
 
-	// code to add for displaying Novalnet Transaction Details in processing order email (html format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];		
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
 
  ii. kindly search the following function
 
 	function get_content_plain() {
 		
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
 
-	// code to add for displaying Novalnet Transaction Details in processing order email (text format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];		
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
 
 d. please open the file 'class-wc-email-new-order.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
@@ -205,41 +154,101 @@ d. please open the file 'class-wc-email-new-order.php' under 'wp-content/plugins
 
 	function get_content_html() {
 		
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
 
-	// code to add for displaying Novalnet Transaction Details in new order email (html format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];		
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add 
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
  
 ii. kindly search the following function
 
 	function get_content_plain() {
 
-and add the below codes after the " ob_start(); " line in the above search result.
+and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
 
-	// code to add for displaying Novalnet Transaction Details in new order email (text format)
-		$this->object->customer_note.="\n".@$GLOBALS['novalnet_comments'];
-		$this->object->customer_note = nl2br($this->object->customer_note);
+	// code to add
+		$this->object->customer_note = wpautop($this->object->customer_note);
 	// end
 
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------
+II. For woocommerce version < 2.0.0
+----------------------------
+
+
+please open the file 'class-wc-email.php' under 'wp-content/plugins/woocommerce/classes/'.
+
+a. kindly search the following code 
+
+
+		// Get mail template
+		woocommerce_get_template('emails/admin-new-order.php', array(
+
+and add the following code before the above search lines.
+
+		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) 
+		$order->customer_note = nl2br($order->customer_note); 
+
+b. kindly search the following code 
+
+
+		// Get mail template
+		woocommerce_get_template('emails/customer-processing-order.php', array(
+
+and add the following code before the above search lines.
+
+		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc')))
+			$order->customer_note = nl2br($order->customer_note);
+
+c. kindly search the following code 
+
+
+		// Get mail template
+		woocommerce_get_template('emails/customer-completed-order.php', array(
+
+and add the following code before the above search lines.
+
+		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) 
+			$order->customer_note = nl2br($order->customer_note);  
+
+d. kindly search the following code 
+
+
+		// Get mail template
+		woocommerce_get_template('emails/customer-invoice.php', array(
+
+and add the following code before the above search lines.
+
+		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc')))
+			$order->customer_note = nl2br($order->customer_note);  
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 Step 4:    (Common for all woocommerce versions)
 =================================================
 
 
-If you wish to display tid details on front end order history page, 
+If you wish to display Novalnet Transaction details on front end order history page, 
 
-a. kindly search the following code on order-details.php under 'wp-content/plugins/woocommerce/templates/order/'
+a. kindly search the following code on class-wc-shortcode-view-order.php under 'wp-content/plugins/woocommerce/classes/shortcodes'
 
-if ($order->billing_phone) echo '<dt>'.__( 'Telephone:', 'woocommerce' ).'</dt><dd>'.$order->billing_phone.'</dd>';
+		$notes = $order->get_customer_order_notes();
 
-and add the following code after the above searched lines.
+and add the below codes before the above search lines. (please refer the image " novalnet_tid_details_front_end_history.png ")
 
-if ( substr(get_bloginfo('language'), 0, 2) == 'de') { echo('<dt>'.'Transaktions Informationen'.': </dt><dd>'.nl2br($order->customer_note).'</dd>'); }
-else { echo('<dt>'.'Transaction Information'.': </dt><dd>'.nl2br($order->customer_note).'</dd>'); }
+		if ( substr(get_bloginfo('language'), 0, 2) == 'de') {
+			echo wpautop('<strong>' . 'Transaktions Informationen:' . '</strong>');
+			echo wpautop(wptexturize($order->customer_note));		
+		}
+		else {
+			echo wpautop('<strong>' . 'Transaction Information:' . '</strong>');
+			echo wpautop(wptexturize($order->customer_note));
+		}	
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
@@ -258,7 +267,7 @@ Note: In Telephone payment method the guest user has to enter his/her address de
 
 -------------------------------------------------------------------------------
 
-Note:  If you wish to display credit card form in your specified template , kindly search the following codes on novalnetpayments.php 
+Note:  If you wish to display Credit Card form in your specified template , kindly search the following codes on novalnetpayments.php 
 under'wp-content/plugin/woocommerce-novalnet-gateway/' and fill-out the respective values in below mentioned HTML tags
 
 // code to add css values

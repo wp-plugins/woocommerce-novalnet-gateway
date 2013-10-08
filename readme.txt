@@ -1,10 +1,10 @@
 === Woocommerce Payment Gateway by Novalnet ===
 Contributors: novalnet
-link: http://www.novalnet.de/
-Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, Direct Debit, invoice, prepayment, woocommerce extensions, wordpress payment gateway, woocommerce payment methods, woocommerce payment gateway integration, woocommerce credit card extension
+link: https://www.novalnet.de/
+Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, Direct Debit, invoice, prepayment, woocommerce extensions, wordpress payment gateway, woocommerce payment methods, woocommerce payment gateway integration, woocommerce credit card extension, multisite payment gateway, full-service provider, secure payment processing
 Requires at least: 3.3
 Tested up to: 3.6.1
-Stable tag: 1.0.5
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,8 @@ In case you have any questions, you can contact us at any time at sales@novalnet
 * Risk management with numerous fraudulence prevention techniques
 * End customer site for Support (128 Bit SSL encrypted)
 * Cost free technical support for the implementation of payment modules for shop/cms systems and self-programmed webpages
+* Plug and Play (independent modules, you don't need any extra plugins or scripts to process the Transaction)
+* Supports Sequential Order Numbers Pro plugin (Custom Order Numbers for WooCommerce) and Wordpress Multi-Site feature.
 
 = Important: This plugin requires a pre-installed and activated SSL certificate on your website! =
 
@@ -77,8 +79,7 @@ https://woocommerce.novalnet.de/
 
 = Note: =
 
-* For displaying Transaction Id details in order mail and front order history, please follow the procedures in    
-  "wordpress_woocommerce_novalnet_readme_en.txt".
+* For displaying Transaction details in front-end order history, please follow the procedures in "wordpress_woocommerce_novalnet_readme_en.txt".
 * Callback script testing procedure is explained detail in "callback_script_testing_procedure.txt".
 * For test data details please refer "testdata.txt".
  
@@ -106,9 +107,17 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 == Screenshots ==
 1. Novalnet Payment plugin Admin Panel.
-2. Novalnet Payment plugin Direct Debit German Admin settings.
+2. Credit Card payment configuration settings for Woocommerce Novalnet Gateway.
+3. Novalnet Payment Gateway for Woocommerce offers you the most frequently used payment methods in Europe and International e-commerce markets.
 
 == Changelog ==
+
+= 1.1.0 =
+
+ __version: wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.1.0__
+
+  * Added support for Wordpress Multi-Site
+  * Code optimization has been done.
 
 = 1.0.5 =
 
@@ -154,6 +163,23 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
   * First Release 
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+
+  * Added support for Wordpress Multi-Site
+  * Code optimization has been done.
+
+= 1.0.5 =
+
+  * Added support for Woocommerce Sequential Order Numbers plugin
+  * Compatibility has been verified  
+  * Code optimization has been done.
+
+= 1.0.4 =
+
+  * Code optimization has been done.
+  * Credit card module has been re-written with PCI-Compliance
+  * Post-back parameter has been implemented
 
 = 1.0.3 =
 

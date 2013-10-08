@@ -17,20 +17,20 @@
 #                                                       #
 #########################################################
 /*
- * Installs Sofortüberweisung / IDEAL payment to Novalnet Payment Gateway
+ * Installs IDEAL payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[8] . '_Load', 0);
+add_action('plugins_loaded', $novalnet_payment_methods[5] . '_Load', 0);
 
 function novalnet_ideal_Load() {
     global $novalnet_payment_methods;
     if (class_exists('novalnetpayments')) {
-        if (!class_exists($novalnet_payment_methods[8])) {
+        if (!class_exists($novalnet_payment_methods[5])) {
 
             class novalnet_ideal extends novalnetpayments {
                 
             }
 
-            $obj = new $novalnet_payment_methods[8]();
+            $obj = new $novalnet_payment_methods[5]();
         }
     } else {
         return;
@@ -47,9 +47,9 @@ function novalnet_ideal_Load() {
 
 function add_novalnet_ideal_gateway($methods) {
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[8];
+    $methods[] = $novalnet_payment_methods[5];
     return $methods;
 }
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[8] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[5] . '_gateway');
 ?>

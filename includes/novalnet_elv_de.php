@@ -18,23 +18,24 @@
 /*
  * Installs ELVDE / DIRECT DEBIT payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[6] . '_Load', 0);
+add_action('plugins_loaded', $novalnet_payment_methods[4] . '_Load', 0);
 
 function novalnet_elv_de_Load() {
     global $novalnet_payment_methods;
     if (class_exists('novalnetpayments')) {
-        if (!class_exists($novalnet_payment_methods[6])) {
+        if (!class_exists($novalnet_payment_methods[4])) {
 
             class novalnet_elv_de extends novalnetpayments {
                 
             }
 
-            $obj = new $novalnet_payment_methods[6]();
+            $obj = new $novalnet_payment_methods[4]();
         }
     } else {
         return;
     }
 }
+
 /*
  * Add the gateway to WooCommerce
  * @access public
@@ -45,9 +46,9 @@ function novalnet_elv_de_Load() {
 
 function add_novalnet_elv_de_gateway($methods) {
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[6];
+    $methods[] = $novalnet_payment_methods[4];
     return $methods;
 }
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[6] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[4] . '_gateway');
 ?>
