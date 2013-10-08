@@ -18,18 +18,18 @@
 /*
  * Installs INVOICE payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[9] . '_Load', 0);
+add_action('plugins_loaded', $novalnet_payment_methods[6] . '_Load', 0);
 
 function novalnet_invoice_Load() {
     global $novalnet_payment_methods;
     if (class_exists('novalnetpayments')) {
-        if (!class_exists($novalnet_payment_methods[9])) {
+        if (!class_exists($novalnet_payment_methods[6])) {
 
             class novalnet_invoice extends novalnetpayments {
                 
             }
 
-            $obj = new $novalnet_payment_methods[9]();
+            $obj = new $novalnet_payment_methods[6]();
         }
     } else {
         return;
@@ -46,9 +46,9 @@ function novalnet_invoice_Load() {
 
 function add_novalnet_invoice_gateway($methods) {
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[9];
+    $methods[] = $novalnet_payment_methods[6];
     return $methods;
 }
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[9] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[6] . '_gateway');
 ?>
