@@ -47,12 +47,12 @@ In case you have any questions, you can contact us at any time at sales@novalnet
 
 = Important: This plugin requires a pre-installed and activated SSL certificate on your website! =
 
-[Novalnet](http://www.novalnet.de/ "Novalnet") is a financial services institute licensed and supervised by the Federal Financial Supervisory Authority (BaFin), specialized in payment solutions world-wide and meeting the highest standards. Years of experience in the e-commerce sector and a continuous development of its range of services and the corresponding service portfolio enable [Novalnet](http://www.novalnet.de/ "Novalnet") to provide maximal reliability and client focus to all customers – in every area of payment processing. This way, [Novalnet](http://www.novalnet.de/ "Novalnet") supports their customers from the setup process and offers a variety of implemented payment types and intelligent fraud prevention modules as well as a legitimate and reliable receivables and claims management.
+[Novalnet](http://www.novalnet.com/ "Novalnet") is a financial services institute licensed and supervised by the Federal Financial Supervisory Authority (BaFin), specialized in payment solutions world-wide and meeting the highest standards. Years of experience in the e-commerce sector and a continuous development of its range of services and the corresponding service portfolio enable [Novalnet](http://www.novalnet.com/ "Novalnet") to provide maximal reliability and client focus to all customers – in every area of payment processing. This way, [Novalnet](http://www.novalnet.com/ "Novalnet") supports their customers from the setup process and offers a variety of implemented payment types and intelligent fraud prevention modules as well as a legitimate and reliable receivables and claims management.
 
 = Reference: =
 
-Please check out the  demo store at the following link. 
-https://woocommerce.novalnet.de/  
+Please check out our [Demo Store](https://woocommerce.novalnet.de/ "Demo Store")
+
 -------------------------
 
 == Installation ==
@@ -108,7 +108,6 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 == Screenshots ==
 1. Novalnet Payment plugin Admin Panel.
 2. Credit Card payment configuration settings for Woocommerce Novalnet Gateway.
-3. Novalnet Payment Gateway for Woocommerce offers you the most frequently used payment methods in Europe and International e-commerce markets.
 
 == Changelog ==
 
@@ -236,10 +235,6 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 	* __Second Novalnet product ID:__ Optional for on-hold products or subscriptions
 
 	* __Second Novalnet tariff ID:__ optional for on-hold products or subscriptions
-
-	* __Set order status:__ Here you determine when the order status should be set – when the order is generated or when payment 					is finalized (cancellations are marked by a separate status).
-
-	* __Novalnet Logo:__ Here you determine whether the Novalnet AG logo should be displayed at the checkout.
 
 	* __Payment type logo:__ Here you determine whether the logo of the respective payment type should be displayed at the 					 checkout.
 
