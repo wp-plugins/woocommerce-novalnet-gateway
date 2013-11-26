@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Woocommerce Payment Gateway by Novalnet  version 1.1.0\n"
+"Project-Id-Version: Woocommerce Payment Gateway by Novalnet  version 1.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-04 12:20+0530\n"
-"PO-Revision-Date: 2013-10-04 12:20+0530\n"
+"POT-Creation-Date: 2013-11-23 16:47+0530\n"
+"PO-Revision-Date: 2013-11-23 16:47+0530\n"
 "Last-Translator: Novalnet <test@novalnet.de>\n"
 "Language-Team: Novalnet <sales@novalnet.de>\n"
 "Language: \n"
@@ -16,543 +16,714 @@ msgstr ""
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway\n"
+"X-Poedit-SearchPath-0: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway\n"
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:60
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:79
 msgid "Woocommerce Payment Gateway by Novalnet"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:60
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:79
 msgid "add-on requires"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:60
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:79
 msgid "WooCommerce"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:60
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:79
 msgid "plugin. Please install and activate it."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:170
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:490
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:645
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:191
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:527
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:623
 msgid "#"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:184
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:917
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1889
-msgid "Basic Parameter Missing"
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:203
+msgid "Required parameter not valid"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:241
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:271
 msgid "Following steps are required to complete your payment:"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:241
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:271
 msgid "Step 1: Please call the telephone number displayed:"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:241
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:271
 msgid "* This call will cost {amount} (including VAT) and it is possible only for German landline connection! *"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:241
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:271
 msgid "Step 2: Please wait for the beep and then hang up the listeners."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:241
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:271
 msgid "After your successful call, please proceed with the payment."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:263
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:290
 msgid "Amounts below 0,99 Euros and above 10,00 Euros cannot be processed and are not accepted!"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:280
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:305
 msgid "You have changed the order amount after receiving telephone number, please try again with a new call"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:339
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:357
 msgid "Redirecting..."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:339
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:357
 msgid "You will be redirected to Novalnet AG in a few seconds. <br>"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:360
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:378
 msgid "Pay via Novalnet"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:360
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:378
 msgid "Cancel order &amp; restore cart"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:373
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:390
 msgid "You need to activate the CURL function on your server, please check with your hosting provider."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:393
-msgid "Please enter the customer name / email."
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:411
+msgid "Customer name/email fields are not valid"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:649
-msgid "Guest"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:662
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:647
 msgid "Thank you for your order, please click the button below to pay with Novalnet."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:757
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:706
 msgid "Please enter valid credit card details!"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:790
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:737
 msgid "Please enter valid account details!"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:793
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:740
 msgid "Please enable credit rating check"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:922
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:868
+msgid "Basic parameter not valid"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:873
 msgid "Product-ID2 and/or Tariff-ID2 missing!"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:975
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:916
+msgid "Basic Parameter Missing"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:928
 msgid "Account holder"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:978
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1401
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:931
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1332
 msgid "Account number"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:981
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1402
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:934
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1333
 msgid "Bankcode"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:987
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:939
 msgid "Your credit rating is checked by us"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1031
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:981
 msgid "Please enter valid Payment Title"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1036
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:984
 msgid "Please enter valid Novalnet Merchant ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1039
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:987
 msgid "Please enter valid Novalnet Merchant Authorisation code"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1042
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:990
 msgid "Please enter valid Novalnet Product ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1045
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:993
 msgid "Please enter valid Novalnet Tariff ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1048
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:996
 msgid "Please enter valid Payment period in days"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1051
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:999
 msgid "Please enter valid Novalnet Payment access key"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1054
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1002
 msgid "Please enter valid PayPal API username"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1057
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1005
 msgid "Please enter valid PayPal API password"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1060
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1008
 msgid "Please enter valid PayPal API signature"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1063
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1011
 msgid "Please enter valid Manual checking amount"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1068
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1085
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1016
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1026
 msgid "Please enter valid Novalnet Second Product ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1071
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1078
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1019
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1023
 msgid "Please enter valid Novalnet Second Tariff ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1166
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1096
 msgid "Instant Bank Transfer"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1167
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1097
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1143
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1161
+msgid "You will be redirected to Novalnet AG website when you place the order."
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1098
 msgid "www.novalnet.de/img/sofort_Logo_en.png"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1176
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1106
 msgid "Credit Card"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1177
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1186
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1107
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1116
+msgid "The amount will be booked immediately from your credit card when you submit the order."
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1108
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1117
 msgid "www.novalnet.de/img/creditcard_small.jpg"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1185
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1115
 msgid "Credit Card 3D Secure"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1194
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1124
 msgid "Direct Debit Austria"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1195
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1204
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1125
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1134
+msgid "Your account will be debited upon delivery of goods."
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1126
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1135
 msgid "www.novalnet.de/img/ELV_Logo.png"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1203
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1133
 msgid "Direct Debit German"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1212
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1142
 msgid "iDEAL"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1213
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1144
 msgid "www.novalnet.de/img/ideal_payment_small.png"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1221
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1151
 msgid "Invoice"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1222
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1152
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1170
+msgid "The bank details will be emailed to you soon after the completion of checkout process."
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1153
 msgid "www.novalnet.de/img/kauf-auf-rechnung.jpg"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1230
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1160
 msgid "PayPal"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1231
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1162
 msgid "www.novalnet.de/img/paypal-small.png"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1239
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1169
 msgid "Prepayment"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1240
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1171
 msgid "www.novalnet.de/img/vorauskasse.jpg"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1248
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1178
 msgid "Telephone Payment"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1249
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1179
+msgid "Your amount will be added in your telephone bill when you place the order"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1180
 msgid "www.novalnet.de/img/novaltel_logo.png"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1358
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1292
 msgid "Successful"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1389
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1321
 msgid "Novalnet Transaction ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1391
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1322
 msgid "Test order"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1397
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1328
 msgid "Please transfer the amount to the following information to our payment service Novalnet AG"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1399
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1330
 msgid "Due date"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1400
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1331
 msgid "Account holder : Novalnet AG"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1403
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1334
 msgid "Bank"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1404
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1335
 msgid "Amount"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1405
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1336
 msgid "Reference : TID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1406
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1337
 msgid "Only for international transfers :"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1407
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1338
 msgid "IBAN"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1408
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1339
 msgid "SWIFT / BIC"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1786
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1702
 msgid "Check Hash failed."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1901
-msgid "Transaction Information:"
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1839
+msgid "Novalnet Payment Status Management"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1925
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2126
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1851
+msgid "Current Transaction Status: "
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1859
+msgid "Capture the current Transaction"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1859
+msgid "Are you sure you want to capture the payment?"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1859
+msgid "Capture"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1865
+msgid "Cancel the current Transaction"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1865
+msgid "Are you sure you want to cancel the payment?"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1865
+msgid "Void"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1875
+msgid "Amount to be refunded:"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1880
+msgid "Refund the current Transaction"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1880
+msgid "Refund"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1888
+msgid "Are you sure you want to refund the amount?"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:1891
+msgid "Please enter the correct refund amount"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2010
+#, php-format
+msgid "Novalnet Capture action successfully takes place on %s"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2030
+#, php-format
+msgid "Novalnet Capture action failed due to %s"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2032
+msgid "Novalnet Capture action failed"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2099
+#, php-format
+msgid "Novalnet Void action successfully takes place on %s"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2122
+#, php-format
+msgid "Novalnet Void action failed due to %s"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2124
+msgid "Novalnet Void action failed"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2208
+#, php-format
+msgid "Novalnet Refund action successfully takes place on %s for refund amount %s and Transaction ID for payment is %s"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2211
+#, php-format
+msgid "Novalnet Refund action successfully takes place on %s for refund amount %s"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2237
+#, php-format
+msgid "Novalnet Refund action failed due to %s"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2239
+msgid "Novalnet Refund action failed"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2294
+msgid "Transaction Information"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2317
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2330
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2521
 msgid "novalnet.com"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1950
-msgid "Please Note: This transaction will run on TEST MODE and the amount will not be charged"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:1961
-msgid "Loading..."
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2025
-msgid "Credit card holder"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2028
-msgid "Card number"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2031
-msgid "Expiration Date"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2034
-msgid "Month"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2035
-msgid "January"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2036
-msgid "February"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2037
-msgid "March"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2038
-msgid "April"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2039
-msgid "May"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2040
-msgid "June"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2041
-msgid "July"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2042
-msgid "August"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2043
-msgid "September"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2044
-msgid "October"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2045
-msgid "November"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2046
-msgid "December"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2049
-msgid "Year"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2058
-msgid "CVC (Verification Code)"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2059
-msgid "* On Visa-, Master- and Eurocard you will find the 3 digit CVC-Code near the signature field at the rearside of the creditcard."
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2126
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2330
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2521
 msgid "www.novalnet.de/img/NN_Logo_T.png"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2127
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2347
+msgid "Please Note: This transaction will run on TEST MODE and the amount will not be charged"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2358
+msgid "Loading..."
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2424
+msgid "Credit card holder"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2427
+msgid "Card number"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2430
+msgid "Expiration Date"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2433
+msgid "Month"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2434
+msgid "January"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2435
+msgid "February"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2436
+msgid "March"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2437
+msgid "April"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2438
+msgid "May"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2439
+msgid "June"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2440
+msgid "July"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2441
+msgid "August"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2442
+msgid "September"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2443
+msgid "October"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2444
+msgid "November"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2445
+msgid "December"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2448
+msgid "Year"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2457
+msgid "CVC (Verification Code)"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2458
+msgid "* On Visa-, Master- and Eurocard you will find the 3 digit CVC-Code near the signature field at the rearside of the creditcard."
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2522
 msgid "Configure with Novalnet dealer details.If you need more information<br><br>you can visit our website for end-customers visit on <a href=\"https://www.novalnet.de/\" target=\"_blank\"> https://www.novalnet.de</a> or please contact our Sales Team <a href=\"mailto:sales@novalnet.de\">sales@novalnet.de</a>."
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2144
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2540
 msgid "Enable module"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2153
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2548
 msgid "Payment Title"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2159
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2556
 msgid "Description"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2168
-msgid "Enable Test Mode"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2170
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2295
-msgid "No"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2170
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2295
-msgid "Yes"
-msgstr ""
-
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2177
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2564
 msgid "Novalnet Merchant ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2179
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2566
 msgid "Enter your Novalnet Merchant ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2185
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2572
 msgid "Novalnet Merchant Authorisation code"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2187
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2574
 msgid "Enter your Novalnet Merchant Authorisation code"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2193
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2580
 msgid "Novalnet Product ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2195
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2582
 msgid "Enter your Novalnet Product ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2201
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2588
 msgid "Novalnet Tariff ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2203
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2590
 msgid "Enter your Novalnet Tariff ID"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2210
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2597
 msgid "Novalnet Payment access key"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2212
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2599
 msgid "Enter your Novalnet payment access key"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2220
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2607
 msgid "Enable credit rating check"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2230
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2617
 msgid "Payment period in days"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2240
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2627
 msgid "Manual checking amount in cents"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2242
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2629
 msgid "Please enter the amount in cents"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2246
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2633
 msgid "Second Product ID in Novalnet"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2248
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2254
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2635
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2641
 msgid "for the manual checking"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2252
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2639
 msgid "Second Tariff ID in Novalnet"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2263
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2650
 msgid "PayPal API User Name"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2265
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2652
 msgid "Please enter your PayPal API username"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2269
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2656
 msgid "PayPal API Password"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2271
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2658
 msgid "Please enter your PayPal API password"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2275
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2662
 msgid "PayPal API Signature"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2277
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2664
 msgid "Please enter your PayPal API signature"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2285
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2671
 msgid "Proxy-Server"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2287
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2673
 msgid "If you use a Proxy Server, enter the Proxy Server IP with port here (e.g. www.proxy.de:80)"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2293
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2679
+msgid "Thank You page Instructions"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2681
+msgid "Instructions that will be added to the thank you page."
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2687
+msgid "E-mail Instructions"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2689
+msgid "Instructions that will be added to the order confirmation email"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2694
+msgid "Enable Novalnet Logo"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2696
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2705
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2721
+msgid "No"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2696
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2705
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2721
+msgid "Yes"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2697
+msgid "To display Novalnet logo in front end"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2703
 msgid "Enable Payment Logo"
 msgstr ""
 
-#: /var/www/wordpress_multisite/wp-content/plugins/woocommerce-novalnet-gateway/novalnetpayments.php:2296
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2706
 msgid "To display Payment logo in front end"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2712
+msgid "Gateway Testing"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2719
+msgid "Enable Test Mode"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2728
+msgid "Debug Log"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2730
+msgid "Enable logging"
+msgstr ""
+
+#: /var/www/woo_final/wp-content/plugins/woocommerce-novalnet-gateway/novalnetgateway.php:2732
+#, php-format
+msgid "Log Novalnet Payment events inside <code>woocommerce/logs/novalnetpayments-%s.txt</code>"
 msgstr ""
 

@@ -18,23 +18,26 @@
 /*
  * Installs CC / CREDIT CARD payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[1] . '_Load', 0);
+add_action('plugins_loaded', 'init_gateway_' . $novalnet_payment_methods[1], 0);
 
-function novalnet_cc_Load() {
+function init_gateway_novalnet_cc() {
+    
     global $novalnet_payment_methods;
-    if (class_exists('novalnetpayments')) {
-        if (!class_exists($novalnet_payment_methods[1])) {
+   
+    if (class_exists('WC_Gateway_Novalnet')) {
+   
+        if (!class_exists('novalnet_cc')) {
 
-            class novalnet_cc extends novalnetpayments {
+            class novalnet_cc extends WC_Gateway_Novalnet {
                 
-            }
+            }   // End class novalnet_cc
 
-            $obj = new $novalnet_payment_methods[1]();
+            $obj = new novalnet_cc();
         }
-    } else {
-        return;
     }
-}
+    else
+        return;
+}   // End init_gateway_novalnet_cc()
 
 /*
  * Add the gateway to WooCommerce
@@ -44,11 +47,11 @@ function novalnet_cc_Load() {
  * @return array
  */
 
-function add_novalnet_cc_gateway($methods) {
+function add_gateway_novalnet_cc($methods) {
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[1];
+    $methods[] = 'novalnet_cc';
     return $methods;
-}
+}	// End add_gateway_novalnet_cc()
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[1] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_gateway_' . $novalnet_payment_methods[1]);
 ?>

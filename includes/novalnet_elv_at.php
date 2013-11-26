@@ -18,23 +18,26 @@
 /*
  * Installs ELVAT / DIRECT DEBIT payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[3] . '_Load', 0);
+add_action('plugins_loaded', 'init_gateway_' . $novalnet_payment_methods[3], 0);
 
-function novalnet_elv_at_Load() {
+function init_gateway_novalnet_elv_at() {
+    
     global $novalnet_payment_methods;
-    if (class_exists('novalnetpayments')) {
-        if (!class_exists($novalnet_payment_methods[3])) {
+    
+    if (class_exists('WC_Gateway_Novalnet')) {
+    
+        if (!class_exists('novalnet_elv_at')) {
 
-            class novalnet_elv_at extends novalnetpayments {
+            class novalnet_elv_at extends WC_Gateway_Novalnet {
                 
-            }
+            }   // End class novalnet_elv_at
 
-            $obj = new $novalnet_payment_methods[3]();
+            $obj = new novalnet_elv_at();
         }
-    } else {
-        return;
     }
-}
+    else
+        return;    
+}   // End init_gateway_novalnet_elv_at()
 
 /*
  * Add the gateway to WooCommerce
@@ -44,11 +47,11 @@ function novalnet_elv_at_Load() {
  * @return array
  */
 
-function add_novalnet_elv_at_gateway($methods) {
+function add_gateway_novalnet_elv_at($methods) {
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[3];
+    $methods[] = 'novalnet_elv_at';
     return $methods;
-}
+}	// End add_gateway_novalnet_elv_at()
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[3] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_gateway_' . $novalnet_payment_methods[3]);
 ?>

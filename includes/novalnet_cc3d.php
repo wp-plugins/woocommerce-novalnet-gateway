@@ -18,23 +18,26 @@
 /*
  * Installs CC3D / CREDIT CARD 3d secure payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[2] . '_Load', 0);
+add_action('plugins_loaded', 'init_gateway_' . $novalnet_payment_methods[2], 0);
 
-function novalnet_cc3d_Load() {
+function init_gateway_novalnet_cc3d() {
+    
     global $novalnet_payment_methods;
-    if (class_exists('novalnetpayments')) {
-        if (!class_exists($novalnet_payment_methods[2])) {
+    
+    if (class_exists('WC_Gateway_Novalnet')) {
+    
+        if (!class_exists('novalnet_cc3d')) {
 
-            class novalnet_cc3d extends novalnetpayments {
+            class novalnet_cc3d extends WC_Gateway_Novalnet {
                 
-            }
+            }   // End class novalnet_cc3d
 
-            $obj = new $novalnet_payment_methods[2]();
+            $obj = new novalnet_cc3d();
         }
-    } else {
-        return;
     }
-}
+    else
+        return;    
+}   // End init_gateway_novalnet_cc3d()
 
 /*
  * Add the gateway to WooCommerce
@@ -44,11 +47,11 @@ function novalnet_cc3d_Load() {
  * @return array
  */
 
-function add_novalnet_cc3d_gateway($methods) {
+function add_gateway_novalnet_cc3d($methods) {
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[2];
+    $methods[] = 'novalnet_cc3d';
     return $methods;
-}
+}	// End add_gateway_novalnet_cc3d()
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[2] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_gateway_' . $novalnet_payment_methods[2]);
 ?>

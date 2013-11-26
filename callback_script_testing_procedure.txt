@@ -16,11 +16,11 @@ Note:
 
  2) $test = true; 
 
- 3) a) formatted URL for invoice and prepayment:-
+ 3) a) formatted URL for Invoice and Prepayment:-
 
 <Site URL>/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435
 
-    b) formatted URL for paypal:-
+    b) formatted URL for PayPal:-
 
 <Site URL>/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435
 
@@ -34,11 +34,11 @@ Parameters:
 	
 	payment_type   -	Type of payment process
 	
-	tid_payment    -	Existing appropriate order transaction id           (only for Invoice/Prepayment mothods)
+	tid_payment    -	Existing appropriate order transaction id (only for Invoice/Prepayment mothods)
 	
 	amount	       -	Customer paid amount in cents
 	
-	tid	       -	Callback script Transaction TID
+	tid	       -	Callback script Transaction ID ( Existing appropriate order transaction id for PayPal )
             
       
 

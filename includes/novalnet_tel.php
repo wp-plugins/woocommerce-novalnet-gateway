@@ -18,29 +18,29 @@
 /*
  * Installs TELEPHONE payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', $novalnet_payment_methods[9] . '_Load', 0);
+add_action('plugins_loaded', 'init_gateway_'. $novalnet_payment_methods[9], 0);
 
-function novalnet_tel_Load() {
+function init_gateway_novalnet_tel() {
 	
     global $novalnet_payment_methods;
     
-    if (class_exists('novalnetpayments')) {
+    if (class_exists('WC_Gateway_Novalnet')) {
 		
-        if (!class_exists($novalnet_payment_methods[9])) {
+        if (!class_exists('novalnet_tel')) {
 
-            class novalnet_tel extends novalnetpayments {
+            class novalnet_tel extends WC_Gateway_Novalnet {
                 
             }	// End class novalnet_tel
             
-            $obj = new $novalnet_payment_methods[9]();
+            $obj = new novalnet_tel();
             
-        }	#Endif
+        }
         
-    }	#Endif 
+    }	
     else
         return;
         
-}	// End novalnet_tel_Load()
+}	// End init_novalnet_tel()
 
 /**
  * Add the gateway to WooCommerce
@@ -49,13 +49,13 @@ function novalnet_tel_Load() {
  * @package		
  * @return array
  */
-function add_novalnet_tel_gateway($methods) {
+function add_gateway_novalnet_tel($methods) {
 	
     global $novalnet_payment_methods;
-    $methods[] = $novalnet_payment_methods[9];
+    $methods[] = 'novalnet_tel';
     return $methods;
     
 }	// End add_novalnet_tel_gateway()
 
-add_filter('woocommerce_payment_gateways', 'add_' . $novalnet_payment_methods[9] . '_gateway');
+add_filter('woocommerce_payment_gateways', 'add_gateway_' . $novalnet_payment_methods[9]);
 ?>
