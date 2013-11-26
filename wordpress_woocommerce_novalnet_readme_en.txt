@@ -5,7 +5,7 @@
 #  Direct Debit (German/Austria),                               #
 #  Credit Card,	Credit Card 3D Secure,                          #
 #  Prepayment, Invoice, Online Transfer, iDEAL			#
-#  PayPal, Telephone Payment				        #
+#  PayPal, Telephone Payment			                #
 #  								#
 #                                                               #
 #  These modules are used for real time processing of           #
@@ -27,13 +27,13 @@
 #					   	   		#
 #  Created	     			- Novalnet AG         	#
 #								#
-#  CMS(wordpress) Version         	- 3.6.1	                #
+#  CMS(wordpress) Version         	- 3.7.1	                #
 #					   	   		#
-#  Shop (woocommerce) Version   	- 2.0.14	        #
+#  Shop (woocommerce) Version   	- 2.0.20	        #
 #					   	   		#
-#  Novalnet Version  			- 1.1.0		        #
+#  Novalnet Version  			- 1.1.1		        #
 #					   	   		#
-#  Last Updated	     			- 7th October 2013 	#
+#  Last Updated	     			- 26-11-2013		#	
 #					   	   		#
 #  Categories	     			- Payment & Gateways  	#
 #					   	   		#
@@ -66,7 +66,7 @@ Step 2:
 
 a) To install NovalnetAG payment module, 
 
-	kindly refer "IG-wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.1.0_en.pdf". (please download it from here svn.wp-plugins.org/woocommerce-novalnet-gateway/assets/IG-wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.1.0_en.pdf)
+	kindly refer "IG-wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1_en.pdf". (please download it from here svn.wp-plugins.org/woocommerce-novalnet-gateway/assets/IG-wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1_en.pdf)
 
 b) To install NovalnetAG Callback Script,
  
@@ -89,7 +89,7 @@ a. please open the file 'class-wc-email-customer-completed-order.php' under 'wp-
 
 	function get_content_html() {
 		
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
+and add the below codes after the " ob_start(); " line in the above search result.
 		
 	// code to add
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -99,7 +99,7 @@ and add the below codes after the " ob_start(); " line in the above search resul
 
 	function get_content_plain() {
 
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
+and add the below codes after the " ob_start(); " line in the above search result.
 
 	// code to add
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -111,7 +111,7 @@ b. please open the file 'class-wc-email-customer-invoice.php' under 'wp-content/
 
 	function get_content_html() {
 		
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
+and add the below codes after the " ob_start(); " line in the above search result. 
 
 	// code to add
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -120,7 +120,7 @@ and add the below codes after the " ob_start(); " line in the above search resul
 
 	function get_content_plain() {
 
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
+and add the below codes after the " ob_start(); " line in the above search result. 
 	
 	// code to add
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -132,7 +132,7 @@ c. please open the file 'class-wc-email-customer-processing-order.php' under 'wp
 
 	function get_content_html() {
 
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
+and add the below codes after the " ob_start(); " line in the above search result. 
 
 	// code to add
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -142,7 +142,7 @@ and add the below codes after the " ob_start(); " line in the above search resul
 
 	function get_content_plain() {
 		
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
+and add the below codes after the " ob_start(); " line in the above search result. 
 
 	// code to add
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -154,7 +154,7 @@ d. please open the file 'class-wc-email-new-order.php' under 'wp-content/plugins
 
 	function get_content_html() {
 		
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_html.png ")
+and add the below codes after the " ob_start(); " line in the above search result. 
 
 	// code to add 
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -164,7 +164,7 @@ ii. kindly search the following function
 
 	function get_content_plain() {
 
-and add the below codes after the " ob_start(); " line in the above search result. (please refer the image " novalnet_tid_details_text.png ")
+and add the below codes after the " ob_start(); " line in the above search result.
 
 	// code to add
 		$this->object->customer_note = wpautop($this->object->customer_note);
@@ -225,32 +225,6 @@ and add the following code before the above search lines.
 			$order->customer_note = nl2br($order->customer_note);  
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-Step 4:    (Common for all woocommerce versions)
-=================================================
-
-
-If you wish to display Novalnet Transaction details on front end order history page, 
-
-a. kindly search the following code on class-wc-shortcode-view-order.php under 'wp-content/plugins/woocommerce/classes/shortcodes'
-
-		$notes = $order->get_customer_order_notes();
-
-and add the below codes before the above search lines. (please refer the image " novalnet_tid_details_front_end_history.png ")
-
-		if ( substr(get_bloginfo('language'), 0, 2) == 'de') {
-			echo wpautop('<strong>' . 'Transaktions Informationen:' . '</strong>');
-			echo wpautop(wptexturize($order->customer_note));		
-		}
-		else {
-			echo wpautop('<strong>' . 'Transaction Information:' . '</strong>');
-			echo wpautop(wptexturize($order->customer_note));
-		}	
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
 
 Empty cache (browser cache) or cache folders if there are any.
@@ -284,9 +258,22 @@ for example :-
 
 -------------------------------------------------------------------------------
 
+Note:  If you wish to display Amex logo in Credit Card checkout form, please open the file "novalnetpayments.php" under "wp-content/plugin/woocommerce-novalnet-gateway/" and kindly search the line  $icon_html = '';
+and the add the follow codes
+
+// code to add for displaying Amex logo
+
+if ($this->novalnet_payment_method == 'novalnet_cc') {
+			$icon_cc_amex_html = '<a href="' . (strtolower($this->language) == 'de' ? 'https://www.novalnet.de' : 'http://www.novalnet.com') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" target="_new"><img height ="25" src="' . site_url() . '/wp-content/plugins/woocommerce-novalnet-gateway/includes/creditcard_amex_small.jpg' .'"alt="' . $this->method_title . '" title="'.$this->title.'" /></a>';
+			return $icon_cc_amex_html;
+		    }
+		    
+// code to add for displaying Amex logo
+
+-------------------------------------------------------------------------------
 
 Important Notice for Online Transfer (Sofortüberweisung):
 
-If you use real transaction data (bank code, bank account number, ect.) real transactions will be performed, even though the test mode is on/activated!
+If you use real transaction data (bank code, bank account number, etc.) real transactions will be performed, even though the test mode is on/activated!
 -------------------------------------------------------------------------------
 
