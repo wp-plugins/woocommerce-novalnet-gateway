@@ -66,7 +66,7 @@ Step 2:
 
 a) To install NovalnetAG payment module, 
 
-	kindly refer "IG-wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1_en.pdf". (please download it from here svn.wp-plugins.org/woocommerce-novalnet-gateway/assets/IG-wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1_en.pdf)
+	kindly refer "IG-wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1_en.pdf". ( please contact sales@novalnet.de / +49 (0)89 923 068 320 to get the Installation Guide Document )
 
 b) To install NovalnetAG Callback Script,
  

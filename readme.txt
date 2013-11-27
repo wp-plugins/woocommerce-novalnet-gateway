@@ -75,9 +75,7 @@ Please check out our __ssl certified__ [Demo Store](https://woocommerce.novalnet
 
 = Note: =
 
-* For displaying Transaction details in front-end order history, please follow the procedures in "wordpress_woocommerce_novalnet_readme_en.txt".
-* Callback script testing procedure is explained detail in "callback_script_testing_procedure.txt".
-* For test data details please refer "testdata.txt".
+* please contact our support team (sales@novalnet.de / +49 (0)89 923 068 320) for free testing.
  
 = Now get the necessary authentication details from the Novalnet administration area: =
 
