@@ -44,6 +44,8 @@ In case you have any questions, you can contact us at any time at __sales@novaln
 * End customer site for Support (128 Bit SSL encrypted)
 * Cost free technical support for the implementation of payment modules for shop/cms systems and self-programmed webpages
 
+= About Novalnet =
+
 [Novalnet](http://www.novalnet.com/ "Novalnet") is a financial services institute licensed and supervised by the Federal Financial Supervisory Authority (BaFin), specialized in payment solutions world-wide and meeting the highest standards. Years of experience in the e-commerce sector and a continuous development of its range of services and the corresponding service portfolio enable [Novalnet](http://www.novalnet.com/ "Novalnet") to provide maximal reliability and client focus to all customers – in every area of payment processing. This way, [Novalnet](http://www.novalnet.com/ "Novalnet") supports their customers from the setup process and offers a variety of implemented payment types and intelligent fraud prevention modules as well as a legitimate and reliable receivables and claims management.
 
 = Plugin Functionality =
