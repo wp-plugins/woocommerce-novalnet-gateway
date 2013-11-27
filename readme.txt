@@ -28,7 +28,7 @@ Did all these features and the possible time savings make you curious?
 
 Then just download the WooCommerce plugin containing the respective Novalnet interface. 
 
-In case you have any questions, you can contact us at any time at sales@novalnet.de / +49 (0)89 923 068 320
+In case you have any questions, you can contact us at any time at __sales@novalnet.de / +49 (0)89 923 068 320__
 
 = Key Features =
 
@@ -36,6 +36,7 @@ In case you have any questions, you can contact us at any time at sales@novalnet
 * User stays entirely on your Website for payment (no redirection, if you don’t want to)
 * Attractive and flexible Payout methods
 * Easy to use admin interface
+* Offers full payment service (  Includes Risk Management, Debt Collection Management, Subscription Management, Affiliate System, Inventory Management, Member Management, Debitor Management and many more )
 * Payment platform for multi-level Affiliate marketing
 * Free real-time Monitoring towards turnover development
 * User friendly payment process with high safety and security
@@ -45,7 +46,21 @@ In case you have any questions, you can contact us at any time at sales@novalnet
 
 [Novalnet](http://www.novalnet.com/ "Novalnet") is a financial services institute licensed and supervised by the Federal Financial Supervisory Authority (BaFin), specialized in payment solutions world-wide and meeting the highest standards. Years of experience in the e-commerce sector and a continuous development of its range of services and the corresponding service portfolio enable [Novalnet](http://www.novalnet.com/ "Novalnet") to provide maximal reliability and client focus to all customers – in every area of payment processing. This way, [Novalnet](http://www.novalnet.com/ "Novalnet") supports their customers from the setup process and offers a variety of implemented payment types and intelligent fraud prevention modules as well as a legitimate and reliable receivables and claims management.
 
-= Reference: =
+= Plugin Functionality =
+
+* Easy to install and configure
+* Plug and Play ( Independent modules, you don't need any extra plugins or scripts to process the Transaction )
+* Accepts all major credit cards
+* Capture, Void and Refund options are available
+* Secure way to process transaction (PCI-certified payment modules)
+* Automatic Payment Confirmation to update order transaction
+* Easily compatible with Wordpress/Woocommerce plugins
+* Works with Wordpress Multi-Site
+* Supports Sequential Order Numbers Pro plugin ( Custom Order Numbers for WooCommerce )
+* Supports Debug Log feature
+* Options to configure customer instructions at order success page and notification emails
+
+= Reference =
 
 Please check out our __ssl certified__ [Demo Store](https://woocommerce.novalnet.de/ "Demo Store")
   
@@ -71,11 +86,6 @@ Please check out our __ssl certified__ [Demo Store](https://woocommerce.novalnet
 * Go to Plugins (Woocommerce payment gateway by Novalnet) screen and find the “Woocommerce payment gateway by Novalnet” in the list.
 * Click “Activate Plugin” to activate it.
 * Check the Details in the readme file for customization and further instructions.
-
-
-= Note: =
-
-* please contact our support team (sales@novalnet.de / +49 (0)89 923 068 320) for free testing.
  
 = Now get the necessary authentication details from the Novalnet administration area: =
 
@@ -93,7 +103,7 @@ For this, kindly log into the Novalnet administration area:
 
 = Do I require an Novalnet merchant account before I can use the WooCommerce Novalnet Gateway Plugin? =
 
-Yes, in order to use this plugin and access all popular online payment methods within your WooCommerce webshop you require a valid and approved Novalnet account. please contact our sales team sales@novalnet.de / 0049-89-923 068 320.
+Yes, in order to use this plugin and access all popular online payment methods within your WooCommerce webshop you require a valid and approved Novalnet account. please contact our sales team __sales@novalnet.de / 0049-89-923 068 320__
 
 = Does this plugin work with other Webshop Plugins? =
 
@@ -168,6 +178,14 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 == Upgrade Notice ==
 
+= 1.1.1 =
+ 
+  * Created option to display customer instruction at success page and order notification emails.
+  * Implemented Debug log feature.
+  * Optimized our module to display the transaction details in frontend order history without core update.
+  * Implemented Void, capture and Refund functionality in Novalnet payment gateway.
+  * Updated callback script file as per new test case.
+  
 = 1.1.0 =
 
   * Added support for Wordpress Multi-Site
@@ -259,7 +277,7 @@ As soon as all steps are completed, you can start with sales straight away!
 
 = Note: = If you use Prepayment and/or Per Invoice then contact us for more details.
 
-On Any Technical Problems, please contact sales@novalnet.de / 0049-89-923 068 320.
+On Any Technical Problems, please contact __sales@novalnet.de / 0049-89-923 068 320__
 
 = Important Notice for Online Transfer (Sofortüberweisung): =
 
