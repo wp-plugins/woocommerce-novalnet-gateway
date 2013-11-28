@@ -24,9 +24,6 @@ if (!defined('ABSPATH'))
 register_activation_hook(__FILE__, 'novalnet_activation');
 register_deactivation_hook(__FILE__, 'novalnet_deactivation');
 
-/* Load Novalnet Gateway language translations */
-load_plugin_textdomain('woocommerce-novalnetpayment', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-
 /* Initiate admin notice display	 */
 add_action('admin_notices', 'novalnet_admin_notices');
 
@@ -102,6 +99,9 @@ add_action('plugins_loaded', 'init_gateway_novalnet', 0);
  * Initiate plugin actions
  */
 function init_gateway_novalnet() {
+    
+    /* Load Novalnet Gateway language translations */
+    load_plugin_textdomain('woocommerce-novalnetpayment', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
     /* verify whether woocommerce is an active plugin before initializing Novalnet Payment Gateway */
     if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')) || in_array('woocommerce/woocommerce.php', (array) nn_active_nw_plugins())) {
