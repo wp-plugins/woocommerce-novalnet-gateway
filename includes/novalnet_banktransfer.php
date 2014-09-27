@@ -1,5 +1,4 @@
 <?php
-
 #########################################################
 #                                                       #
 #  Sofortüberweisung / BANKTRANSFER payment      		#
@@ -20,18 +19,18 @@
 /**
  * Installs Sofortüberweisung / BANKTRANSFER payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', 'init_gateway_' . $novalnet_payment_methods[0], 0);
+add_action('plugins_loaded', 'init_gateway_'.$novalnet_payment_methods['nn_banktransfer'], 0);
 
 function init_gateway_novalnet_banktransfer() {
-    
+
     if (class_exists('WC_Gateway_Novalnet')) {
-        
+
         global $novalnet_payment_methods;
-        
+
         if (!class_exists('novalnet_banktransfer')) {
 
             class novalnet_banktransfer extends WC_Gateway_Novalnet {
-                
+
             }	// End class novalnet_banktransfer
 
             $obj = new novalnet_banktransfer();
@@ -45,7 +44,7 @@ function init_gateway_novalnet_banktransfer() {
  * Add the gateway to WooCommerce
  * @access public
  * @param array $methods
- * @package		
+ * @package
  * @return array
  */
 
@@ -55,5 +54,5 @@ function add_gateway_novalnet_banktransfer($methods) {
     return $methods;
 }	// End add_gateway_novalnet_banktransfer()
 
-add_filter('woocommerce_payment_gateways', 'add_gateway_' . $novalnet_payment_methods[0]);
+add_filter('woocommerce_payment_gateways', 'add_gateway_'.$novalnet_payment_methods['nn_banktransfer']);
 ?>
