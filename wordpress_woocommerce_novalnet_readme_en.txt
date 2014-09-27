@@ -2,14 +2,15 @@
 #                                                               #
 #  INSTALLATION GUIDE                                           #
 #                                                               #
-#  Direct Debit (German/Austria),                               #
-#  Credit Card,	Credit Card 3D Secure,                          #
-#  Prepayment, Invoice, Online Transfer, iDEAL			#
-#  PayPal, Telephone Payment			                #
-#  								#
+#  Credit Card (3DSecure and non 3DSecure): Visa, Mastercard, 	#
+#  Amex, JCB, CUP. Debitcard: Maestro  							#
+#  Direct debit SEPA											#
+#  Prepayment, Invoice, Online Transfer, iDEAL, eps, PayPal,    #
+#  sofortüberweisung, Telephone Payment.      			#
 #                                                               #
-#  These modules are used for real time processing of           #
-#  transaction data                                             #
+#  These modules are programmed in high standard and supports	#
+#  PCI DSS Standard and the Trustshops Standard	used for 	#
+#  real time processing of transactions through Novalnet	#
 #                                                               #
 #  Released under the GNU General Public License                #
 #                                                               #
@@ -18,42 +19,45 @@
 #  as well as a comment on merchant form would be greatly       #
 #  appreciated.                                                 #
 #                                                               #
-#  				                                #
-#  Copyright (c)  Novalnet AG          		                #
+#  Copyright (c) Novalnet AG   		                       	#
 #                                                               #
 #################################################################
-#					   	                #
-#  SPECIFICATION DETAILS		   	   		#
-#					   	   		#
-#  Created	     			- Novalnet AG         	#
 #								#
-#  CMS(wordpress) Version         	- 3.7.1	                #
+#  SPECIFICATION DETAILS					#
+#					   	   	   	#
+#  Created	     		- Novalnet AG  			#
+#								#
+#  CMS(wordpress) Version       - 4.0	                        #
 #					   	   		#
-#  Shop (woocommerce) Version   	- 2.0.20	        #
+#  Shop (woocommerce) Version   - 2.1.12        		#
+#				  	   			#
+#  Novalnet Version  		- 1.1.7		        	#
 #					   	   		#
-#  Novalnet Version  			- 1.1.1		        #
-#					   	   		#
-#  Last Updated	     			- 26-11-2013		#	
-#					   	   		#
-#  Categories	     			- Payment & Gateways  	#
-#					   	   		#
+#  Last Updated	     		- 23-09-2014	        	#
+#					   			#
+#  Categories	     		- Payment & Gateways		#
+#  																#
+#  Compatibile CMS version  - 3.5 - 4.0                  		#
+#																#
+#  Compatibile Shop version - 2.0.20 - 2.2.4					#
+#	        						#
 #################################################################
 
+IMPORTANT: 
 
-IMPORTANT: The files freewarelicenseagreement.txt and testdata.txt are parts of this readme file.
-
+	1. Please enter/activate your Server IP address on Novalnet Administration portal under the menu "Project", for transaction API access on Void, Capture, Refund and Transaction status enquiry from your shop. 
+	
+	2. The files freewarelicenseagreement.txt and testdata.txt are parts of this readme file.
 Woocommerce is an extension for Wordpress. Therefore a working Wordpress system is a must.
-
 
 How to install:
 ---------------
 
-
-Step 1: 
+Step 1:
 ========
 
 You have to install php modules: curl and php-curl in your Webserver.
-      Refer to the following website for installation instructions: 
+      Refer to the following website for installation instructions:
         http://curl.haxx.se/docs/install.html.
 
       If you use Ubantu/Debian, you can try the following commands:
@@ -61,219 +65,102 @@ You have to install php modules: curl and php-curl in your Webserver.
         apachectl restart (restart the Webserver)
 
 
-Step 2: 
+Step 2:
 ========
 
-a) To install NovalnetAG payment module, 
+a) To install NovalnetAG payment module,
 
-	kindly refer "IG-wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1_en.pdf". ( please contact sales@novalnet.de / +49 (0)89 923 068 320 to get the Installation Guide Document )
+	kindly refer "IG-wordpress_v_3.5-4.0_woocommerce_v_2.0.20-2.2.4_novalnet_v_1.1.7_en.pdf".
 
 b) To install NovalnetAG Callback Script,
- 
-  Please Copy the 'callback_novalnet2wordpresswoocommerce.php' file and place into the " Wordpress <Root_Directory>/ ". 
-  Example: /var/www/wordpress/ 
 
+  Please Copy the 'callback_novalnet2woocommerce.php' file and place into the " Wordpress <Root_Directory>/ ".
 
-Step 3: 
-========
+  Example: /var/www/wordpress/
 
-If you wish to add line breaks for Order Transaction detail in notification emails, please follow the below procedures
-
-----------------------------
-I. For woocommerce version >= 2.0.0
-----------------------------
-
-a. please open the file 'class-wc-email-customer-completed-order.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
-
-  i. kindly search the following function
-
-	function get_content_html() {
-		
-and add the below codes after the " ob_start(); " line in the above search result.
-		
-	// code to add
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
-
- ii. kindly search the following function
-
-	function get_content_plain() {
-
-and add the below codes after the " ob_start(); " line in the above search result.
-
-	// code to add
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
-
-b. please open the file 'class-wc-email-customer-invoice.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
-
-  i. kindly search the following function
-
-	function get_content_html() {
-		
-and add the below codes after the " ob_start(); " line in the above search result. 
-
-	// code to add
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
- ii. kindly search the following function
-
-	function get_content_plain() {
-
-and add the below codes after the " ob_start(); " line in the above search result. 
-	
-	// code to add
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
-
-c. please open the file 'class-wc-email-customer-processing-order.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
-
-  i. kindly search the following function
-
-	function get_content_html() {
-
-and add the below codes after the " ob_start(); " line in the above search result. 
-
-	// code to add
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
-
- ii. kindly search the following function
-
-	function get_content_plain() {
-		
-and add the below codes after the " ob_start(); " line in the above search result. 
-
-	// code to add
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
-
-d. please open the file 'class-wc-email-new-order.php' under 'wp-content/plugins/woocommerce/classes/emails/'.
-
-  i. kindly search the following function
-
-	function get_content_html() {
-		
-and add the below codes after the " ob_start(); " line in the above search result. 
-
-	// code to add 
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
- 
-ii. kindly search the following function
-
-	function get_content_plain() {
-
-and add the below codes after the " ob_start(); " line in the above search result.
-
-	// code to add
-		$this->object->customer_note = wpautop($this->object->customer_note);
-	// end
-
-
----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-----------------------------
-II. For woocommerce version < 2.0.0
-----------------------------
-
-
-please open the file 'class-wc-email.php' under 'wp-content/plugins/woocommerce/classes/'.
-
-a. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/admin-new-order.php', array(
-
-and add the following code before the above search lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) 
-		$order->customer_note = nl2br($order->customer_note); 
-
-b. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/customer-processing-order.php', array(
-
-and add the following code before the above search lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc')))
-			$order->customer_note = nl2br($order->customer_note);
-
-c. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/customer-completed-order.php', array(
-
-and add the following code before the above search lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc'))) 
-			$order->customer_note = nl2br($order->customer_note);  
-
-d. kindly search the following code 
-
-
-		// Get mail template
-		woocommerce_get_template('emails/customer-invoice.php', array(
-
-and add the following code before the above search lines.
-
-		if(!in_array($this->payment_method,array('novalnet_elv_at','novalnet_elv_de','novalnet_invoice','novalnet_prepayment','novalnet_cc')))
-			$order->customer_note = nl2br($order->customer_note);  
-
----------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
 
 Empty cache (browser cache) or cache folders if there are any.
-
 -------------------------------------------------------------
 
-Note: If you use Prepayment and/or Per Invoice then contact us for more details.
-
-On Any Technical Problems, please contact sales@novalnet.de / 0049-89-923 068 320.
+Note: In Telephone payment method the guest user has to enter his/her address details in checkout form for both first call and second call. This is not necessary for registered user. [shop default flow]
 
 -------------------------------------------------------------------------------
 
-Note: In Telephone payment method the guest user has to enter his/her address details in checkout form for both first call and second call.This is not necessary for registered user. [shop default flow]
+Note: I
+=======
 
--------------------------------------------------------------------------------
+If you wish to display Novalnet Credit Card and Novalnet Direct Debit SEPA form in your specified template , Please open novalnet_css_link.php file under'wp-content/plugins/woocommerce-novalnet-gateway/'
 
-Note:  If you wish to display Credit Card form in your specified template , kindly search the following codes on novalnetpayments.php 
-under'wp-content/plugin/woocommerce-novalnet-gateway/' and fill-out the respective values in below mentioned HTML tags
+i) Novalnet Credit Card
+-----------------------
+
+Kindly search the following codes and fill-out the respective values in below mentioned HTML tags
 
 // code to add css values
 
-<input type="hidden" id="original_customstyle_css" value="" />
-
-<input type="hidden" id="original_customstyle_cssval" value="" />
+define('NOVALNET_CC_CUSTOM_CSS','');	## enter here your css value between the single quotation as per your style
+define('NOVALNET_CC_CUSTOM_CSS_VALUE','');	## enter here your css value between the single quotation as per your style
 
 // code to add css values
 
 for example :-
 
-<input type="hidden" id="original_customstyle_css" value="body~~~test~~~input" /><input type="hidden" id="original_customstyle_cssval" value="color:#222222;font:11px/14px Arial,Verdana,sans-serif;~~~color:red;clear:both;~~~color:red;" />
+define('NOVALNET_CC_CUSTOM_CSS', 'body~~~input, select~~~td~~~#novalnetCc_cc_type, #novalnetCc_expiration, #novalnetCc_expiration_yr~~~#novalnetCc_cc_type~~~#novalnetCc_expiration~~~#novalnetCc_expiration_yr~~~td');
+define('NOVALNET_CC_CUSTOM_CSS_STYLE', 'font-family:Open Sans,Helvetica,Arial,sans-serif;font-size:12px;~~~border: 1px solid #CCCCCC; border-radius: 3px; padding: 0.428571rem;height:17px !important;width:180px;~~~color:#5E5E5E;~~~height:34px !important;~~~width:196px !important;~~~width:107px !important;~~~width:80px;~~~padding:0.428571rem !important;');
 
+
+ii) Novalnet Direct Debit SEPA
+-----------------------------
+
+Kindly search the following codes and fill-out the respective values in below mentioned HTML tags
+
+// code to add css values
+
+define('NOVALNET_SEPA_CUSTOM_CSS','');	## enter here your css value between the single quotation as per your style
+define('NOVALNET_SEPA_CUSTOM_CSS_VALUE','');	## enter here your css value between the single quotation as per your style
+
+// code to add css values
+
+for example :-
+
+define('NOVALNET_SEPA_CUSTOM_CSS', 'body~~~input, select~~~#novalnet_sepa_country~~~input.mandate_confirm_btn');
+define('NOVALNET_SEPA_CUSTOM_CSS_STYLE', 'font-family:Open Sans,Helvetica,Arial,sans-serif;font-size:12px;~~~border: 1px solid #CCCCCC; border-radius: 3px; padding: 0.428571rem;height:17px !important;width:180px;~~~height:34px !important;width:196px !important;~~~height:32px !important;');
 -------------------------------------------------------------------------------
 
-Note:  If you wish to display Amex logo in Credit Card checkout form, please open the file "novalnetpayments.php" under "wp-content/plugin/woocommerce-novalnet-gateway/" and kindly search the line  $icon_html = '';
-and the add the follow codes
+Note: II
+========
 
-// code to add for displaying Amex logo
-
-if ($this->novalnet_payment_method == 'novalnet_cc') {
-			$icon_cc_amex_html = '<a href="' . (strtolower($this->language) == 'de' ? 'https://www.novalnet.de' : 'http://www.novalnet.com') . '" alt="' . __('novalnet.com', 'woocommerce-novalnetpayment') . '" target="_new"><img height ="25" src="' . site_url() . '/wp-content/plugins/woocommerce-novalnet-gateway/includes/creditcard_amex_small.jpg' .'"alt="' . $this->method_title . '" title="'.$this->title.'" /></a>';
-			return $icon_cc_amex_html;
-		    }
-		    
-// code to add for displaying Amex logo
+If client wish to changes the title and description of Novalnet Payment Methods, they have to add corresponding language text in language file "/wp-content/plugins/woocommerce/i18n/languages/woocommerce.pot". After that they need to add same language depentent(payment or description text) in woocommerce-[language_name].po file.
 
 -------------------------------------------------------------------------------
 
 Important Notice for Online Transfer (Sofortüberweisung):
 
-If you use real transaction data (bank code, bank account number, etc.) real transactions will be performed, even though the test mode is on/activated!
+1. If you use real transaction data (bank code, bank account number, etc.) real transactions will be performed, even though the test mode is on/activated!
+
 -------------------------------------------------------------------------------
 
+CALLBACK SCRIPT: this is necessary for keeping your database/system actual and synchrone with the Novalnet's transaction status.
+--------------------------------------------------------------------------------------------------------------------------------
+
+Your system will be notified through Novalnet system(asynchrone) about each transaction and its status.
+
+For example, if you use Novalnet's "Invoice/Prepayment/PayPal" payment methods then on recieval of the credit entry, your system will be notified through the Novalnet system and your system can automatically change the status of the order: from "pending" to "paid".
+
+Please use the "callback_novalnet2woocommerce.php" provided in this payment package. Please follow the instructions in the "Callbackscript_testing_procedure.txt" file. You will find more details in the "callback_novalnet2woocommerce.php" script itself.
+
+Step to update callback script url in Novalnet Administration area for callback script execution :
+
+After logging into Novalnet Administration area, please choose your particular project navigate to "PROJECT" menu, then select appropriate "Project" and navigate to "Project Overview" tab and then update callback script url in "Vendor script URL" field.
+Ex: https://woocommerce.novalnet.de/callback_novalnet2woocommerce.php
+
+Please contact us on sales@novalnet.de for activating other payment methods
+===============================================================================
+
+OUR CONTACT DETAILS / YOU CAN REACH US ON:
+
+Tel    : +49 (0)89 923 068 320
+
+Web    : www.novalnet.com
+E-mail : sales@novalnet.de
+===============================================================================

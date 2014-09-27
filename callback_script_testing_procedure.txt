@@ -1,101 +1,75 @@
-CALLBACK SCRIPT TESTING PROCEDURE:
-----------------------------------
-
-Kindly follow the below steps to test the callback script for Invoice, Prepayment and PayPal payment methods:
-
+CALLBACK SCRIPT TESTING PROCEDURE:-
+---------------------------------
+Please follow the below mentioned steps to call the callback script for all the payment types.
 
 Url: <siteurl>/<callaback script file name>
-[Ex: https://woocommerce.novalnet.de/callback_novalnet2wordpresswoocommerce.php]
+	[Ex: https://woocommerce.novalnet.de/callback_novalnet2woocommerce.php]
 
 Note:
 -----
 
- For testing callback script, kindly make the following changes in callback_novalnet2wordpresswoocommerce.php
+Set Email Configuration 
+------------------------
 
+	//Reporting Email Address Settings
+	$mailHost      = '';   //adapt your mail host
+	$mailPort      = '';     //adapt your mail host port
+	$emailFromAddr = '';   //adapt sender email address, mandatory
+	$emailToAddr   = '';   //adapt recipient email address, mandatory
+	$emailSubject  = 'Novalnet Callback Script Access Report'; //adapt if necessary;
+	$emailBody     = '';   //Email text, let it be blank or adapt your text
+	$emailFromName = "";   // adapt Sender Name
+	$emailToName   = "";   // adapt Recipient Name
+
+For testing callback script, kindly make the below following changes in the file "callback_novalnet2woocommerce.php"
+----------------------------------------------------------------------------------------------------------------------------
+ 
  1) $debug = true; 
 
- 2) $test = true; 
+ 2) $test  = true; 
 
- 3) a) formatted URL for Invoice and Prepayment:-
-
-<Site URL>/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435
-
-    b) formatted URL for PayPal:-
-
-<Site URL>/callback_novalnet2wordpresswoocommerce.php?vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435
-
-
-Parameters:
------------
-
-	vendor_id      -	Merchant ID
+ 3) a) formatted url for Invoice / Prepayment :-
 	
-	status	       -	Successful payment transaction value
-	
-	payment_type   -	Type of payment process
-	
-	tid_payment    -	Existing appropriate order transaction id (only for Invoice/Prepayment mothods)
-	
-	amount	       -	Customer paid amount in cents
-	
-	tid	       -	Callback script Transaction ID ( Existing appropriate order transaction id for PayPal )
-            
-      
+	<Site URL>/callback_novalnet2woocommerce.php?vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435&order_no=12
 
- 4) Mail Configuration:
-    -------------------
+		Payment type:
+		-------------
 
-	//Reporting Email Address Settings
+		INVOICE_CREDIT (Invoice and Prepayment)
 
-	$mailHost      = 'Ihr Email Server';   //adapt your mail host
-	
-	$mailPort      = 25;		    //adapt your mail host port
+    b) formatted url for other payment types which are mentioned below: (except Invoice / Prepayment)
 
-	//Test Data Settings
+	<Site URL>/callback_novalnet2woocommerce.php?vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435&order_no=12
 
-	if ($test){
+		Payment types: 
+		--------------
 
-	  $emailFromName = "Novalnet test"; // adapt Sender Name
+		PAYPAL (PayPal)
+		ONLINE_TRANSFER (Instant Bank Transfer)
+		CREDITCARD (Credit Card)
+		IDEAL (iDEAL)
+		DIRECT_DEBIT_SEPA (Direct Debit SEPA)
 
-	  $emailToName   = ""; 		    // adapt Recipient Name
-
-	  $emailToAddr 	 = 'Ihr Emailaddr'; // adapt recipient email address, mandatory
-
-	  $emailFromAddr = 'Ihr Emailaddr'; // adapt sender email address, mandatory	  
-
- 	  $emailSubject = $emailSubject.' - TEST'; //adapt
-	}
+Please use the respective payment type in the param "payment_type". (EX : payment_type=PAYPAL) 
 
 
+   Parameters:
+   -----------
+	tid		Callscript Transaction TID
+	vendor_id	Merchant ID
+	status		Successfull payment transaction value
+	payment_type	Types of payment process
+	tid_payment	Existing appropriate order Transaction ID (only for Invoice/Prepayment payment methods)
+	amount		Customer paid amount in cents
+	order_no	Existing appropriate order number
 
-For Real Time Transaction:
---------------------------
-
-
-Kindly make the following changes in callback_novalnet2wordpresswoocommerce.php
+For real time transactions, kindly do the following changes in the file "callback_novalnet2woocommerce.php"
+-------------------------------------------------------------------------------------------------------------------
 
  1) $debug = false; 
+ 
+ 2) $test  = false;
 
- 2) $test = false;
-
- 3) Set Email Configuration adapt for live:
-    ---------------------------------------
-
-	//Reporting Email Address Settings
-	
-	$mailHost      = 'Ihr Email Server'; //adapt your mail host
-	
-	$mailPort      = 25;		    //adapt your mail host port
-	
-	$emailFromAddr = 'Ihr Emailaddr';   //adapt sender email address, mandatory
-	
-	$emailToAddr   = 'Ihr Emailaddr';   //adapt recipient email address, mandatory
-	
-	$emailSubject  = 'Novalnet Callback Script Access Report'; //adapt if necessary;
-	
-	$emailBody     = '';                //Email text, let it be blank or adapt your text
-	
-	$emailFromName = "Novalnet";        // adapt Sender Name
-	
-	$emailToName   = "";                // adapt Recipient Name
-
+--------------------------------------------------------------------------------------------
+For questions send a email to sales@novalnet.de or call 0049-89-923 068 320
+--------------------------------------------------------------------------------------------

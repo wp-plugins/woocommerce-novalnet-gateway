@@ -2,9 +2,9 @@
 Contributors: novalnet
 link: https://www.novalnet.de/
 Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, Direct Debit, invoice, prepayment, woocommerce extensions, wordpress payment gateway, woocommerce payment methods, woocommerce payment gateway integration, woocommerce credit card extension, multisite payment gateway, full-service provider, secure payment processing
-Requires at least: 3.3
-Tested up to: 3.7.1
-Stable tag: 1.1.1
+Requires at least: 3.5
+Tested up to: 4.0
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,13 +16,14 @@ By using the WooCommerce payment plugin and the comprehensive service of __Noval
 
 With this WooCommerce payment plugin by Novalnet, you’ll be able to offer the following payment types in your shop: 
 
-* __Credit card__
-* __Direct debit__
+* __Credit Card__
+* __Direct Debit__
 * __Prepayment__
-* __Payment by invoice__
-* __Instant bank transfer__
+* __Payment by Invoice__
+* __Instant Bank Transfer__
 * __PayPal__
 * __iDEAL__
+* __Telephone Payment__
 
 Did all these features and the possible time savings make you curious?
 
@@ -73,10 +74,8 @@ Please check out our __ssl certified__ [Demo Store](https://woocommerce.novalnet
 = Automatic Installation: =
 
 * Go to Plugins > “Add New”.
-* Download the Woocommerce payment gateway by Novalnet from Wordpress repository and Click "Install Now" to install the Plugin. A popup  
-   window will ask you to confirm your wish to install the Plugin.
-= Note: = If this is the first time you've installed a WordPress Plugin, you may need to enter the FTP login credential information. If 
-          you've installed a Plugin before, it will still have the login information. This information is available through your web server host.
+* Download the Woocommerce payment gateway by Novalnet from Wordpress repository and Click "Install Now" to install the Plugin. A popup  window will ask you to confirm your wish to install the Plugin.
+= Note: = If this is the first time you've installed a WordPress Plugin, you may need to enter the FTP login credential information. If you've installed a Plugin before, it will still have the login information. This information is available through your web server host.
           
 * Click “Proceed” to continue the installation. The resulting installation screen will list the installation as successful or note any problems during the install.
 * If successful, click "Activate Plugin" to activate it, or “Return to Plugin Installer” for further actions.
@@ -96,8 +95,7 @@ For this, kindly log into the Novalnet administration area:
 1. Go to http://www.novalnet.com and click on "Login" (top right). You are redirected straight to the login form.
 2. Inside the Novalnet administration area, choose the tab "Projects" and click on the respective shop in the list you created. 	
 3. Now choose the tab "Shop Parameters".
-4. Here you can find the necessary details to configure your WooCommerce plugin properly. These are vendor ID, tariff ID, product ID and 
-   payment access key.
+4. Here you can find the necessary details to configure your WooCommerce plugin properly. These are vendor ID, Authorization code, Tariff ID, product ID and payment access key.
     
 = Now you have all required details to finish setting up your WooCommerce-based shop!  =
 
@@ -114,9 +112,18 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 == Screenshots ==
 1. Novalnet Payment plugin Admin Panel.
 2. Credit Card payment configuration settings for Woocommerce Novalnet Gateway.
-3. Novalnet Gateway for woocommerce plugin offers you the most frequently used national and international online payment methods including Creditcard, Visa, Mastercard, American Express, iDeal, PayPal, Sofortbanking, Direct Debit German, Direct Debit Austria, Telephone Payment, Pay by Invoice, SafetyPay and SEPA. 
+3. Novalnet Gateway for woocommerce plugin offers you the most frequently used national and international online payment methods including Creditcard, Visa, Mastercard, American Express, iDeal, PayPal, Sofortbanking, Telephone Payment, Pay by Invoice, and Direct Debit SEPA. 
 
 == Changelog ==
+
+= 1.1.7 =
+
+	__version: wordpress_v_3.5-4.0_woocommerce_v_2.0.20-2.2.4_novalnet_v_1.1.7__
+
+	* The Payment Direct Debit Germany and Direct Debit Austria offered by the AG Novalnet be replaced from 01.08.2014 by the SEPA Direct Debit Scheme.
+	* Updated auto refill option for Credit card, Direct Debit SEPA payment methods
+	* Credit Card payment updated with 3D Secure authentication
+	* Compatibility has been checked upto woocommerce version 2.2.4
 
 = 1.1.1 =
 
@@ -180,6 +187,13 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 == Upgrade Notice ==
 
+= 1.1.7 =
+
+	* The Payment Direct Debit Germany and Direct Debit Austria offered by the AG Novalnet be replaced from 01.08.2014 by the SEPA Direct Debit Scheme.
+	* Updated auto refill option for Credit card, Direct Debit SEPA payment methods
+	* Credit Card payment updated with 3D Secure authentication
+	* Compatibility has been checked upto woocommerce version 2.2.4
+
 = 1.1.1 =
  
   * Created option to display customer instruction at success page and order notification emails.
@@ -232,16 +246,15 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 2. Click on "WooCommerce" in the menu on the left and click directly on the sublevel tab "Settings" tab there. 
 
-3. Please click on the "Payment gateways" tab there in order to configure your Novalnet payment interface properly. 
+3. Please click on the "Checkout" tab there in order to configure your Novalnet payment interface properly. 
 
-4. Inside the "Payment gateways" tab you now find all available payment types which you can configure individually. This payment type 	 
-   configuration is  structured as follows:
+4. Inside the "Checkout" tab you now find all available payment types which you can configure individually. This payment type configuration is  structured as follows:
  
  	* __Activate module:__ You decide here whether the respective payment type is displayed in your shop at the checkout or not.
 
 	* __Payment type title:__ Please choose a name for the respective payment type. 
 
-	* __Payment type description:__ The freely configurable description entered here is displayed when your customers select the 						respective payment type. 
+	* __Payment type description:__ The freely configurable description entered here is displayed when your customers select the respective payment type. 
 
 	* __Test mode:__ You determine whether you want the respective payment mode to be live or to remain in test mode.
 
@@ -253,17 +266,15 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 	* __Tariff ID:__ Kindly copy the exact details from the Novalnet admin area.
 
-	* __Payment access key (Password):__ Kindly copy the exact details from the Novalnet admin area.| This step is only relevant 				                     to the payment types "Online instant transfer" and "Credit card payment". 
-
-	* __Credit rating check:__ You determine whether you would like to have a credit rating check on customers (ACDC pool check).| This step is 					   only relevant to the payment type "Direct debit". 
+	* __Payment access key (Password):__ Kindly copy the exact details from the Novalnet admin area.| This step is only relevant to the payment types "Online instant transfer", "Credit card payment", "iDEAL" and "PayPal".  
 
 	* __Second Novalnet product ID:__ Optional for on-hold products or subscriptions
 
 	* __Second Novalnet tariff ID:__ optional for on-hold products or subscriptions
 
-	* __Payment type logo:__ Here you determine whether the logo of the respective payment type should be displayed at the 					 checkout.
+	* __Payment type logo:__ Here you determine whether the logo of the respective payment type should be displayed at the 	checkout.
 
-5. __Only exception: PayPal__ Here you need to login directly at PayPal with your user details and enter the respective API details (API signature,  			     password, username) into the intended fields of the WooCommerce payment interface in the WordPress admin area. 
+5. __Only exception: PayPal__ Here you need to login directly at PayPal with your user details and enter the respective API details (API signature, password, username) into the intended fields of the WooCommerce payment interface in the WordPress admin area. 
 
 Now, just the following steps have to be executed for going live: 
 	
@@ -276,8 +287,6 @@ Now, just the following steps have to be executed for going live:
 3. Inside the CRM by Novalnet (done by Novalnet as soon as all relevant contract documents are present)	
 
 As soon as all steps are completed, you can start with sales straight away! 
-
-= Note: = If you use Prepayment and/or Per Invoice then contact us for more details.
 
 On Any Technical Problems, please contact __sales@novalnet.de / 0049-89-923 068 320__
 

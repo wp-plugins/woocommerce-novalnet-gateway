@@ -1,5 +1,4 @@
 <?php
-
 #########################################################
 #                                                       #
 #  PAYPAL payment method class                          #
@@ -19,18 +18,18 @@
 /**
  * Installs PAYPAL payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', 'init_gateway_' . $novalnet_payment_methods[7], 0);
+add_action('plugins_loaded', 'init_gateway_'.$novalnet_payment_methods['nn_paypal'], 0);
 
 function init_gateway_novalnet_paypal() {
-    
+
     global $novalnet_payment_methods;
-    
+
     if (class_exists('WC_Gateway_Novalnet')) {
-    
+
         if (!class_exists('novalnet_paypal')) {
 
             class novalnet_paypal extends WC_Gateway_Novalnet {
-                
+
             }   // End class novalnet_paypal
 
             $obj = new novalnet_paypal();
@@ -38,14 +37,14 @@ function init_gateway_novalnet_paypal() {
     }
     else
         return;
-    
+
 }   // End init_gateway_novalnet_paypal
 
 /*
  * Add the gateway to WooCommerce
  * @access public
  * @param array $methods
- * @package		
+ * @package
  * @return array
  */
 
@@ -55,5 +54,5 @@ function add_gateway_novalnet_paypal($methods) {
     return $methods;
 }   // End add_novalnet_paypal_gateway()
 
-add_filter('woocommerce_payment_gateways', 'add_gateway_' . $novalnet_payment_methods[7]);
+add_filter('woocommerce_payment_gateways', 'add_gateway_'.$novalnet_payment_methods['nn_paypal']);
 ?>
