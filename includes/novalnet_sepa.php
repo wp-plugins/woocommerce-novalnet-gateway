@@ -1,10 +1,9 @@
 <?php
 #########################################################
 #                                                       #
-#  IDEAL / IDEAL payment								#
-#  method class                                         #
+#  DIRECT DEBIT SEPA payment method class      			#
 #  This module is used for real time processing of      #
-#  German Bankdata of customers.                        #
+#  German Bankdata of customers.                      	#
 #                                                       #
 #  Released under the GNU General Public License.       #
 #  This free contribution made by request.              #
@@ -12,32 +11,32 @@
 #  recommendation as well as a comment on merchant form #
 #  would be greatly appreciated.                        #
 #                                                       #
-#  Script : novalnet_ideal.php     						#
+#  Script : novalnet_sepa.php                         	#
 #                                                       #
 #########################################################
 /*
- * Installs IDEAL payment to Novalnet Payment Gateway
+ * Installs ELVDE / DIRECT DEBIT SEPA payment to Novalnet Payment Gateway
  */
-add_action('plugins_loaded', 'init_gateway_'.$novalnet_payment_methods['nn_ideal'], 0);
+add_action('plugins_loaded', 'init_gateway_'.$novalnet_payment_methods['nn_directdebitsepa'], 0);
 
-function init_gateway_novalnet_ideal() {
+function init_gateway_novalnet_sepa() {
 
     global $novalnet_payment_methods;
 
     if (class_exists('WC_Gateway_Novalnet')) {
 
-        if (!class_exists('novalnet_ideal')) {
+        if (!class_exists('novalnet_sepa')) {
 
-            class novalnet_ideal extends WC_Gateway_Novalnet {
+            class novalnet_sepa extends WC_Gateway_Novalnet {
 
-            }   // End class novalnet_ideal
+            }   // End class novalnet_sepa
 
-            $obj = new novalnet_ideal();
+            $obj = new novalnet_sepa();
         }
     }
     else
         return;
-}   // End init_gateway_novalnet_ideal()
+}   // End init_gateway_novalnet_sepa()
 
 /*
  * Add the gateway to WooCommerce
@@ -47,11 +46,11 @@ function init_gateway_novalnet_ideal() {
  * @return array
  */
 
-function add_gateway_novalnet_ideal($methods) {
+function add_gateway_novalnet_sepa($methods) {
     global $novalnet_payment_methods;
-    $methods[] = 'novalnet_ideal';
+    $methods[] = 'novalnet_sepa';
     return $methods;
-}   // End add_gateway_novalnet_ideal()
+}	// End add_gateway_novalnet_sepa()
 
-add_filter('woocommerce_payment_gateways', 'add_gateway_'.$novalnet_payment_methods['nn_ideal']);
+add_filter('woocommerce_payment_gateways', 'add_gateway_'.$novalnet_payment_methods['nn_directdebitsepa']);
 ?>
