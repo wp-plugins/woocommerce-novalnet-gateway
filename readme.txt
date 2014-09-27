@@ -112,7 +112,7 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 == Screenshots ==
 1. Novalnet Payment plugin Admin Panel.
 2. Credit Card payment configuration settings for Woocommerce Novalnet Gateway.
-3. Novalnet Gateway for woocommerce plugin offers you the most frequently used national and international online payment methods including Creditcard, Visa, Mastercard, American Express, iDeal, PayPal, Sofortbanking, Telephone Payment, Pay by Invoice, and Direct Debit SEPA. 
+3. Novalnet Payments Displayed. 
 
 == Changelog ==
 
