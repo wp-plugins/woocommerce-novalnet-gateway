@@ -1931,7 +1931,7 @@ function init_gateway_novalnet() {
 
 						<li class="wide">
 							<label><?php echo __( 'Amount to be refunded:', $this->get_textdomain() ); ?></label>
-							<input type="number" step="any" id="refund_amount" class="first" name="refund_amount" placeholder="0.00" value=" " />
+							<input type="number" step="any" id="nov_refund_amount" class="first" name="nov_refund_amount" placeholder="0.00" value=" " />
 						</li>
 					</ul>
 					<p class="buttons">
@@ -1940,10 +1940,10 @@ function init_gateway_novalnet() {
 
 					<script>
 						function nn_refund_amount(url, tot_amount) {
-							if (tot_amount >= document.getElementById('refund_amount').value && document.getElementById('refund_amount').value > 0 ) {
+							if (tot_amount >= document.getElementById('nov_refund_amount').value && document.getElementById('nov_refund_amount').value > 0 ) {
 
 								if ( !window.confirm('<?php echo __('Are you sure you want to refund the amount?',$this->get_textdomain()); ?>')){return false;}
-								window.location.href = url + "&nn_var_ref_amount="+document.getElementById('refund_amount').value;
+								window.location.href = url + "&nn_var_ref_amount="+document.getElementById('nov_refund_amount').value;
 							}
 							else if (!window.confirm('<?php echo __('Please enter the correct refund amount',$this->get_textdomain()); ?>')) {
 								return false;
