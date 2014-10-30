@@ -30,6 +30,8 @@ $error 	   = false;
 
 $invoiceAllowed = array('INVOICE_CREDIT', 'INVOICE_START');
 
+$paypalAllowed  = array('PAYPAL');
+
 $paymentTypes = array('INVOICE_CREDIT', 'INVOICE_START', 'PAYPAL', 'ONLINE_TRANSFER', 'CREDITCARD', 'CREDITCARD_BOOKBACK', 'IDEAL','DIRECT_DEBIT_SEPA');
 
 $chargeBackPayments = array('CREDITCARD_CHARGEBACK', 'RETURN_DEBIT_SEPA');
@@ -66,6 +68,7 @@ $requiredParams = array(
 	'status'        => '',
 	'amount'        => '',
 	'tid_payment'   => '',
+	'order_no'      => ''
 );
 
 $request = array_map("trim", $_REQUEST);
@@ -108,7 +111,7 @@ try{
 			$orderID = getOrderID(); # Retreive the order details
 			if(empty($txn_status_code))
 				$txn_status_code = getTransactionStatus($orderID); # Get Transaction Status
-			if( $orderID && $txn_status_code == 100 ) {
+			if( $orderID && $txn_status_code == 100 ){
 				setOrderStatus($orderID); #Final Part
 			}else{
 				 echo "Novalnet callback received. Status not valid! or Error in processing the transactions status";exit;
@@ -125,7 +128,7 @@ try{
 }catch (Exception $e){
 	$emailBody .= "Exception catched: $lineBreak\$e:" . $e->getMessage() . $lineBreak;
 }
-if ($emailBody && !empty($emailFromAddr) && is_email($emailToAddr)) {
+if ($emailBody && !empty($emailFromAddr) && preg_match('/([\w\-]+\@[\w\-]+\.[\w\-]+)/', $emailToAddr)) {
     if (!sendEmailWoocommerce($emailBody)) {
         $error = true;
     }
@@ -171,7 +174,7 @@ function sendEmailWoocommerce( $emailBody ) {
 }
 
 function setOrderStatus($orderID){
-	global $wpdb, $lineBreak, $request, $org_tid, $currency, $allowedPayments, $invoiceAllowed, $paymentTypes, $chargeBackPayments, $emailBody, $callback_script_text;
+	global $wpdb, $lineBreak, $request, $org_tid, $currency, $allowedPayments, $invoiceAllowed, $paypalAllowed, $paymentTypes, $chargeBackPayments, $emailBody, $callback_script_text;
 
 	$new_line = "\n";
 
@@ -185,6 +188,8 @@ function setOrderStatus($orderID){
 	$query = $wpdb->get_results("SELECT option_value FROM ". $wpdb->options . " WHERE option_name = 'woocommerce_".$payment_method."_settings'");
 
 	$config_settings = unserialize($query[0]->option_value);
+
+	$nn_order_id = (!empty($request['order_no'])) ? $request['order_no'] : (!empty($request['order_id']) ? $request['order_id'] : '');
 
 	$final_status = (in_array($request['payment_type'], $invoiceAllowed) ) ? $config_settings['callback_order_status'] : $config_settings['set_order_status'];
 
@@ -204,7 +209,7 @@ function setOrderStatus($orderID){
 
 				if ($callback_amount < $org_amount) {
 					if($request['payment_type'] == 'INVOICE_CREDIT'){
-						$emailBody .= $callback_script_text .= "$new_line Novalnet Callback Script executed successfully for the TID: ". $request['tid_payment']." with amount ".($request['amount']/100)."$currency on ". date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))) . " Please refer PAID transaction in our Novalnet Merchant Administration with the TID:".$request['tid'];
+						$emailBody .= $callback_script_text .= "$new_line Novalnet Callback Script executed successfully for the TID: ". $_REQUEST['tid_payment']." with amount ".($_REQUEST['amount']/100)."$currency on ". date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))) . " Please refer PAID transaction in our Novalnet Merchant Administration with the TID:".$_REQUEST['tid'];
 
 						update_post_meta($orderID, '_nn_callback_amount', $sum_amount);
 						update_post_meta($orderID,'_nn_ref_tid',$org_tid);
@@ -225,9 +230,9 @@ function setOrderStatus($orderID){
 					else {
 						if( !in_array($request['payment_type'], $invoiceAllowed) && $callback_amount != $org_amount){
 
-							$callback_script_text .= "Novalnet Callback Script executed successfully for the amount : ".($request['amount']/100). "  " .$currency.". The subsequent TID: " . $request['tid'] . " on " . date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))). $new_line;
+							$callback_script_text .= "Novalnet Callback Script executed successfully for the amount : ".($_REQUEST['amount']/100). "  " .$currency.". The subsequent TID: " . $_REQUEST['tid'] . " on " . date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))). $new_line;
 
-							$emailBody .=  "Novalnet Callback Script executed successfully for the amount : ".($request['amount']/100). "  " .$currency.". The subsequent TID: " . $request['tid'] . " on " . date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))). $lineBreak;
+							$emailBody .=  "Novalnet Callback Script executed successfully for the amount : ".($_REQUEST['amount']/100). "  " .$currency.". The subsequent TID: " . $_REQUEST['tid'] . " on " . date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))). $lineBreak;
 
 							$order->update_status($final_status);
 							update_post_meta($orderID, '_nn_callback_amount', $sum_amount);
@@ -236,16 +241,16 @@ function setOrderStatus($orderID){
 							$order->add_order_note($callback_script_text);
 
 						}else{
-							echo "Novalnet callback received. Callback Script executed already. Refer Order :", $orderID;exit;
+							echo "Novalnet callback received. Callback Script executed already. Refer Order : " . $nn_order_id;exit;
 						}
 					}
 				} else {
-					echo "Novalnet callback received. Callback Script executed already. Refer Order :", $orderID;
+					echo "Novalnet callback received. Callback Script executed already. Refer Order :".$nn_order_id;
 					exit;
 				}
 			}
 		}else {
-			 echo "Novalnet callback received. Callback Script executed already. Refer Order :", $orderID;
+			 echo "Novalnet callback received. Callback Script executed already. Refer Order :".$nn_order_id;
 			 exit;
 		}
 	}else {
@@ -255,60 +260,33 @@ function setOrderStatus($orderID){
 	return true;
 }
 
-function getOrderID() {
-	global $wpdb, $lineBreak,$debug, $org_tid, $request, $emailBody, $allowedPayments, $invoiceAllowed, $chargeBackPayments;
+function getOrderID(){
+	global $wpdb, $lineBreak,$debug, $org_tid, $request, $emailBody, $allowedPayments;
 
 	$table_name = $wpdb->postmeta;
 
-	if ((in_array( $request['payment_type'], $invoiceAllowed )  || in_array( $request['payment_type'], $chargeBackPayments ))) {
-		$nn_order_tid = isset($request['tid_payment']) ? $request['tid_payment'] : '';
-	}
-	else 
-		$nn_order_tid = isset($request['tid']) ? $request['tid'] : '';
-		
 	$nn_order_id = (!empty($request['order_no'])) ? $request['order_no'] : (!empty($request['order_id']) ? $request['order_id'] : '');
 
-	if($nn_order_tid) {
-		$sql ="SELECT post_id FROM `$table_name` where meta_value LIKE '%".$nn_order_tid."%' AND meta_key='_nn_order_tid'";		
-		try {
+	if($nn_order_id){
+		$sql ="SELECT post_id FROM `$table_name` where meta_value LIKE '%".$nn_order_id."%' AND meta_key='_order_number'";
+		try{
 			$row = $wpdb->get_results($sql);
-			if($row) {
-				$order_id = $row[0]->post_id;	// getting the order id				
-				$payment_method = get_post_meta($order_id,'_payment_method',true);				
-				$order_tid = get_post_meta($order_id, '_nn_order_tid', true);				
-				if($payment_method == 'novalnet_sepa')
-					$order_tid = get_post_meta($order_id, '_nn_ref_tid', true);
+			if($row){
+				$order_id = $row[0]->post_id;	// getting the order id
+				$payment_method = get_post_meta($order_id,'_payment_method',true);
+				$order_tid = get_post_meta($order_id, '_nn_order_tid', true);
 				$order_total = get_post_meta($order_id,'_order_total',true);
-			} else {
-				$sql ="SELECT post_id FROM `$table_name` where meta_value LIKE '%".$nn_order_id."%' AND meta_key='_order_number'";
-				try {
-					$row = $wpdb->get_results($sql);
-					if($row) {
-						$order_id = $row[0]->post_id;	// getting the order id				
-						$payment_method = get_post_meta($order_id,'_payment_method',true);				
-						$order_tid = get_post_meta($order_id, '_nn_order_tid', true);				
-						if($payment_method == 'novalnet_sepa')
-							$order_tid = get_post_meta($order_id, '_nn_ref_tid', true);
-						$order_total = get_post_meta($order_id,'_order_total',true);
-					}
-					else if (ctype_digit ($nn_order_id)) {
-						$payment_method = get_post_meta($nn_order_id,'_payment_method',true);
-						$order_total = get_post_meta($nn_order_id,'_order_total',true);
-						$order_tid = get_post_meta($nn_order_id, '_nn_order_tid', true);
-						if($payment_method == 'novalnet_sepa')
-							$order_tid = get_post_meta($order_id, '_nn_ref_tid', true);
-						if($payment_method)
-							$order_id = $nn_order_id;
-					} else {
-						echo "Novalnet callback received. Order id : " . $nn_order_id . " not exist ".$lineBreak;exit;
-					}
+			}else{
+				if (ctype_digit ($nn_order_id)) {
+					$payment_method = get_post_meta($nn_order_id,'_payment_method',true);
+					$order_total = get_post_meta($nn_order_id,'_order_total',true);
+					$order_tid = get_post_meta($nn_order_id, '_nn_order_tid', true);
+					if($payment_method)
+						$order_id = $nn_order_id;
+				}else{
+					echo "Novalnet callback received. Order id : " . $nn_order_id . " not exist ".$lineBreak;exit;
 				}
-				catch (Exception $e){
-					echo 'The original order not found in the shop database table (`' . $table_name . '`);';
-					echo 'Reason: ' . $e->getMessage() . $lineBreak . $lineBreak;
-					echo 'Query : ' . $sql . $lineBreak . $lineBreak;
-					exit;
-				}
+
 			}
 		} catch (Exception $e){
 			echo 'The original order not found in the shop database table (`' . $table_name . '`);';
@@ -319,10 +297,7 @@ function getOrderID() {
 
 	}
 	if (empty($order_id)) {
-		echo "Novalnet callback received. Order no : " . $order_id . " not exist ".$lineBreak;exit;
-	}
-	if ($order_id != $nn_order_id) {
-		echo "Novalnet callback received. Order no is not valid".$lineBreak;exit;
+		echo "Novalnet callback received. Order id : " . $nn_order_id . " not exist ".$lineBreak;exit;
 	}
 	if ($debug) {
 		echo'Order Details:<pre>';
@@ -346,6 +321,7 @@ function getOrderID() {
 		echo "Novalnet callback received. TID [".$org_tid."] is mismatched!$lineBreak$lineBreak";
 		exit;
 	}
+
 	return $order_id;
 }
 
@@ -433,13 +409,13 @@ function updateTransactionDetails($order){
 *
 */
 function basicValidation() {
-	global $lineBreak, $requiredParams, $invoiceAllowed, $paymentTypes, $chargeBackPayments, $request;
+	global $lineBreak, $requiredParams, $emailBody, $allowedPayments, $paypalAllowed, $invoiceAllowed, $paymentTypes, $chargeBackPayments, $request;
 
 	$error = false;
 
 	// If no params passed through CallBackScript URL
 	if( !$request ) {
-	  echo 'Novalnet callback received. No params passed over!';
+	  echo 'Novalnet callback received. No params passed over!'.$lineBreak;
 	  exit;
 	}
 
@@ -459,29 +435,27 @@ function basicValidation() {
 	// If requested payment type is not available
 	if ( !empty( $request['payment_type'] )) {
 		if(!in_array($request['payment_type'],$paymentTypes ) && !in_array($request['payment_type'],$chargeBackPayments )){
-			echo "Novalnet callback received. Payment type [". $request['payment_type'] ."] is mismatched!";
+			echo "Novalnet callback received. Payment type [". $request['payment_type'] ."] is mismatched! $lineBreak";
 			exit;
 		}
 	}
 
 	// Validating requested status
 	if (!isset($request['status']) or $request['status'] <= 0 ) {
-		echo 'Novalnet callback received. Status [' . $request['status'] . '] is not valid';
-		exit;
+		echo 'Novalnet callback received. Status [' . $request['status'] . '] is not valid' . "$lineBreak$lineBreak".$lineBreak;exit;
 	}
 
 	// Validating length of $_REQUEST['tid_payment'] should not be less than 17 digit
-	if ( strlen( $request['tid_payment'] ) != 17 && (in_array( $request['payment_type'], $invoiceAllowed )  || in_array( $request['payment_type'], $chargeBackPayments ))) {
-		echo 'Novalnet callback received. Invalid TID [' . $request['tid_payment'] . '] for Order.';
-		exit;
+	if ( strlen( $_REQUEST['tid_payment'] ) != 17 && (in_array( $request['payment_type'], $invoiceAllowed )  || in_array( $request['payment_type'], $chargeBackPayments ))) {
+		echo 'Novalnet callback received. Invalid TID [' . $request['tid_payment'] . '] for Order.' . "$lineBreak$lineBreak".$lineBreak;exit;
 	}
 
 	//	Validating length of $_REQUEST['tid'] should not be less than 17 digit
-	if ( strlen( $request['tid']) != 17 ) {
-		if ( in_array( $request['payment_type'], $invoiceAllowed ) || in_array( $request['payment_type'], $chargeBackPayments ) ) {
-			echo 'Novalnet callback received. New TID is not valid.';
+	if ( strlen( $_REQUEST['tid']) != 17 ) {
+		if ( in_array( $_REQUEST['payment_type'], $invoiceAllowed ) || in_array( $request['payment_type'], $chargeBackPayments ) ) {
+			echo 'Novalnet callback received. New TID is not valid.' . "$lineBreak$lineBreak".$lineBreak;
 		} else {
-			echo 'Novalnet callback received. Invalid TID ['.$request['tid'].']for Order.';
+			echo 'Novalnet callback received. Invalid TID ['.$request['tid'].']for Order.'."$lineBreak$lineBreak".$lineBreak;
 		}
 		exit;
 	}
