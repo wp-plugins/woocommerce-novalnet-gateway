@@ -5,7 +5,7 @@
  * Description: Adds Novalnet Payment Gateway to Woocommerce e-commerce plugin
  * Author:      Novalnet
  * Author URI:  https://www.novalnet.de
- * Version:     1.1.8
+ * Version:     1.1.7
  * Text Domain: woocommerce-novalnetpayment
  * Domain Path: /languages/
  * License: 	GPLv2
