@@ -5,7 +5,7 @@
  * Description: Adds Novalnet Payment Gateway to Woocommerce e-commerce plugin
  * Author:      Novalnet
  * Author URI:  https://www.novalnet.de
- * Version:     1.1.7
+ * Version:     1.1.8
  * Text Domain: woocommerce-novalnetpayment
  * Domain Path: /languages/
  * License: 	GPLv2
@@ -908,7 +908,7 @@ function init_gateway_novalnet() {
 					if ($this->novalnet_payment_method == 'novalnet_invoice') {
 						$payment_duration = $request['woocommerce_' . $this->novalnet_payment_method . '_payment_duration'];
 						$payment_duration = isset($payment_duration) ? trim($payment_duration) : null;
-						if (isset($payment_duration) && !$this->is_digits($payment_duration))
+						if (isset($payment_duration) && $payment_duration && !$this->is_digits($payment_duration))
 							return(__('Please enter valid Payment period in days', $this->get_textdomain()));
 					}                    
 					if (in_array($this->novalnet_payment_method, $this->redirect_payments) || $this->novalnet_payment_method == 'novalnet_cc') {
