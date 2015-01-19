@@ -1,0 +1,66 @@
+<!-- Mandate overlay START-->
+###NOVALNET_SEPA_FORM_STYLE###
+<div class="bgCover">&nbsp;</div>
+<div id='sepa_mandate_overlay_block_first' style='display:none;' class='overlay_window_block'>
+<img src='###NOVALNET_PLUGIN_IMG_DIR###/novalnet_loading_icon.gif' alt='Loading...'/>
+</div>
+<div id='sepa_mandate_overlay_block' style='display:none;' class='overlay_window_block'>
+	<div class='nn_header'>
+		<h1>NOVALNET_SEPA_OVERLAY_CONFIRM_TITLE</h1>
+	</div>
+	<div class='body_div' id='overlay_window_block_body'>
+		<table class="nov_overlay">
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_PAYEE</td><td ><span id='sepa_overlay_payee_span'>&nbsp;</span></td>
+			</tr>
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_CREDITOR_IDENTIFICATION_NUMBER</td><td ><span id='sepa_overlay_creditoridentificationnumber_span'>&nbsp;</span></td>
+			</tr>
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_MANDATE_REFERENCE</td><td ><span id='sepa_overlay_mandatereference_span'>&nbsp;</span></td>
+			</tr>
+		</table>
+		NOVALNET_SEPA_OVERLAY_MANDATE_OVERLAY_CONFIRM_PARAGRAPH
+		<br/><br/>
+		<table>
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_ENDUSER_FULLNAME</td><td ><span class='sepa_overlay_enduser_name_span'>&nbsp;</span></td>
+			</tr>
+			<tr id="overlay_company">
+				<td >NOVALNET_SEPA_OVERLAY_COMPANY</td><td ><span id='sepa_overlay_enduser_company_span'>&nbsp;</span></td>
+			</tr>
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_ADDRESS</td><td ><span id='sepa_overlay_enduser_address_span'>&nbsp;</span></td>
+			</tr>
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_ZIPCODE_AND_CITY</td><td ><span id='sepa_overlay_enduser_zip_span'>&nbsp;</span> <span class='sepa_overlay_enduser_city_span'>&nbsp;</span></td>
+			</tr>
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_COUNTRY</td><td ><span id='sepa_overlay_enduser_country_span'>&nbsp;</span></td>
+			</tr>
+			<tr>
+				<td >NOVALNET_SEPA_OVERLAY_EMAIL</td><td ><span id='sepa_overlay_enduser_email_span'>&nbsp;</span></td>
+			</tr>
+			<tr id='nn_sepa_overlay_iban_tr'>
+				<td >NOVALNET_SEPA_OVERLAY_IBAN</td><td ><span id='sepa_overlay_iban_span'>&nbsp;</span></td>
+			</tr>
+			<tr id='nn_sepa_overlay_bic_tr'>
+				<td >NOVALNET_SEPA_OVERLAY_SWIFT_BIC</td><td ><span id='sepa_overlay_bic_span'>&nbsp;</span></td>
+			</tr>
+			<tr>
+				<td colspan=2>
+					<span class='sepa_overlay_enduser_city_span'>&nbsp;</span>,
+					<span id='sepa_overlay_mandatedate_span'>&nbsp;</span>,
+					<span class='sepa_overlay_enduser_name_span'>&nbsp;</span>
+				</td>
+			</tr>
+		</table>
+
+	</div>
+	<div class='nn_footer'>
+		<input type='button' value='NOVALNET_SEPA_OVERLAY_CONFIRM_BTN' class='mandate_confirm_btn' onclick='confirm_mandate_overlay();' id='mandate_confirm_btn'/>
+		<input type='button' value='NOVALNET_SEPA_OVERLAY_CANCEL_BTN' class='mandate_confirm_btn' onclick='close_mandate_overlay_on_cancel();' id='mandate_cancel_btn'/>
+		<img src='###NOVALNET_PLUGIN_IMG_DIR###/novalnet_logo.png' alt='Novalnet AG' style='float:right; width:120px'/>
+	</div>
+</div>
+<!-- Mandate overlay END-->

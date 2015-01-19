@@ -1,516 +1,706 @@
 <?php
-#########################################################
-#                                                       #
-#  This script is used for real time capturing of       #
-#  parameters passed from Novalnet AG after Payment     #
-#  processing of customers.                             #
-#                                                       #
-#  Copyright (c) Novalnet AG                            #
-#                                                       #
-#  This script is only free to the use for Merchants of #
-#  Novalnet AG                                          #
-#                                                       #
-#  If you have found this script useful a small         #
-#  recommendation as well as a comment on merchant form #
-#  would be greatly appreciated.                        #
-#                                                       #
-#  Version : 1.1.8                                      #
-#                                                       #
-#  Please contact sales@novalnet.de for enquiry or Info #
-#                                                       #
-#########################################################
-
-require('wp-load.php');
-
-// Variable Settings
-$debug     = false; //false|true; adapt: set to false for go-live
-$test      = false; //false|true; adapt: set to false for go-live
-$lineBreak = empty($_SERVER['HTTP_HOST'])? PHP_EOL: '<br />';
-$error 	   = false;
-
-$invoiceAllowed = array('INVOICE_CREDIT', 'INVOICE_START');
-
-$paypalAllowed  = array('PAYPAL');
-
-$paymentTypes = array('INVOICE_CREDIT', 'INVOICE_START', 'PAYPAL', 'ONLINE_TRANSFER', 'CREDITCARD', 'CREDITCARD_BOOKBACK', 'IDEAL','DIRECT_DEBIT_SEPA');
-
-$chargeBackPayments = array('CREDITCARD_CHARGEBACK', 'RETURN_DEBIT_SEPA');
-
-$allowedPayments  = array(
-	'novalnet_invoice'      => array('INVOICE_CREDIT', 'INVOICE_START'),
-	'novalnet_prepayment'   => array('INVOICE_CREDIT', 'INVOICE_START'),
-	'novalnet_paypal'       => array('PAYPAL'),
-	'novalnet_banktransfer' => array('ONLINE_TRANSFER'),
-	'novalnet_cc'           => array('CREDITCARD', 'CREDITCARD_BOOKBACK', 'CREDITCARD_CHARGEBACK'),
-	'novalnet_ideal'        => array('IDEAL'),
-	'novalnet_sepa'         => array('DIRECT_DEBIT_SEPA', 'RETURN_DEBIT_SEPA'),
-);
-
-//Security Setting; only this IP is allowed for call back script
-$ipAllowed = '195.143.189.210'; //Novalnet IP, is a fixed value, DO NOT CHANGE!!!!!
-
-//Reporting Email Addresses Settings (manditory;adapt for your need)
-$shopInfo		= ' - Woocommerce';	//adapt if necessary
-$mailHost       = ''; //SMTP Host ex: $mailHost ='mail.novalnet.de'; //adapt
-$mailPort       = ''; //SMTP Port ex: $mailPort=25 //adapt
-$emailFromAddr  = ''; //sender email addr., manditory, adapt it
-$emailToAddr    = ''; //recipient email addr., manditory, adapt it
-$emailSubject   = 'Novalnet Callback Script Access Report';  //adapt if necessary;
-$emailBody      = '';  //Email text, adapt
-$emailFromName  = ''; // Sender name, adapt
-$emailToName    = ''; // Recipient name, adapt
-
-//Parameters Settings
-$requiredParams = array(
-	'vendor_id'     => '',
-	'tid'           => '',
-	'payment_type'  => '',
-	'status'        => '',
-	'amount'        => '',
-	'tid_payment'   => '',
-	'order_no'      => ''
-);
-
-$request = array_map("trim", $_REQUEST);
-
-if(isset($request['debug_mode']) && $request['debug_mode'] ){
-	$debug = true;
-	$test = true;
-}
-
-if ((!in_array($request['payment_type'], $invoiceAllowed)) && (!in_array($request['payment_type'], $chargeBackPayments))) {
-	unset($requiredParams['tid_payment']);
-}
-
-// assign currency from the request
-$currency = isset($request['currency']) ? $request['currency'] : 'EUR';
-
-// assign tid from the request
-if(in_array($request['payment_type'], $paymentTypes))
-	$org_tid = (!in_array( $request['payment_type'], $invoiceAllowed )) ? $request['tid'] : $request['tid_payment'];
-else
-	$org_tid = isset($request['tid_payment']) ? $request['tid_payment'] : '';
-
-
-// Sort an associative array in ascending order, according to the key
-ksort($requiredParams);
-
-//Test Data Settings
-if ($test) {
-    $emailFromName	= 'Novalnet';
-    $emailToName	= 'Novalnet';
-    $emailFromAddr	= 'testadmin@novalnet.de';
-    $emailToAddr	= 'test@novalnet.de';
-    $emailSubject	= $emailSubject . ' - TEST';
-}
-
-##################### Main Prog. ############################
-try{
-	if(checkIP()){ # Checking IP Address
-		if ( basicValidation() ) { # Checking Basic Parameters
-			$orderID = getOrderID(); # Retreive the order details
-			if(empty($txn_status_code))
-				$txn_status_code = getTransactionStatus($orderID); # Get Transaction Status
-			if( $orderID && $txn_status_code == 100 ){
-				setOrderStatus($orderID); #Final Part
-			}else{
-				 echo "Novalnet callback received. Status not valid! or Error in processing the transactions status";exit;
-			}
-		}
-	}
-
-	if ( !$emailBody ) {
-		echo 'Novalnet Callback Script called for StoreId Parameters: ' . print_r($_REQUEST, true) . $lineBreak;
-		echo 'Novalnet callback succeed. ' . $lineBreak;
-		echo 'Params: ' . print_r($_REQUEST, true) . $lineBreak;
-		exit;
-	}
-}catch (Exception $e){
-	$emailBody .= "Exception catched: $lineBreak\$e:" . $e->getMessage() . $lineBreak;
-}
-if ($emailBody && !empty($emailFromAddr) && preg_match('/([\w\-]+\@[\w\-]+\.[\w\-]+)/', $emailToAddr)) {
-    if (!sendEmailWoocommerce($emailBody)) {
-        $error = true;
-    }
-} else {
-	$error = true;
-}
-
-if ($debug && $error) {
-	echo "Mailing failed!" . $lineBreak;
-	echo "This mail text should be sent: " . $lineBreak;
-	echo $emailBody;
-}
-
-#################### Sub Routines #########################
-
 /**
-* performs sending CallbackScript executed Mail
-* @param $emailBody
-* @return
-*
-*/
-function sendEmailWoocommerce( $emailBody ) {
-	global $lineBreak, $debug, $test, $emailFromAddr, $emailToAddr, $emailFromName, $emailToName, $emailSubject, $mailHost, $mailPort, $shopInfo;
+ * Novalnet Callback Script for WooCommerce shop system
+ *
+ * NOTICE
+ *
+ * This script is used for real time capturing of parameters passed
+ * from Novalnet AG after Payment processing of customers.
+ *
+ * This script is only free to the use for Merchants of Novalnet AG
+ *
+ * If you have found this script useful a small recommendation as well
+ * as a comment on merchant form would be greatly appreciated.
+ *
+ * Please contact sales@novalnet.de for enquiry or info
+ *
+ * ABSTRACT: This script is called from Novalnet, as soon as a payment
+ * done for payment methods
+ * An email will be sent if an error occurs
+ *
+ * @category   Wordpress_Woocommerce
+ * @package    Novalnet
+ * @version    2.0.0
+ * @copyright  Copyright (c)  Novalnet AG. (https://www.novalnet.de)
+ * @license    GPLv2
+ */
+ require_once( 'wp-load.php' );
 
-	$headers  = 'Content-Type: text/html; charset=iso-8859-1' . "\r\n";
-	$headers .= 'From: ' . $emailFromAddr . "\r\n";
+ global $wpdb;
+ $process_test_mode  = false; // false|true; adapt: set to false for go-live
+ $process_debug_mode = false; # Update into true to debug mode
+ $line_break = empty ( $_SERVER['HTTP_HOST'] )? PHP_EOL : '<br/>';
+ $ary_capture_params = $_REQUEST;
+ $new_line = "\n";
 
-	$emailSubject .= $shopInfo;
-	try {
-		if ( $debug ) {
-			echo __FUNCTION__ . ': Sending Email suceeded!' . $lineBreak;
-		}
-		wp_mail( $emailToAddr, $emailSubject, $emailBody, $headers ); # WordPress Sending Mail Function
-	}
-	catch ( Exception $e ) {
-		if ( $debug ) { echo 'Email sending failed: ' . $e->getMessage(); }
-		return false;
-	}
-	if ( $debug ) {
-		echo 'This text has been sent:' . $lineBreak . $emailBody;
-	}
+ //Reporting Email Addresses Settings (mandatory;adapt for your need)
+ $shop_info		= ' - Woocommerce';	//adapt if necessary
+ $email_from_address  = ''; //sender email address., mandatory, adapt it
+ $email_to_address    = ''; //recipient email address., mandatory, adapt it
+ $email_subject   = 'Novalnet Callback Script Access Report';  //adapt if necessary;
+
+ if ( isset ( $ary_capture_params['debug_mode'] ) && $ary_capture_params['debug_mode'] ) {
+	$process_test_mode  = true;
+	$process_debug_mode = true;
+	$email_from_address = 'testadmin@novalnet.de';
+	$email_to_address = 'test@novalnet.de';
+ }
+
+ $woo_vendor_script = new novalnet_vendor_script( $ary_capture_params );
+
+ if(isset($ary_capture_params['vendor_activation']) && $ary_capture_params['vendor_activation'] == 1) {
+	$woo_vendor_script->update_aff_account_activation_detail( $ary_capture_params );
 	return true;
-}
+ } else {
 
-function setOrderStatus($orderID){
-	global $wpdb, $lineBreak, $request, $org_tid, $currency, $allowedPayments, $invoiceAllowed, $paypalAllowed, $paymentTypes, $chargeBackPayments, $emailBody, $callback_script_text;
+	$woo_trans_history = $woo_vendor_script->get_order_reference();
+	$woo_capture_params = $woo_vendor_script->get_capture_params();
 
-	$new_line = "\n";
+	if ( ! empty ( $woo_trans_history ) ) {
 
-	$order = new WC_Order($orderID);
+		$order_id 	= $woo_trans_history['order_no'];
+		$woo_order 	= new WC_Order( $order_id);
+		$woo_capture_params['currency'] = isset ( $woo_capture_params['currency'] ) ? $woo_capture_params['currency'] : 'EUR';
 
-	$payment_method = $order->payment_method;
-	$payment_method_title = $order->payment_method_title;
-	$order_total = $order->order_total;
-	$order_status = $order->status;
+		if(isset($woo_trans_history['tid']) && !empty($woo_trans_history['tid']))
+			$woo_tid_status = $woo_vendor_script->perform_transaction_status_call( $woo_trans_history['tid'], $order_id );
+		$curr_payment_level = $woo_vendor_script->get_payment_type_level();
+		if ( $curr_payment_level === 2 && $woo_capture_params['status'] == 100 ) {
+			if ( $woo_capture_params['payment_type'] == 'INVOICE_CREDIT') {
+				if ( $woo_tid_status['status'] == 100){
+					if ( !empty ( $woo_trans_history['refunded_amount'] ) )
+						$woo_trans_history['order_paid_amount'] = $woo_trans_history['order_paid_amount'] - $woo_trans_history['refunded_amount'];
+						$sum_amount = ( $woo_trans_history['order_paid_amount'] + $woo_capture_params['amount'] ) ;
 
-	$query = $wpdb->get_results("SELECT option_value FROM ". $wpdb->options . " WHERE option_name = 'woocommerce_".$payment_method."_settings'");
+					if ( $woo_capture_params['subs_billing'] == 1 ) {
+						#### Step1: THE SUBSCRIPTION IS RENEWED, PAYMENT IS MADE, SO JUST CREATE A NEW ORDER HERE WITHOUT A PAYMENT PROCESS AND SET THE ORDER STATUS AS PAID ####
 
-	$config_settings = unserialize($query[0]->option_value);
+						#### Step2: THIS IS OPTIONAL: UPDATE THE BOOKING REFERENCE AT NOVALNET WITH YOUR ORDER_NO BY CALLING NOVALNET GATEWAY, IF U WANT THE USER TO USE ORDER_NO AS PAYMENT REFERENCE ###
 
-	$nn_order_id = (!empty($request['order_no'])) ? $request['order_no'] : (!empty($request['order_id']) ? $request['order_id'] : '');
+						#### Step3: ADJUST THE NEW ORDER CONFIRMATION EMAIL TO INFORM THE USER THAT THIS ORDER IS MADE ON SUBSCRIPTION RENEWAL ###
+					}else{
 
-	$final_status = (in_array($request['payment_type'], $invoiceAllowed) ) ? $config_settings['callback_order_status'] : $config_settings['set_order_status'];
+						if ( $woo_trans_history['order_paid_amount'] < (int)$woo_trans_history['amount']) {
 
-	if($orderID){
-		if($request['status'] == 100){
-			if(in_array($request['payment_type'], $chargeBackPayments)){
-					$emailBody .= $callback_script_text .= "Novalnet Callbackscript received. Charge back was executed sucessfully for the TID ".$request['tid_payment']." amount ". ($request['amount'])/100 .  $currency ." on " .date_i18n(get_option('date_format'), strtotime(date('Y-m-d')));
+							$callback_comments = $new_line . 'Novalnet Callback Script executed successfully for the TID: ' . $woo_trans_history['tid']. ' with amount '. sprintf('%.2f',( $woo_capture_params['amount']/100)) . " " .$woo_capture_params['currency']. ' on '.date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))).'. Please refer PAID transaction in our Novalnet Merchant Administration with the TID: '. $woo_capture_params['tid'] . $new_line  ;
 
-					$order->add_order_note($callback_script_text);
+							$woo_order->add_order_note( $callback_comments);
 
-					return true;
-			}else{
-				$reqAmount = $request['amount'];
-				$callback_amount = get_post_meta($orderID,'_nn_callback_amount',true);
-				$sum_amount = $reqAmount + $callback_amount;
-				$org_amount = sprintf('%0.2f', $order_total)*100;
+							if( $woo_order->customer_note )
+								$woo_order->customer_note . $new_line;
 
-				if ($callback_amount < $org_amount) {
-					if($request['payment_type'] == 'INVOICE_CREDIT'){
-						$emailBody .= $callback_script_text .= "$new_line Novalnet Callback Script executed successfully for the TID: ". $_REQUEST['tid_payment']." with amount ".($_REQUEST['amount']/100)."$currency on ". date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))) . " Please refer PAID transaction in our Novalnet Merchant Administration with the TID:".$_REQUEST['tid'];
+							$woo_order->customer_note .= $callback_comments;
 
-						update_post_meta($orderID, '_nn_callback_amount', $sum_amount);
-						update_post_meta($orderID,'_nn_ref_tid',$org_tid);
+							$update_notes = array(
+								'ID' 			=> $order_id,
+								'post_excerpt' 	=> $woo_order->customer_note,
+							);
 
-						$order->add_order_note($callback_script_text);
+							wp_update_post( $update_notes);
 
-						if($sum_amount >= $org_amount){
+							if (  $sum_amount >= $woo_trans_history['amount']){
+								if ( $sum_amount > $woo_trans_history['amount'])
+									$callback_comments .= $line_break .'<strong> Customer paid amount is greater than order amount. </strong>'. $line_break;
 
-							update_post_meta($orderID, '_nn_status_code', $request['status']);
-							update_post_meta($order->id, '_nn_capture_code', 1);
+								$new_line = "\n";
+								$novalnet_comments  = $woo_order->payment_method_title . $new_line;
+								$novalnet_comments .= __('Novalnet Transaction ID : ', 'novalnet') . $woo_trans_history['tid'] . $new_line;
+								$novalnet_comments .= (isset ( $woo_capture_params['test_mode'])  && $woo_capture_params['test_mode']) ? __('Test order', 'novalnet') : '';
 
-							if($sum_amount > $org_amount)
-								$emailBody .= "<strong> Customer paid amount is greater than the total amount. </strong>". $lineBreak;
 
-							$order->update_status($final_status);
+								$woo_order->customer_note = html_entity_decode( $novalnet_comments, ENT_QUOTES, 'UTF-8');
+								// adds order note
+								$woo_order->add_order_note( $woo_order->customer_note);
+
+								/** Update Novalnet Transaction details into shop database	 */
+								$nn_order_notes = array(
+									'ID' => $order_id,
+									'post_excerpt' => $woo_order->customer_note
+								);
+								wp_update_post( $nn_order_notes);
+
+								$woo_order->update_status( $woo_trans_history['change_current_status']);
+							}
+
+							$woo_vendor_script->woo_callback_final_process( $woo_trans_history['tid'], $order_id, $callback_comments);
 						}
+						$woo_vendor_script->debug_error('Novalnet callback received. Novalnet callback script executed already.');
 					}
-					else {
-						if( !in_array($request['payment_type'], $invoiceAllowed) && $callback_amount != $org_amount){
-
-							$callback_script_text .= "Novalnet Callback Script executed successfully for the amount : ".($_REQUEST['amount']/100). "  " .$currency.". The subsequent TID: " . $_REQUEST['tid'] . " on " . date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))). $new_line;
-
-							$emailBody .=  "Novalnet Callback Script executed successfully for the amount : ".($_REQUEST['amount']/100). "  " .$currency.". The subsequent TID: " . $_REQUEST['tid'] . " on " . date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))). $lineBreak;
-
-							$order->update_status($final_status);
-							update_post_meta($orderID, '_nn_callback_amount', $sum_amount);
-							update_post_meta($orderID, '_nn_status_code', $request['status']);
-
-							$order->add_order_note($callback_script_text);
-
-						}else{
-							echo "Novalnet callback received. Callback Script executed already. Refer Order : " . $nn_order_id;exit;
-						}
-					}
-				} else {
-					echo "Novalnet callback received. Callback Script executed already. Refer Order :".$nn_order_id;
-					exit;
+				}else{
+					$woo_vendor_script->debug_error('Novalnet callback received. Status Not Valid!!');
 				}
 			}
-		}else {
-			 echo "Novalnet callback received. Callback Script executed already. Refer Order :".$nn_order_id;
-			 exit;
+
+			//Subscription renewal of level 0 payments
+			if (  $woo_capture_params['subs_billing'] == 1 ) {
+				### Step1: THE SUBSCRIPTION IS RENEWED, PAYMENT IS MADE, SO JUST CREATE A NEW ORDER HERE WITHOUT A PAYMENT PROCESS AND SET THE ORDER STATUS AS PAID ####
+
+				#### Step2: THIS IS OPTIONAL: UPDATE THE BOOKING REFERENCE AT NOVALNET WITH YOUR ORDER_NO BY CALLING NOVALNET GATEWAY, IF U WANT THE USER TO USE ORDER_NO AS PAYMENT REFERENCE ###
+
+				#### Step3: ADJUST THE NEW ORDER CONFIRMATION EMAIL TO INFORM THE USER THAT THIS ORDER IS MADE ON SUBSCRIPTION RENEWAL ###
+			}
+			$error = 'Novalnet callback received. Payment type ( '.$woo_capture_params['payment_type'].' ) is not applicable for this process!';
+			$woo_vendor_script->debug_error( $error);
+		} else if ( $curr_payment_level === 1 ) { //level 1 payments - Type of Charge backs
+
+			$callback_comments = $new_line . 'Novalnet callback received. Chargeback was executed successfully for the TID: '.$woo_capture_params['tid_payment'].' amount: '. sprintf('%.2f',( $woo_capture_params['amount']/100)).' ' .$woo_capture_params['currency']  .' on ' . date_i18n(get_option('date_format'), strtotime(date('Y-m-d'))). '. The subsequent TID: '.$woo_capture_params['tid'] . $new_line;
+
+			$woo_order->add_order_note( $callback_comments);
+
+			if( $woo_order->customer_note )
+				$woo_order->customer_note . $new_line;
+
+			$woo_order->customer_note .= $callback_comments;
+
+			$update_notes = array(
+				'ID' 			=> $order_id,
+				'post_excerpt' 	=> $woo_order->customer_note,
+			);
+
+			wp_update_post( $update_notes);
+
+
+			$woo_vendor_script->woo_callback_final_process( $woo_trans_history['tid'], $order_id, $callback_comments);
+
+		} else if ( $curr_payment_level === 0 )  {
+
+			if ( empty ( $woo_order->customer_note ) ) { //For Communication Failure
+
+				$order_tid = (( $woo_capture_params['payment_type'] == 'INVOICE_START') ? $woo_capture_params['tid_payment'] : $woo_capture_params['tid'] );
+				$test_mode = (isset ( $woo_capture_params['test_mode']) && $woo_capture_params['test_mode'] == 1) ? 1 : 0;
+
+				$cur_lang = get_bloginfo('language');
+				$txn_message = (substr($cur_lang, 0, 2) == 'en') ? 'Novalnet Transaction ID : ' : 'Novalnet Transaktions-ID : ';
+				// Update comments in customer note
+				$woo_order->customer_note  = "\n" . $woo_trans_history['payment_title'] ;
+				$woo_order->customer_note  .= "\n" . $txn_message. $order_tid ;
+
+				if ( isset($woo_tid_status['status']) && $woo_tid_status['status'] != '100'){
+					$message = isset ( $woo_capture_params['status_text']) ? $woo_capture_params['status_text'] : (isset ( $woo_capture_params['status_desc']) ? $woo_capture_params['status_desc'] : (isset ( $woo_capture_params['status_message']) ? $woo_capture_params['status_message'] : ''));
+					if ( $woo_capture_params['status'] != 100 && !empty ( $message))
+						$woo_order->customer_note  .= "\n" . $message ;
+				}
+				$test_message = (substr($cur_lang, 0, 2) == 'en') ?  'Test order' : 'Testbestellung';
+				$woo_order->customer_note  .= ( $test_mode) ? ("\n" .  $test_message . "\n") : '';
+				$update_notes = array('ID' => $order_id, 'post_excerpt' => $woo_order->customer_note, 'post_status' => $woo_trans_history['change_current_status']);
+				wp_update_post( $update_notes);
+
+				// update in the order note
+				$woo_order->add_order_note( $woo_order->customer_note);
+
+				$options = get_option('nn_global_configurations');
+
+				$key = array('novalnet_paypal' => 34, 'novalnet_banktransfer' => 33, 'novalnet_ideal' => 49, 'novalnet_cc' => 6, 'novalnet_sepa' => 37, 'novalnet_invoice' => 27, 'novalnet_prepayment' => 27 );
+
+				$wpdb->insert( $wpdb->prefix .'novalnet_transaction_detail', array(
+					'vendor_id' => get_option('novalnet_vendor_id'),
+					'auth_code' => get_option('novalnet_auth_code'),
+					'tid' => $order_tid,
+					'gateway_status' => isset( $woo_tid_status['status'] ) ? $woo_tid_status['status'] : '',
+					'subs_id' => (!empty ( $woo_tid_status['subs_id']) ? $woo_tid_status['subs_id'] : ''),
+					'status' => $woo_capture_params['status'],
+					'test_mode' => $test_mode,
+					'active' => 1 ,
+					'product_id' => get_option('novalnet_product_id'),
+					'tariff_id' => get_option('novalnet_tariff_id'),
+					'payment_id' => $key[ $woo_order->payment_method ],
+					'payment_type' => $woo_order->payment_method,
+					'amount' => $woo_order->order_total * 100,
+					'callback_amount' => !in_array( $woo_capture_params['payment_type'], array('INVOICE_START', 'INVOICE_CREDIT')) ? $woo_order->order_total * 100 : 0,
+					'refunded_amount' => 0,
+					'currency' => get_woocommerce_currency(),
+					'customer_id' => ( $woo_order->user_id ) ? $woo_order->user_id  : 0,
+					'customer_email' => $woo_order->billing_email,
+					'order_no' => $order_id,
+					'date' => date('Y-m-d H:i:s') ,
+					)
+				);
+				
+				$callback_comments =  $new_line . ' Novalnet callback received. ';
+
+				if( $woo_capture_params['status'] == 100 ) {
+					$woo_order->update_status( $woo_trans_history['change_current_status']);
+					$callback_comments .= $new_line . $woo_trans_history['payment_title'] . ' payment status updated' . $new_line;
+					$woo_order->add_order_note( $callback_comments );
+					
+				} else {
+					$woo_order->update_status( 'cancelled' );
+					$callback_comments .= $new_line . $woo_trans_history['payment_title'] . ' payment cancelled ' . $new_line;
+					$woo_order->add_order_note( $callback_comments );
+				}
+
+				$update_notes = array(
+					'ID' 			=> $order_id,
+					'post_excerpt' 	=> $woo_order->customer_note,
+				);
+
+				wp_update_post( $update_notes);
+
+				$tid = (isset($woo_trans_history['tid'])) ? $woo_trans_history['tid'] : '';
+				$woo_vendor_script->woo_callback_final_process( $tid, $order_id, $callback_comments);
+
+			} else if (  $woo_capture_params['status'] == 100  ) {
+				if (  $woo_capture_params['subs_billing'] == 1 ) { //Subscription renewal of level 0 payments
+
+					### Step1: THE SUBSCRIPTION IS RENEWED, PAYMENT IS MADE, SO JUST CREATE A NEW ORDER HERE WITHOUT A PAYMENT PROCESS AND SET THE ORDER STATUS AS PAID ####
+
+					#### Step2: THIS IS OPTIONAL: UPDATE THE BOOKING REFERENCE AT NOVALNET WITH YOUR ORDER_NO BY CALLING NOVALNET GATEWAY, IF U WANT THE USER TO USE ORDER_NO AS PAYMENT REFERENCE ###
+
+					#### Step3: ADJUST THE NEW ORDER CONFIRMATION EMAIL TO INFORM THE USER THAT THIS ORDER IS MADE ON SUBSCRIPTION RENEWAL ###
+
+				}else if ( $woo_capture_params['payment_type'] == 'PAYPAL' ) {  ### PayPal payment success ###
+
+					if ( $woo_trans_history['order_paid_amount'] < (int)$woo_trans_history['amount'] ) {
+
+						// Update callback comments in order status history table
+						$callback_comments =  $new_line . "Novalnet Callback Script executed successfully for the TID: " .$woo_capture_params['shop_tid'] ." with amount: ". sprintf('%.2f',( $woo_capture_params['amount']/100)).' '.$woo_capture_params['currency'] . " on " . date('Y-m-d H:i:s') . " Please refer PAID transaction in our Novalnet Merchant Administration with the TID:" . $woo_capture_params['tid'] . $new_line;
+
+						$woo_order->add_order_note( $callback_comments);
+
+						if( $woo_order->customer_note )
+							$woo_order->customer_note . $new_line;
+
+						$woo_order->customer_note .=  $callback_comments;
+
+						$update_notes = array(
+							'ID' 			=> $order_id,
+							'post_excerpt' 	=> $woo_order->customer_note,
+						);
+
+						wp_update_post( $update_notes);
+
+
+						$woo_order->update_status( $woo_trans_history['change_current_status']);
+
+						$woo_vendor_script->woo_callback_final_process( $woo_trans_history['tid'], $order_id, $callback_comments);
+					}
+					$woo_vendor_script->debug_error('Novalnet callback received. Order already Paid.');
+				}
+			} else if ( $woo_capture_params['status'] != 100 && in_array( $woo_capture_params['payment_type'], array( PAYPAL, IDEAL, ONLINE_TRANSFER ) )  ) {
+				$callback_comments = '';
+				if ( isset( $woo_capture_params['status_text']) ) {
+					$callback_comments = $woo_capture_params['status_text'] . $new_line ;
+					$woo_order->add_order_note( $new_line . 'Novalnet callback received.' .  $callback_comments);
+				}
+				$woo_order->update_status( 'cancelled' );
+				$woo_vendor_script->debug_error( $new_line . 'Novalnet callback received.' . $callback_comments );
+			}
+			$woo_vendor_script->debug_error('Novalnet Callbackscript received. Payment type ( '.$woo_capture_params['payment_type'].' ) is not applicable for this process!');
+
+		} else if ( $woo_capture_params['payment_type'] == 'SUBSCRIPTION_STOP' ) { //Cancellation of a Subscription
+
+			 ### UPDATE THE STATUS OF THE USER SUBSCRIPTION ###
+
+		}else{
+			$woo_vendor_script->debug_error('Novalnet callback received. Callback Script executed already.');
 		}
 	}else {
-      echo "Novalnet Callback received. No order for Increment-ID $ordeiID found.";
-      exit;
-    }
-	return true;
-}
+		/* Error section : Due to order reference not found from the shop database  */
+		$woo_vendor_script->debug_error('Novalnet callback received. Order Reference not exist!');
+	}
+ }
 
-function getOrderID(){
-	global $wpdb, $lineBreak,$debug, $org_tid, $request, $emailBody, $allowedPayments;
+class novalnet_vendor_script {
 
-	$table_name = $wpdb->postmeta;
+	/* Level - 0 Payment types */
+	protected $ary_payments = array('CREDITCARD','INVOICE_START','DIRECT_DEBIT_SEPA','GUARANTEED_INVOICE_START','PAYPAL','ONLINE_TRANSFER','IDEAL','EPS','NOVALTEL_DE','PAYSAFECARD');
 
-	$nn_order_id = (!empty($request['order_no'])) ? $request['order_no'] : (!empty($request['order_id']) ? $request['order_id'] : '');
+	/* Level - 1 Payment types */
+	protected $ary_chargebacks = array('RETURN_DEBIT_SEPA','REVERSAL','CREDITCARD_BOOKBACK','CREDITCARD_CHARGEBACK','REFUND_BY_BANK_TRANSFER_EU','COLLECTION_REVERSAL_DE','COLLECTION_REVERSAL_AT','NOVALTEL_DE_CHARGEBACK');
 
-	if($nn_order_id){
-		$sql ="SELECT post_id FROM `$table_name` where meta_value LIKE '%".$nn_order_id."%' AND meta_key='_order_number'";
-		try{
-			$row = $wpdb->get_results($sql);
-			if($row){
-				$order_id = $row[0]->post_id;	// getting the order id
-				$payment_method = get_post_meta($order_id,'_payment_method',true);
-				$order_tid = get_post_meta($order_id, '_nn_order_tid', true);
-				$order_total = get_post_meta($order_id,'_order_total',true);
-			}else{
-				if (ctype_digit ($nn_order_id)) {
-					$payment_method = get_post_meta($nn_order_id,'_payment_method',true);
-					$order_total = get_post_meta($nn_order_id,'_order_total',true);
-					$order_tid = get_post_meta($nn_order_id, '_nn_order_tid', true);
-					if($payment_method)
-						$order_id = $nn_order_id;
-				}else{
-					echo "Novalnet callback received. Order id : " . $nn_order_id . " not exist ".$lineBreak;exit;
+	/* Level - 2 Payment types */
+	protected $ary_collections = array('INVOICE_CREDIT','GUARANTEED_INVOICE_CREDIT','CREDIT_ENTRY_CREDITCARD','CREDIT_ENTRY_SEPA','DEBT_COLLECTION_SEPA','DEBT_COLLECTION_CREDITCARD','DEBT_COLLECTION_DE','NOVALTEL_DE_CB_REVERSAL');
+
+	protected $ary_payment_groups = array(
+		'novalnet_cc' => array('CREDITCARD', 'CREDITCARD_BOOKBACK', 'CREDITCARD_CHARGEBACK', 'CREDIT_ENTRY_CREDITCARD','DEBT_COLLECTION_CREDITCARD'),
+		'novalnet_sepa' => array('DIRECT_DEBIT_SEPA', 'RETURN_DEBIT_SEPA','CREDIT_ENTRY_SEPA', 'DEBT_COLLECTION_SEPA'),
+		'novalnet_ideal' => array('IDEAL'),
+		'novalnet_banktransfer' => array('ONLINE_TRANSFER', 'REFUND_BY_BANK_TRANSFER_EU'),
+		'novalnet_paypal' => array('PAYPAL'),
+		'novalnet_prepayment' => array('INVOICE_START','GUARANTEED_INVOICE_START', 'INVOICE_CREDIT', 'GUARANTEED_INVOICE_CREDIT'),
+		'novalnet_invoice' => array('INVOICE_START','GUARANTEED_INVOICE_START', 'INVOICE_CREDIT', 'GUARANTEED_INVOICE_CREDIT'),
+   );
+
+	/** @Array Callback Capture parameters */
+	protected $woo_capture_params = array();
+
+	/* @IP-ADDRESS Novalnet IP, is a fixed value, DO NOT CHANGE!!!!! */
+	protected $ip_allowed = array( '195.143.189.210' , '195.143.189.214' );
+
+	protected $required_params = array( 'vendor_id', 'status', 'amount', 'payment_type', 'tid' );
+
+	function __construct( $ary_capture = array() ) {
+
+		if ( in_array( $ary_capture['payment_type'], array_merge( $this->ary_chargebacks, array('INVOICE_CREDIT') ) ) ) {
+				array_push( $this->required_params, 'tid_payment' );
+		}
+
+		$ary_capture = $this->sanitize_capture_params( $ary_capture );
+		$this->woo_capture_params = self::validate_capture_params( $ary_capture );
+	}
+
+	public function sanitize_capture_params( $captureparams = array() ) {
+		foreach( $captureparams as $key => $value ) {
+			$ary_capture[ $key] = trim( $value );
+		}
+		return $ary_capture;
+	}
+
+	/* Perform parameter validation process
+	* Set empty value id not exists in ary_capture
+	* @return array
+	*/
+	public function validate_capture_params( $ary_capture = array() ) {
+		global $process_test_mode, $line_break;
+		$error = '';
+		//Validate Authenticated IP
+		if ( !in_array( self::get_client_ip(), $this->ip_allowed ) && $process_test_mode == false ) {
+
+			echo "Novalnet callback received. Unauthorised access from the IP " . self::get_client_ip();
+			exit;
+		}
+
+		if ( $this->required_params ) {
+			foreach ( $this->required_params as $k => $v ) {
+				if ( empty ( $ary_capture[ $v ] ) ) {
+					$error .= 'Required param ( ' . $v . '  ) missing!' . $line_break;
 				}
-
 			}
-		} catch (Exception $e){
-			echo 'The original order not found in the shop database table (`' . $table_name . '`);';
-			echo 'Reason: ' . $e->getMessage() . $lineBreak . $lineBreak;
-			echo 'Query : ' . $sql . $lineBreak . $lineBreak;
-			exit;
+			if ( !empty ( $error ) ) {
+				self::debug_error( $error );
+			}
 		}
 
-	}
-	if (empty($order_id)) {
-		echo "Novalnet callback received. Order id : " . $nn_order_id . " not exist ".$lineBreak;exit;
-	}
-	if ($debug) {
-		echo'Order Details:<pre>';
-		echo "Order Number:" . $nn_order_id . "</br>";
-		echo "Order Total:" . $order_total . "</br>";
-		echo'</pre>';
+		if ( !in_array( $ary_capture['payment_type'], array_merge( $this->ary_payments, $this->ary_chargebacks, $this->ary_collections) ) ) {
+			$error = 'Novalnet callback received. Payment type ( ' . $ary_capture['payment_type'] . ' ) is mismatched!';
+			self::debug_error( $error );
+		}
+
+		if ( isset ( $ary_capture['status'] ) && $ary_capture['status'] < 0 )  {
+			self::debug_error('Novalnet callback received. Status is not valid');
+		}
+
+		if ( in_array( $ary_capture['payment_type'], array_merge( array( 'INVOICE_CREDIT' ) , $this->ary_chargebacks ) ) ) {
+			if ( !is_numeric( $ary_capture['tid_payment'] ) || strlen( $ary_capture['tid_payment'] ) != 17 ) {
+				$error = 'Novalnet callback received. Invalid TID ['. $ary_capture['tid_payment'] . '] for Order.';
+				self::debug_error( $error );
+			}
+		}
+
+		if ( strlen( $ary_capture['tid'] ) != 17 || !is_numeric( $ary_capture['tid'] ) ) {
+			$error = 'Novalnet callback received. TID [' . $ary_capture['tid'] . '] is not valid.';
+			self::debug_error( $error );
+		}
+
+		if ( ! $ary_capture['amount'] || !is_numeric( $ary_capture['amount'] ) || $ary_capture['amount'] < 0) {
+		  $error = 'Novalnet callback received. The requested amount ('. $ary_capture['amount'] .') is not valid';
+		  self::debug_error( $error );
+		}
+
+		if ( isset ( $ary_capture['signup_tid'] ) && $ary_capture['signup_tid'] != '' ) {
+			$ary_capture['shop_tid'] = $ary_capture['signup_tid'];
+		}  else if ( in_array( $ary_capture['payment_type'], array_merge( $this->ary_chargebacks, array( 'INVOICE_START', 'INVOICE_CREDIT' ) ) ) ) { #Invoice
+			$ary_capture['shop_tid'] = $ary_capture['tid_payment'];
+		} else if ( isset ( $ary_capture['tid'] ) && $ary_capture['tid'] != '' ) {
+			$ary_capture['shop_tid'] = $ary_capture['tid'];
+		}
+
+		return $ary_capture;
 	}
 
-	$order = new WC_Order($order_id);
+	public function get_order_reference() {
+		global $wpdb;
 
-	if(empty($order->customer_note)){
-		updateTransactionDetails($order);
+		$org_tid = $this->woo_capture_params['shop_tid'];
+
+		$txn_details = $wpdb->get_row( 'SELECT order_no,payment_type,amount,tid,callback_amount,refunded_amount FROM ' . $wpdb->prefix . 'novalnet_transaction_detail WHERE tid=' . $org_tid ,ARRAY_A );
+
+		if ( empty ( $txn_details ) ) {
+			$woo_order_id = ( ! empty ( $this->woo_capture_params['order_no'] ) ) ? $this->woo_capture_params['order_no'] : ( ! empty ( $this->woo_capture_params['order_id'] ) ? $this->woo_capture_params['order_id'] : '' );
+
+			if (!empty( $woo_order_id ) ) {
+
+				$table_name = $wpdb->postmeta;
+
+				$post_id = $wpdb->get_var( "SELECT post_id FROM `$table_name` where meta_value='" . $woo_order_id . "' AND (meta_key='_order_number' OR meta_key='_order_number_formatted')");
+
+				$order_id = ! empty ( $post_id ) ?  $post_id : $woo_order_id;
+
+				$txn_details = $wpdb->get_row( 'SELECT order_no,payment_type,amount,tid FROM ' . $wpdb->prefix . 'novalnet_transaction_detail WHERE order_no=' . $order_id ,ARRAY_A );
+
+				if ( empty ( $txn_details ) ) {
+
+					$wc_order = new WC_Order( $order_id );
+
+					if ( ! empty ( $wc_order->id ) ) {
+						if ( empty ( $wc_order->customer_note ) ) {
+							$collective_order_details = $this->collect_relavent_order_datas( $wc_order );
+							$collective_order_details['order_no'] = $wc_order->id;
+							return ( ( ! empty ( $collective_order_details ) ) ? $collective_order_details : array() );
+						}
+					}else{
+						self::debug_error('Novalnet callback received. Transaction mapping failed');
+					}
+				}else{
+					self::debug_error('Novalnet callback received. Transaction mapping failed');
+				}
+			}
+		}
+
+		if ( !empty ( $txn_details ) ) {
+
+			$wc_order = new WC_Order( $txn_details['order_no'] );
+
+			$collective_order_details = $this->collect_relavent_order_datas( $wc_order, $txn_details );
+
+			if ( ! in_array( $this->woo_capture_params['payment_type'], $this->ary_payment_groups[ $collective_order_details['payment_type'] ] ) ) {
+				$error = 'Novalnet callback received. Payment Type [' . $this->woo_capture_params['payment_type'] . '] is not valid.';
+				self::debug_error( $error );
+			}
+
+			if ( isset ( $this->woo_capture_params['order_no']) && !empty ( $this->woo_capture_params['order_no'])){
+				$org_id = !empty ( $collective_order_details['seq_nr']) ? $collective_order_details['seq_nr'] : $collective_order_details['order_no'];
+				if ( $org_id != $this->woo_capture_params['order_no']){
+					self::debug_error('Novalnet callback received. Order no is not valid.');
+				}
+			}
+
+			if ( ! empty ( $this->woo_capture_params['shop_tid'] ) && $this->woo_capture_params['shop_tid'] != $collective_order_details['tid'] ) {
+				self::debug_error('Novalnet callback received. TID is not valid.');
+			}
+		}
+
+		return ( ( ! empty ( $collective_order_details) ) ? $collective_order_details : array() );
 	}
 
-	if ( !array_key_exists($payment_method, $allowedPayments) || !in_array($request['payment_type'], $allowedPayments[$payment_method])){
-		echo "Novalnet callback received. Payment type [".$request['payment_type']."] is mismatched!$lineBreak$lineBreak";
+	public function collect_relavent_order_datas( $wc_order, $txn_details = array() ) {
+		global $wpdb;
+		$txn_details['seq_nr'] = ! empty ( $wc_order->order_number_formatted) ? $wc_order->order_number_formatted : $wc_order->order_number;
+		$txn_details['post_status'] = $wc_order->post_status;
+		$txn_details['status'] = $wc_order->status;
+		$txn_details['payment_title'] = $wc_order->payment_method_title;
+		$txn_details['org_payment_method'] = $wc_order->payment_method;
+
+		$tmp_payment = empty ( $txn_details['payment_type'] ) ? $wc_order->payment_method : $txn_details['payment_type'];
+
+		$payment_settings = get_option( 'woocommerce_' . $tmp_payment . '_settings' );
+
+		$txn_details['change_current_status'] = ( isset ( $payment_settings['callback_order_status'] ) && $this->woo_capture_params['payment_type'] == 'INVOICE_CREDIT') ? $payment_settings['callback_order_status'] : $payment_settings['set_order_status'];
+
+		$txn_details['order_paid_amount'] = 0;
+		$payment_type_level = self::get_payment_type_level();
+		if ( in_array( $payment_type_level, array( 0 , 2 ) ) ) {
+			$callback_amount = $wpdb->get_var( 'SELECT sum(amount) FROM ' . $wpdb->prefix . 'novalnet_callback_history WHERE order_no=' . $wc_order->id );
+			$txn_details['order_paid_amount'] = !empty ( $callback_amount ) ?  $callback_amount : 0;
+		}
+		return ( ( ! empty ( $txn_details) ) ? $txn_details : array() );
+	}
+
+	public function get_capture_params() {
+		return $this->woo_capture_params;
+	}
+
+	/*
+	* Get given payment_type level for process
+	*
+	* @return Integer
+	*/
+	function get_payment_type_level() {
+		if ( ! empty ( $this->woo_capture_params ) ) {
+			if ( in_array( $this->woo_capture_params['payment_type'], $this->ary_payments ) ) {
+				return 0;
+			}  else if ( in_array( $this->woo_capture_params['payment_type'], $this->ary_chargebacks ) ) {
+				return 1;
+			} else if ( in_array( $this->woo_capture_params['payment_type'], $this->ary_collections ) ) {
+				return 2;
+			}
+		}
+		return 0;
+	}
+
+	public function debug_error( $error_msg ) {
+		global $process_debug_mode;
+		if ( $process_debug_mode ) {
+			echo $error_msg;
+		}
 		exit;
 	}
 
-	if((isset($org_tid) && 100 == $request['status'] && $order_tid && $order_tid !== $org_tid) ){
-		echo "Novalnet callback received. TID [".$org_tid."] is mismatched!$lineBreak$lineBreak";
-		exit;
+	public function update_aff_account_activation_detail( $capture_params ) {
+		global $wpdb;
+
+		$wpdb->insert( $wpdb->prefix . 'novalnet_aff_account_detail',
+			array(
+				'vendor_id' 		=> $capture_params['vendor_id'],
+				'vendor_authcode' 	=> $capture_params['vendor_authcode'],
+				'product_id' 		=> $capture_params['product_id'],
+				'product_url' 		=> $capture_params['product_url'],
+				'activation_date' 	=> isset( $capture_params['activation_date'] ) ? date( 'Y-m-d H:i:s', strtotime($capture_params['activation_date']) ) : '',
+				'aff_id' 			=> $capture_params['aff_id'],
+				'aff_authcode' 		=> $capture_params['aff_authcode'],
+				'aff_accesskey' 	=> $capture_params['aff_accesskey'],
+			)
+		);
+
+		$callback_comments =  $new_line . 'Novalnet callback script executed successfully with Novalnet account activation information.' . $new_line;
+
+		//Send notification mail to Merchant
+		$this->send_notification_mail( array(
+			'comments' => $callback_comments,
+			'order_no' => '-',
+		) );
+		$this->debug_error($callback_comments);
+
+		return true;
 	}
 
-	return $order_id;
-}
+	public function woo_callback_final_process( $tid, $order_id, $comments ) {
 
-function getTransactionStatus($id){
-	global $lineBreak, $request, $org_tid;
-	$nn_status_code = 0;
-	$ssl_status = is_ssl() ? 'https://' : 'http://';
-	$url = $ssl_status.'payport.novalnet.de/nn_infoport.xml';
-	$config_data = get_post_meta($id, '_nn_config_values', true);
+		//Send notification mail to Merchant
+		$this->send_notification_mail( array(
+			'comments' => $comments,
+			'order_no' => $order_id,
+		) );
 
-	if(!empty($config_data)){
-		$urlparam = '<?xml version="1.0" encoding="UTF-8"?><nnxml><info_request><vendor_id>' . $config_data['vendor']. '</vendor_id>';
-		$urlparam .= '<vendor_authcode>' . $config_data['auth_code'] . '</vendor_authcode>';
-		$urlparam .= '<request_type>TRANSACTION_STATUS</request_type>';
-		$urlparam .= '<product_id>' . $config_data['product'] . '</product_id>';
-		$urlparam .= '<tid>' . $org_tid . '</tid>';
-		$urlparam .='</info_request></nnxml>';
+		$this->log_callback_details( $this->woo_capture_params, $tid, $order_id );
 
-		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $urlparam);  // add POST fields
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$data = curl_exec($ch);
-		curl_close($ch);
+		$this->debug_error( $comments );
 
-		if (strstr($data, '<status>')) {
-			preg_match('/status>?([^<]+)/i', $data, $matches);
-			$nn_status_code = $matches[1];
+	}
+
+	public function do_curl( $url, $data ){
+
+		$ch = curl_init( $url  );
+		curl_setopt( $ch, CURLOPT_POST, 1 );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $data );
+		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 0 );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER,1 );
+
+		$response = curl_exec( $ch );
+		curl_close( $ch );
+		return $response;
+	}
+
+	public function perform_transaction_status_call( $tid = null, $order_id ) {
+		global $wpdb;
+
+		$txn_datas = $wpdb->get_row( 'SELECT vendor_id,auth_code,product_id,tid FROM ' . $wpdb->prefix . 'novalnet_transaction_detail WHERE order_no=' . $order_id, ARRAY_A );
+
+		if ( empty ( $txn_datas['vendor_id']) || empty ( $txn_datas['auth_code']) || empty ( $txn_datas['product_id']) || empty ( $txn_datas['tid'])){
+
+			$txn_datas = array(
+				'vendor_id' => get_option('novalnet_vendor_id'),
+				'auth_code' => get_option('novalnet_auth_code'),
+				'product_id'=> get_option('novalnet_product_id'),
+				'tid' 		=> $tid
+			);
 		}
-	}
-	return $nn_status_code;
-}
 
-function updateTransactionDetails($order){
-	global $lineBreak, $request, $org_tid, $wpdb, $txn_status_code, $invoiceAllowed;
-	$lineBreak = "\n";
+		$req_data = array('vendor_id' => $txn_datas['vendor_id'], 'vendor_authcode' => $txn_datas['auth_code'], 'product_id' => $txn_datas['product_id'], 'request_type' => 'TRANSACTION_STATUS', 'tid' => $txn_datas['tid']);
 
-	$payment_method = $order->payment_method;
+		if ( $txn_datas['vendor_id'] != '' && $txn_datas['auth_code'] != '' && $txn_datas['product_id'] != '' && $txn_datas['tid'] != ''){
 
-	$query = $wpdb->get_results("SELECT option_value FROM ". $wpdb->options . " WHERE option_name = 'woocommerce_".$payment_method."_settings'");
-
-	$config_settings = unserialize($query[0]->option_value);
-
-	$comments = html_entity_decode($order->payment_method_title, ENT_QUOTES, 'UTF-8') . $lineBreak;
-	$comments .= 'Novalnet Transaction ID : ' . $org_tid . $lineBreak;
-	if(isset($request['test_mode']) && $request['test_mode'])
-		$comments .= 'Test Order' . $lineBreak;
-
-	if($order->customer_note)
-		$order->customer_note .= $new_line;
-
-	$order->customer_note .= html_entity_decode($comments, ENT_QUOTES, 'UTF-8');
-
-	$nn_order_notes = array(
-		'ID' => $order->id,
-		'post_excerpt' => $order->customer_note
-	);
-
-	wp_update_post($nn_order_notes);
-
-	$order->add_order_note($order->customer_note);
-
-	update_post_meta($order->id,'_nn_total_amount', $order->order_total);
-    update_post_meta($order->id,'_nn_order_tid', $org_tid);
-
-	$txn_status_code = getTransactionStatus($order->id);
-
-	if($txn_status_code == 100){
-		$order->update_status($config_settings['set_order_status']);
-		if(!in_array($request['payment_type'], $invoiceAllowed))
-			update_post_meta($order->id,'_nn_callback_amount', $order->order_total*100);
-	}
-
-	return true;
-}
-
-/**
-* performs initial parameter check
-*
-* @param array $request
-* @return
-*
-*/
-function basicValidation() {
-	global $lineBreak, $requiredParams, $emailBody, $allowedPayments, $paypalAllowed, $invoiceAllowed, $paymentTypes, $chargeBackPayments, $request;
-
-	$error = false;
-
-	// If no params passed through CallBackScript URL
-	if( !$request ) {
-	  echo 'Novalnet callback received. No params passed over!'.$lineBreak;
-	  exit;
-	}
-
-	//If Params passed but respective param's value if not passed
-	if ( $requiredParams ) {
-		foreach ( $requiredParams as $k=>$v ) {
-			if ( empty( $request[$k] ) ) {
-				$error = true;
-				echo 'Required param ('.$k.') missing!'.$lineBreak;
+			$xml_request = '<?xml version="1.0" encoding="UTF-8"?><nnxml><info_request>';
+			foreach ( $req_data as $k => $v){
+				$xml_request .= '<' . $k . '>' . $v . '</' . $k . '>';
 			}
+			$xml_request .= '</info_request></nnxml>';
+
+			$paygate_url = ( ( ! is_ssl() ) ? 'http://' : 'https://' ) . 'payport.novalnet.de/nn_infoport.xml';
+
+			$response = $this->do_curl( $paygate_url, $xml_request );
+
+			$data = json_decode( json_encode( (array)simplexml_load_string( $response ) ),1 );
+			return $data;
+
 		}
-		if ( $error ) {
-			exit;
+		return array();
+
+	}
+
+	/*
+	* Log callback process in novalnet_callback_history table
+	*
+	* @return boolean
+	*/
+	function log_callback_details( $datas, $org_tid, $order_no ) {
+		global $wpdb;
+
+		if ( !empty ( $datas ) ) {
+
+			$update_amount = $wpdb->get_row( 'SELECT amount, callback_amount FROM ' . $wpdb->prefix.'novalnet_transaction_detail WHERE order_no=' . $order_no );
+
+			$callback_amount = ($datas['payment_type'] == 'PAYPAL') ? $update_amount->amount :  $datas['amount'];
+
+			$wpdb->insert( $wpdb->prefix . 'novalnet_callback_history', array( 'payment_type' => $datas['payment_type'], 'status' => $datas['status'], 'callback_tid' => $datas['tid'], 'org_tid' => $org_tid, 'amount' => $callback_amount, 'currency' => $datas['currency'], 'product_id' => $datas['product_id'], 'order_no' => $order_no, 'date' => date('Y-m-d H:i:s') ) );
+
+			$wpdb->update( $wpdb->prefix . 'novalnet_transaction_detail', array( 'callback_amount' => ( $update_amount->callback_amount + $datas['amount'] ) ), array( 'order_no' => $order_no ) );
+			return true;
+
 		}
+		return false;
 	}
 
-	// If requested payment type is not available
-	if ( !empty( $request['payment_type'] )) {
-		if(!in_array($request['payment_type'],$paymentTypes ) && !in_array($request['payment_type'],$chargeBackPayments )){
-			echo "Novalnet callback received. Payment type [". $request['payment_type'] ."] is mismatched! $lineBreak";
-			exit;
+	/*
+	* Function to return the client IP Address
+	*
+	* @return Array
+	*/
+	public function get_client_ip() {
+
+		$ipaddress = '';
+		if (isset ( $_SERVER['HTTP_CLIENT_IP'] ) && $_SERVER['HTTP_CLIENT_IP'] )
+			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+		else if ( isset ( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && $_SERVER['HTTP_X_FORWARDED_FOR'] )
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		else if ( isset ( $_SERVER['HTTP_X_FORWARDED'] ) && $_SERVER['HTTP_X_FORWARDED'] )
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+		else if ( isset ( $_SERVER['HTTP_FORWARDED_FOR'] ) && $_SERVER['HTTP_FORWARDED_FOR'] )
+			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+		else if ( isset ( $_SERVER['HTTP_FORWARDED'] ) && $_SERVER['HTTP_FORWARDED'] )
+			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+		else if ( isset ( $_SERVER['REMOTE_ADDR'] ) && $_SERVER['REMOTE_ADDR'] )
+			$ipaddress = $_SERVER['REMOTE_ADDR'];
+		else
+			$ipaddress = 'UNKNOWN';
+
+		return $ipaddress;
+	}
+
+	/*
+	* Send notification mail to Merchant
+	*
+	* @return boolean
+	*/
+	public function send_notification_mail( $datas = array() ) {
+		global $process_test_mode, $email_from_address, $email_to_address, $email_subject, $shop_info;
+
+		$email_subject .= $shop_info;
+		if( $process_test_mode ) {
+			$email_subject .= ' - TEST';
 		}
-	}
 
-	// Validating requested status
-	if (!isset($request['status']) or $request['status'] <= 0 ) {
-		echo 'Novalnet callback received. Status [' . $request['status'] . '] is not valid' . "$lineBreak$lineBreak".$lineBreak;exit;
-	}
+		$headers  = 'Content-Type: text/html; charset=iso-8859-1' . "\r\n";
+		if( !empty ( $email_from_address ) )
 
-	// Validating length of $_REQUEST['tid_payment'] should not be less than 17 digit
-	if ( strlen( $_REQUEST['tid_payment'] ) != 17 && (in_array( $request['payment_type'], $invoiceAllowed )  || in_array( $request['payment_type'], $chargeBackPayments ))) {
-		echo 'Novalnet callback received. Invalid TID [' . $request['tid_payment'] . '] for Order.' . "$lineBreak$lineBreak".$lineBreak;exit;
-	}
+			$headers .= 'From: ' . $email_from_address . "\r\n";
 
-	//	Validating length of $_REQUEST['tid'] should not be less than 17 digit
-	if ( strlen( $_REQUEST['tid']) != 17 ) {
-		if ( in_array( $_REQUEST['payment_type'], $invoiceAllowed ) || in_array( $request['payment_type'], $chargeBackPayments ) ) {
-			echo 'Novalnet callback received. New TID is not valid.' . "$lineBreak$lineBreak".$lineBreak;
+		$email_content = $datas['comments'];
+
+		if ( $email_to_address != '' ) {
+
+			$ack = wp_mail( $email_to_address, $email_subject, $email_content, $headers ); # WordPress Sending Mail Function
+			if( $ack )
+				echo 'Mail Sent!.';
+			else
+				echo 'mail not sent!';
 		} else {
-			echo 'Novalnet callback received. Invalid TID ['.$request['tid'].']for Order.'."$lineBreak$lineBreak".$lineBreak;
+			echo 'mail not sent!';
 		}
-		exit;
+		return true;
+
 	}
-
-	// Validating amount
-	if(!$request['amount'] || $request['amount'] < 0) {
-		echo 'Novalnet callback received. The requested amount ['.$request['amount'].'] must be greater than zero.';
-		exit;
-	}
-	return true;
-}
-
-function isPublicIP($value) {
-    if (!$value || count(explode('.', $value)) != 4)
-      return false;
-    return !preg_match('~^((0|10|172\.16|192\.168|169\.254|255|127\.0)\.)~', $value);
-  }
-
-/**
-* get IP address
-*
-*/
-function getRealIpAddr() {
-	if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && isPublicIP($_SERVER['HTTP_X_FORWARDED_FOR']))
-		return $_SERVER['HTTP_X_FORWARDED_FOR'];
-
-	if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) {
-		if (isPublicIP($iplist[0]))
-			return $iplist[0];
-		}
-	if (isset($_SERVER['HTTP_CLIENT_IP']) && isPublicIP($_SERVER['HTTP_CLIENT_IP']))
-		return $_SERVER['HTTP_CLIENT_IP'];
-
-	if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && isPublicIP($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-		return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-
-	if (isset($_SERVER['HTTP_FORWARDED_FOR']) && isPublicIP($_SERVER['HTTP_FORWARDED_FOR']))
-		return $_SERVER['HTTP_FORWARDED_FOR'];
-
-	return $_SERVER['REMOTE_ADDR'];
-}
-
-/**
-* Checks IP address
-*/
-function checkIP() {
-	global $lineBreak, $ipAllowed, $test, $emailBody, $request;
-	$callerIp = $_SERVER['REMOTE_ADDR'];
-	if ($test) {
-		$ipAllowed = getRealIpAddr();
-	}
-	if ($ipAllowed != $callerIp) {
-		echo 'Novalnet callback received. Unauthorised access from the IP [' . $callerIp . ']' . $lineBreak . $lineBreak;
-		exit;
-	}
-	return true;
 }
 ?>

@@ -13,7 +13,7 @@ Set Email Configuration
 
 	//Reporting Email Address Settings
 	$mailHost      = '';   //adapt your mail host
-	$mailPort      = '';     //adapt your mail host port
+	$mailPort      = '';   //adapt your mail host port
 	$emailFromAddr = '';   //adapt sender email address, mandatory
 	$emailToAddr   = '';   //adapt recipient email address, mandatory
 	$emailSubject  = 'Novalnet Callback Script Access Report'; //adapt if necessary;

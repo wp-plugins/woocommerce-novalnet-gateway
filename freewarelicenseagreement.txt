@@ -27,9 +27,9 @@ Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist München. So
 Sollten Sie weitere Informationen benötigen, steht Ihnen der Technik Service der Novalnet gerne zur Verfügung:
 
 Novalnet AG
-Tel.: +49 (0)89 9230683-20
-Fax: +49(0)89 9230683-11
-E-Mail: Technik@novalnet.de
+Tel.	: +49 (0)89 9230683-20
+Fax	: +49(0)89 9230683-11
+E-Mail	: Technik@novalnet.de
 
 
 English:
@@ -61,7 +61,7 @@ The laws of the Federal Republic of Germany will be applicable. The place for co
 If you need further information, kindly contact our Technical service Team:
 
 Novalnet AG
-Tel.: +49 (0)89 9230683-20
-Fax: +49(0)89 9230683-11
-E-Mail: Technik@novalnet.de
+Tel.	: +49 (0)89 9230683-20
+Fax	: +49(0)89 9230683-11
+E-Mail	: Technik@novalnet.de
 

@@ -1,0 +1,68 @@
+I.Parameters (Which are to be entered in the admin interface)
+
+  Novalnet Vendor ID           : 4
+  Novalnet Vendor Auth-Code    : JyEtHUjjbHNJwVztW6JrafIMHQvici
+  Novalnet Product ID          : 14
+  Novalnet Tariff ID           : 30
+  Novalnet Payment Access Key  : a87ff679a2f3e71d9181a67b7542122c
+
+II.Test Bank Data / Test Credit Card Data (Frontend)
+
+  1. Credit Card
+
+       Card holder       : Max Mustermann
+       Creditcard Number : 4200 0000 0000 0000 (14 x 0)
+       Credit Card No. for AMEX : 373953192351004
+       Expiry            : Any Future Date
+       CVC               : 123
+       CVC for AMEX : 2234
+
+
+  2.  Credit Card 3D Secure
+       CC No. for VISA     : 4200000000000000 (14 x 0)
+       CVC                 : 123
+       Expiry              : Any Future Date
+       Password            : secret3 (If you are requested to enter a password while testing)
+
+  3.  Online Bank Transfer (Sofortüberweisung) Details For Test:
+
+       Bank Code (if you are asked to enter it on processing your test transaction): 88888888 (8 x 8)
+       Account Number: 1111
+       PIN	     : 1111
+       Every further entry is arbitrary
+
+  4.  PayPal Details For Test:
+
+       I. These data are to be entered in the admin area like vendor_id, etc. The test_mode must be set to true/1:
+
+          Test API-Data:
+          API-Username :  technic-facilitator_api1.novalnet.de
+          API-Password :  1363879539
+          API-Signature: ACpWpnZ.LSW25rxxj7Q0FEPEzWxxAdlrxljqNS7c4h9Mj0f5sgruwbqX
+
+       II. Login into sandbox by using the following login details:
+
+         Website: https://developer.paypal.com/
+         Email    : technic@novalnet.de
+         password : euMdFRT/M&
+
+       III. Test username and password if you are requested to enter them after redirecting to PayPal payment page:
+
+         Email    : pb@novalnet.de
+         password : novalnet123
+
+      Note : Sandbox login is a must before testing Novalnet PayPal!
+
+  5. Invoice / Prepayment
+
+      Name 	: Max Mustermann
+      Address   : Gutenberg str 2, 85737 , Ismaning
+      email     : test@novalnet.de
+
+  6. SEPA Details for Test:
+
+      Account Holder : Max Musterman
+      Account Number : 2411761956
+      Bank Code      : 30020900
+      IBAN           : DE24300209002411761956
+      BIC            : CMCIDEDDXXX 

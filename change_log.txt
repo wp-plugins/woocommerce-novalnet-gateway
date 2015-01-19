@@ -1,0 +1,110 @@
+#####################################################################
+#       CHANGE LOGS                                                 #
+#####################################################################
+
+Version : wordpress_v_4.1_woocommerce_v_2.1.0-2.2.10_novalnet_v_2.0.0
+========
+
+	- Novalnet payment module have been adapted for the latest Wordpress repository 4.1 and WooCommerce version 2.2.10.
+
+--------------------------------------------------------------------------------------
+
+Version : wordpress_v_3.5-4.0_woocommerce_v_2.0.20-2.2.4_novalnet_v_1.1.7
+========
+
+	- Code optimization has been done
+	- Compatibility has been checked upto woocommerce version 2.2.4
+
+--------------------------------------------------------------------------------------
+
+Version : wordpress_v_3.5-4.0_woocommerce_v_2.0.20-2.1.12_novalnet_v_1.1.6
+========
+
+	- The Payment Direct Debit Germany and Direct Debit Austria offered by the AG Novalnet be replaced from 01.08.2014 by the SEPA Direct Debit Scheme.
+	- Code optimization has been done.
+
+--------------------------------------------------------------------------------------
+
+Version: wordpress_v_3.5-3.9.1_woocommerce_v_2.0.20-2.1.11_novalnet_v_1.1.5.zip
+
+========
+
+	- Credit card module has been updated
+	- Coding has been optimized
+	- Compatibility has been checked upto woocommerce version 2.1.11
+       
+
+
+-------------------------------------------------------------------------------------	
+
+==========
+Version : wordpress_v_3.3-3.8.1_woocommerce_v_1.6.6_v_2.0.0-2.1.2_novalnet_v_1.1.4
+
+  	- Compatibility has been checked for woocommerce version 2.1.2.
+
+==========
+Version : wordpress_v_3.3-3.8.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.3
+
+  	- Updated auto refill option for Credit card, Direct Debit SEPA, Direct Debit Austria & Direct Debit German payment methods.
+  	- Updated Direct Debit SEPA payment module as per new testcase.
+  	- Implemented Referrer id, Reference parameters in all payment methods.
+  	- Credit Card payment updated with 3D Secure authentication. 
+  	- Updated callback script file as per new testcase.
+  	- Compatibility has been checked for wordpress version 3.8.1.
+
+==========
+Version : wordpress_v_3.3-3.8_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.2
+
+  	- Implemented Novalnet Direct Debit SEPA and Novalnet SafetyPay Payment methods.
+
+=========
+Version: wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1
+
+  	- Created option to display customer instruction at success page and order notification emails.
+  	- Implemented Debug log feature.
+ 	- Optimized our module to display the transaction details in frontend order history without core update.
+  	- Implemented Void, capture and Refund functionality in Novalnet payment gateway.
+  	- Updated callback script file as per new testcase.
+
+=========
+Version: wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.1.0
+
+  	- Added support for Wordpress Multi-site
+  	- Code optimization has been done.
+
+=========
+Version: wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.0.5
+
+  	- Added support for Woocommerce Sequential Order Numbers plugin
+  	- Compatibility has been verified  
+  	- Code optimization has been done.
+  
+=========
+Version: wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.13_novalnet_v_1.0.4
+  
+  	- Code optimization has been done.
+  	- Credit card module has been re-written with PCI-Compliance
+  	- Post-back parameter has been implemented
+
+=========
+Version: wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.12_novalnet_v_1.0.3
+  
+  	- Compatibility has been verified
+  	- Changed the module structure suitable for Wordpress plugin repository 
+
+=========
+Version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.9_novalnet_v_1.0.2
+  
+  	- Compatibility has been verified.
+
+=========
+Version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.4_novalnet_v_1.0.1
+
+  	- Novalnet Telephone payment has been integrated.
+  	- Novalnet Credit Card payment has been updated.
+  	- Code optimization has been done.
+
+=========
+Version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_novalnet_v_1.0.0
+
+  	- First Release 

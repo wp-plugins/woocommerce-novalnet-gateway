@@ -1,10 +1,10 @@
 === Woocommerce Payment Gateway by Novalnet ===
 Contributors: novalnet
-link: https://www.novalnet.de/
+link: https://www.novalnet.de
 Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, Direct Debit, invoice, prepayment, woocommerce extensions, wordpress payment gateway, woocommerce payment methods, woocommerce payment gateway integration, woocommerce credit card extension, multisite payment gateway, full-service provider, secure payment processing
 Requires at least: 3.5
-Tested up to: 4.0
-Stable tag: 1.1.7
+Tested up to: 4.1
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,6 @@ With this WooCommerce payment plugin by Novalnet, you’ll be able to offer the 
 * __Instant Bank Transfer__
 * __PayPal__
 * __iDEAL__
-* __Telephone Payment__
 
 Did all these features and the possible time savings make you curious?
 
@@ -110,15 +109,17 @@ Yes, in order to use this plugin and access all popular online payment methods w
 This Online Payment plugin only works with the WooCommerce plugin for you WordPress webshop. Are you looking for other Online Payment modules for Webshop software? Please Find the complete overview of our webshop modules on our website. http://www.novalnet.com
 
 == Screenshots ==
-1. Novalnet Payment plugin Admin Panel.
-2. Credit Card payment configuration settings for Woocommerce Novalnet Gateway.
-3. Novalnet Payments Displayed. 
+1. Novalnet merchant global configuration
+2. Novalnet individual payment (Direct Debit SEPA) configuration
+3. Novalnet payments are displayed in the checkout. 
 
 == Changelog ==
 
-= 1.1.7 =
+= 2.0.0 =
 
-	__version: wordpress_v_3.5-4.0_woocommerce_v_2.0.20-2.2.4_novalnet_v_1.1.7__
+	* Novalnet payment module have been adapted for the latest Wordpress repository 4.1 and WooCommerce version 2.2.10
+
+= 1.1.7 =
 
 	* The Payment Direct Debit Germany and Direct Debit Austria offered by the AG Novalnet be replaced from 01.08.2014 by the SEPA Direct Debit Scheme.
 	* Updated auto refill option for Credit card, Direct Debit SEPA payment methods
@@ -248,15 +249,7 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 3. Please click on the "Checkout" tab there in order to configure your Novalnet payment interface properly. 
 
-4. Inside the "Checkout" tab you now find all available payment types which you can configure individually. This payment type configuration is  structured as follows:
- 
- 	* __Activate module:__ You decide here whether the respective payment type is displayed in your shop at the checkout or not.
-
-	* __Payment type title:__ Please choose a name for the respective payment type. 
-
-	* __Payment type description:__ The freely configurable description entered here is displayed when your customers select the respective payment type. 
-
-	* __Test mode:__ You determine whether you want the respective payment mode to be live or to remain in test mode.
+4.1 Inside the "Checkout" tab you will have the Novalnet merchant global configuration. It will follow the below mentioned structure
 
 	* __Vendor ID:__ Kindly copy the exact details from the Novalnet admin area.
 
@@ -266,15 +259,23 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 	* __Tariff ID:__ Kindly copy the exact details from the Novalnet admin area.
 
-	* __Payment access key (Password):__ Kindly copy the exact details from the Novalnet admin area.| This step is only relevant to the payment types "Online instant transfer", "Credit card payment", "iDEAL" and "PayPal".  
+	* __Payment access key (Password):__ Kindly copy the exact details from the Novalnet admin area.| This step is only relevant to the payment types "Instant Bank Transfer", "Credit Card", "iDEAL" and "PayPal". 
 
-	* __Second Novalnet product ID:__ Optional for on-hold products or subscriptions
+4.2 Inside the "Checkout" tab you will have the individual payment (Direct Debit SEPA) condfiguration. The payment configuration is structured as follows
 
-	* __Second Novalnet tariff ID:__ optional for on-hold products or subscriptions
+	* __Activate module:__ Option for the respective payment type need to display at the checkout or not.
 
-	* __Payment type logo:__ Here you determine whether the logo of the respective payment type should be displayed at the 	checkout.
+	* __Payment type title:__ Kindly mention the name for the respective payment type for both Engliash and German. 
 
-5. __Only exception: PayPal__ Here you need to login directly at PayPal with your user details and enter the respective API details (API signature, password, username) into the intended fields of the WooCommerce payment interface in the WordPress admin area. 
+	* __Payment type description:__ The freely configurable description entered here is displayed when your customers select the respective payment type. 
+
+	* __Test mode:__ Option for the respective payment type mode to be live or in test mode.	 
+
+	* __Second Novalnet product ID:__ Optional for on-hold products
+
+	* __Second Novalnet tariff ID:__ optional for on-hold products
+
+	* __Payment type logo:__ Option for the logo of the respective payment type should be displayed at the checkout.
 
 Now, just the following steps have to be executed for going live: 
 	

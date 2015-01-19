@@ -1,0 +1,30 @@
+#novalnet_cc_cvc_href {display:none;}
+#novalnet_cc_cvc_hint:hover #novalnet_cc_cvc_href{
+	display:block;
+	position: absolute;
+	margin-top: -40%;
+	margin-left: -10%;
+}
+
+.cc_loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('../images/novalnet_loading_icon.gif') 50% 50% no-repeat;
+}
+
+#novalnet_cc_cvc{
+	width:30%;
+}
+
+.nn_form{
+	border:0px !important;
+	margin:0px -10px 0px 0px;
+}
+
+.required {
+ color:red;
+}
