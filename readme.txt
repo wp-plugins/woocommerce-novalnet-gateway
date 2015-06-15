@@ -13,7 +13,7 @@ Novalnet Payment Gateway plugin provides all popular online payment methods for 
 == Description ==
 
 (German Description down below)
-EMPOWER YOUR BUSINESS & BOOST YOUR SALES WITH THE NOVALNET WOOCOMMERCE EXTENSION
+= EMPOWER YOUR BUSINESS & BOOST YOUR SALES WITH THE NOVALNET WOOCOMMERCE EXTENSION =
 
 The Woocommerce payment extension from NOVALNET simplifies your daily work by automating the entire payment process. This extension is designed to help you increase your sales by offering various international and local payment methods on a one-page checkout.
 
@@ -24,7 +24,7 @@ Our team of highly qualified professionals is fully dedicated to serve and assis
 
 Get now a seamless integration with the various types of payments and payment-related services integrated in the one unique platform.
 
-ADVANTAGES AT A GLANCE
+= ADVANTAGES AT A GLANCE =
 
 * One platform for all payment types and related services
 * No redirection - user stays entirely on your website for payment
@@ -40,24 +40,24 @@ ADVANTAGES AT A GLANCE
 * Free text configuration for the bookings (for use on bank and credit card statements)
 * Easy configuration for all payment methods
 
-KEY FEATURES
+= KEY FEATURES =
 
 * Seamless and fast integration of the payment extension
 * Complete automation of payment processes
 * One page checkout no redirection to third party websites
 * No PCI DSS certification required
 
-MORE PAYMENT METHODS FOR HIGHER CONVERSION
+= MORE PAYMENT METHODS FOR HIGHER CONVERSION =
 
 * Creditcart: Visa, MasterCard, American Express, Debitkarten: Maestro
 * PayPal,instant transfer: SOFORT Überweisung, giropay, eps, iDEAL
 * Prepayment, Invoice Payment, SEPA Derict Debit
 
-COMPREHENSIVE RISK MANAGEMENT WITH FRAUD PREVENTION
+= COMPREHENSIVE RISK MANAGEMENT WITH FRAUD PREVENTION =
 
 More than 30 fraud prevention modules integrated:  Professional fraud prevention solutions and optimal risk minimization in real-time.
 
-OUR EXCELLENT SERVICE FOR YOUR GROWTH
+= OUR EXCELLENT SERVICE FOR YOUR GROWTH =
 
 * One platform for all relevant payment methods (Credit&Debit cards, Direct Debit, Prepayment, Payment by Invoice, online Bank Transfer, PayPal, iDEAL, giropay etc.)
 * Risk management with over 40  effective fraud prevention measures
@@ -72,11 +72,11 @@ OUR EXCELLENT SERVICE FOR YOUR GROWTH
 * Simple solutions for secure SEPA processing
 * Flexible payout methods
 
-(German)
+= (German) =
 
 Das NOVALNET Payment-Modul für Woocommerce bietet seinen Nutzern eine Vielzahl an hilfreichen Features, die das tägliche Arbeiten mit dem Woocommerce Shopsystem vereinfachen. Beispielsweise werden alle gängigen Zahlungsmethoden in nur einem Modul angeboten vom Rechnungskauf über das SEPA-Lastschriftmandat bis hin zur Kreditkarte. Kreditkartenzahlungen können zusätzlich durch das 3D Secure-Verfahren abgesichert werden, um Shop-Betreibern zusätzliche Sicherheit zu bieten. Damit gehört das Modul der NOVALNET zu einem der beliebtesten Extensions im Bereich Payment.
 
-Folgende Funktionen können Sie mit dem Payment-Modul direkt über den Shop-Adminverwalten:
+= Folgende Funktionen können Sie mit dem Payment-Modul direkt über den Shop-Adminverwalten: =
 
 * Einfache Möglichkeit zum Bestätigen und Stornieren von On Hold-Transaktione
 * Einfaches Durchführen von Rückerstattungen aus der Shop-Admin heraus
@@ -90,13 +90,13 @@ Folgende Funktionen können Sie mit dem Payment-Modul direkt über den Shop-Admi
 * Bequeme E-Mail-Benachrichtigungsfunktion über Statusmeldungen der Zahlungen
 * Einfache Konfigurationsmöglichkeit für alle Zahlungsarten
 
-Genießen Sie außerdem weitere Vorteile mit unserer Payment Extension
+= Genießen Sie außerdem weitere Vorteile mit unserer Payment Extension =
 
 * Einfache Einbindung in Ihren Bestellprozess - es wird keine externe Seite aufgerufen
 * Alle Zahlungsarten über das Modul verfügbar
 * PCI DSS compliant - keine eigene Zertifizierung nötig!
 
-Alle Zahlungsarten über unsere Schnittstelle
+= Alle Zahlungsarten über unsere Schnittstelle =
 
 * Kreditkarten: Visa, MasterCard, American Express, Debitkarten: Maestro
 * PayPal,Online-Überweisungen: SOFORT Überweisung, giropay, eps, iDEAL
@@ -104,11 +104,11 @@ Alle Zahlungsarten über unsere Schnittstelle
 * Kauf auf Rechnung, Kauf auf Rechnung mit Zahlungsgarantie
 * Ratenkauf mit Zahlungsgarantie
 
-Auf Nummer sicher gehen mit unserer Betrugsprävention
+= Auf Nummer sicher gehen mit unserer Betrugsprävention =
 
 Die intelligente Novalnet-Betrugsprävention ist abhängig von Zahlungsart, Produktpalette und Warenkorbgröße. Durch zahlreiche, unabhängig zuschaltbare Fraudmodule verringert sich Ihre Zahlungsausfallquote spürbar.
 
-Folgende Lösungen stellen wir Ihnen in unserer NOVALNET Admin zur Verfügung:
+= Folgende Lösungen stellen wir Ihnen in unserer NOVALNET Admin zur Verfügung: =
 
 * Eine Plattform für alle Zahlungsarten (Rechnung, Vorkasse, Online-Überweisung, PayPal u.v.m.)
 * Optional automatische Rechnungserstellung für Endkunden
