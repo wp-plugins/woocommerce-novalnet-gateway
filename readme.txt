@@ -1,10 +1,10 @@
 === Woocommerce Payment Gateway by Novalnet ===
 Contributors: novalnet
-link: https://www.novalnet.de
+Donate link: https://www.novalnet.de
 Tags: novalnet payment gateway, woocommerce,e-commerce, wordpress, credit cards, novalnet, woocommerce free payment gateways, woocommerce payment gateway plugin, paypal, iDEAL extension, woocommerce sofort, payment gateway integration for wordpress, wordpress ecommerce, Direct Debit, invoice, prepayment, woocommerce extensions, wordpress payment gateway, woocommerce payment methods, woocommerce payment gateway integration, woocommerce credit card extension, multisite payment gateway, full-service provider, secure payment processing
-Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 2.0.0
+Requires at least: 3.7
+Tested up to: 4.2.2
+Stable tag: 10.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,37 +12,116 @@ Novalnet Payment Gateway plugin provides all popular online payment methods for 
 
 == Description ==
 
-By using the WooCommerce payment plugin and the comprehensive service of __Novalnet__, the leading __full service payment provider__ you can significantly increase your turnover and spend more time on your actual core business. Thus you receive an all-in-one solution: the shop plugin WooCommerce which is perfectly adjusted to WordPress and the top-quality range of services of the payment provider Novalnet. 
+(German Description down below)
+EMPOWER YOUR BUSINESS & BOOST YOUR SALES WITH THE NOVALNET WOOCOMMERCE EXTENSION
 
-With this WooCommerce payment plugin by Novalnet, you’ll be able to offer the following payment types in your shop: 
+The Woocommerce payment extension from NOVALNET simplifies your daily work by automating the entire payment process. This extension is designed to help you increase your sales by offering various international and local payment methods on a one-page checkout.
 
-* __Credit Card__
-* __Direct Debit__
-* __Prepayment__
-* __Payment by Invoice__
-* __Instant Bank Transfer__
-* __PayPal__
-* __iDEAL__
+The following services are integrated and ready for your use: Debt collection, Risk management, Member management, Subscription management, Fraud management, Affiliate program, Real-time monitoring, detail statistics & report etc. Thus you receive an all-in-one solution: the extension which is perfectly adjusted to Woocommerce and the top-quality range of services of the payment provider Novalnet.
 
-Did all these features and the possible time savings make you curious?
+Through the individuality and flexibility you can choose which payment methods and services you need.
+Our team of highly qualified professionals is fully dedicated to serve and assist you in the entire payment process setup and maintenance.
 
-Then just download the WooCommerce plugin containing the respective Novalnet interface. 
+Get now a seamless integration with the various types of payments and payment-related services integrated in the one unique platform.
 
-In case you have any questions, you can contact us at any time at __sales@novalnet.de / +49 (0)89 923 068 320__
+ADVANTAGES AT A GLANCE
 
-= Key Features =
+* One platform for all payment types and related services
+* No redirection - user stays entirely on your website for payment
+* Fast checkout that allows users to save their payment details
+* Easy way of managing on-hold transactions and refunds
+* Dynamic subscription and member management for recurring payments
+* Comprehensive affiliate management
+* Effortless  configuration of risk management with fraud prevention and payment method control
+* Status management for chargeback as well as return debit
+* Clear real-time overview of payment status
+* Automated e-mail notification function concerning payment status reports
+* Smart auto-fill of payment details
+* Free text configuration for the bookings (for use on bank and credit card statements)
+* Easy configuration for all payment methods
 
-* One platform for all payment types
-* User stays entirely on your Website for payment (no redirection, if you don’t want to)
-* Attractive and flexible Payout methods
-* Easy to use admin interface
-* Offers full payment service (  Includes Risk Management, Debt Collection Management, Subscription Management, Affiliate System, Inventory Management, Member Management, Debitor Management and many more )
-* Payment platform for multi-level Affiliate marketing
-* Free real-time Monitoring towards turnover development
-* User friendly payment process with high safety and security
-* Risk management with numerous fraudulence prevention techniques
-* End customer site for Support (128 Bit SSL encrypted)
-* Cost free technical support for the implementation of payment modules for shop/cms systems and self-programmed webpages
+KEY FEATURES
+
+* Seamless and fast integration of the payment extension
+* Complete automation of payment processes
+* One page checkout no redirection to third party websites
+* No PCI DSS certification required
+
+MORE PAYMENT METHODS FOR HIGHER CONVERSION
+
+* Creditcart: Visa, MasterCard, American Express, Debitkarten: Maestro
+* PayPal,instant transfer: SOFORT Überweisung, giropay, eps, iDEAL
+* Prepayment, Invoice Payment, SEPA Derict Debit
+
+COMPREHENSIVE RISK MANAGEMENT WITH FRAUD PREVENTION
+
+More than 30 fraud prevention modules integrated:  Professional fraud prevention solutions and optimal risk minimization in real-time.
+
+OUR EXCELLENT SERVICE FOR YOUR GROWTH
+
+* One platform for all relevant payment methods (Credit&Debit cards, Direct Debit, Prepayment, Payment by Invoice, online Bank Transfer, PayPal, iDEAL, giropay etc.)
+* Risk management with over 40  effective fraud prevention measures
+* Free technical support upon integration
+* Fully automated debt collection via email, mail, phone
+* Multilevel claims management with integrated handover to collection and various export functions for the Accounting
+* Automated customized invoice generation
+* Free real-time monitoring to prevent payment failures
+* Extensive member administration and subscription management
+* Secure portal for end user inquiries on the transaction
+* Smart affiliate system with automated split conversion of transaction on revenue sharing
+* Simple solutions for secure SEPA processing
+* Flexible payout methods
+
+(German)
+
+Das NOVALNET Payment-Modul für Woocommerce bietet seinen Nutzern eine Vielzahl an hilfreichen Features, die das tägliche Arbeiten mit dem Woocommerce Shopsystem vereinfachen. Beispielsweise werden alle gängigen Zahlungsmethoden in nur einem Modul angeboten vom Rechnungskauf über das SEPA-Lastschriftmandat bis hin zur Kreditkarte. Kreditkartenzahlungen können zusätzlich durch das 3D Secure-Verfahren abgesichert werden, um Shop-Betreibern zusätzliche Sicherheit zu bieten. Damit gehört das Modul der NOVALNET zu einem der beliebtesten Extensions im Bereich Payment.
+
+Folgende Funktionen können Sie mit dem Payment-Modul direkt über den Shop-Adminverwalten:
+
+* Einfache Möglichkeit zum Bestätigen und Stornieren von On Hold-Transaktione
+* Einfaches Durchführen von Rückerstattungen aus der Shop-Admin heraus
+* Flexible Abonnementverwaltung für wiederkehrende Zahlungen
+* Flexibles Affiliate Management für Partnerprogramm-Betreiber
+* Kinderleichtes Konfigurieren des Risikomanagements
+* Komfortable Statusmeldung bei Zahlungseingängen von Rechnungskauf sowie Vorauskasse
+* Übersichtliches Status Management für Chargebacks sowie SEPA-Rücklastschriften
+* Übersichtliches Status Management für die Zahlarten PayPal, Online-Überweisung , Vorauskasse und Kauf auf Rechnung
+* Vorhalten von Bestelldaten bei Kaufabbrüchen
+* Bequeme E-Mail-Benachrichtigungsfunktion über Statusmeldungen der Zahlungen
+* Einfache Konfigurationsmöglichkeit für alle Zahlungsarten
+
+Genießen Sie außerdem weitere Vorteile mit unserer Payment Extension
+
+* Einfache Einbindung in Ihren Bestellprozess - es wird keine externe Seite aufgerufen
+* Alle Zahlungsarten über das Modul verfügbar
+* PCI DSS compliant - keine eigene Zertifizierung nötig!
+
+Alle Zahlungsarten über unsere Schnittstelle
+
+* Kreditkarten: Visa, MasterCard, American Express, Debitkarten: Maestro
+* PayPal,Online-Überweisungen: SOFORT Überweisung, giropay, eps, iDEAL
+* Vorkasse, Rechnung, SEPA Lastschrift
+* Kauf auf Rechnung, Kauf auf Rechnung mit Zahlungsgarantie
+* Ratenkauf mit Zahlungsgarantie
+
+Auf Nummer sicher gehen mit unserer Betrugsprävention
+
+Die intelligente Novalnet-Betrugsprävention ist abhängig von Zahlungsart, Produktpalette und Warenkorbgröße. Durch zahlreiche, unabhängig zuschaltbare Fraudmodule verringert sich Ihre Zahlungsausfallquote spürbar.
+
+Folgende Lösungen stellen wir Ihnen in unserer NOVALNET Admin zur Verfügung:
+
+* Eine Plattform für alle Zahlungsarten (Rechnung, Vorkasse, Online-Überweisung, PayPal u.v.m.)
+* Optional automatische Rechnungserstellung für Endkunden
+* Treuhänderische Gelderverwaltung möglich
+* Risikomanagement mit über 40 Betrugspräventionsmaßnahmen (FRAUDS)
+* Kostenfreier technischer Support bei Einbindung und bei Betrieb des Zahlungsmoduls
+* Attraktive und flexible Auszahlungsmodalitäten
+* Bei Zahlungsausfall frei einstellbares, optional kostenloses Forderungsmanagement
+* Kostenloses realtime Monitoring. Ihr Checkoutprozess wird vor Kaufabbrüchen überwacht
+* Optionale Mitgliederverwaltung
+* Spezielles Endkundenportal für Rückfragen zur Transaktion
+* Umfangreiches Debitorenmanagement mit diversen Exportmöglichkeiten für Buchhaltungsprogramme
+* Einfache SEPA-Lastschrift-Lösung. Sie müssen kein separates Bankkonto eröffnen
 
 = About Novalnet =
 
@@ -65,7 +144,7 @@ In case you have any questions, you can contact us at any time at __sales@novaln
 = Reference =
 
 Please check out our __ssl certified__ [Demo Store](https://woocommerce.novalnet.de/ "Demo Store")
-  
+
 -------------------------
 
 == Installation ==
@@ -75,7 +154,7 @@ Please check out our __ssl certified__ [Demo Store](https://woocommerce.novalnet
 * Go to Plugins > “Add New”.
 * Download the Woocommerce payment gateway by Novalnet from Wordpress repository and Click "Install Now" to install the Plugin. A popup  window will ask you to confirm your wish to install the Plugin.
 = Note: = If this is the first time you've installed a WordPress Plugin, you may need to enter the FTP login credential information. If you've installed a Plugin before, it will still have the login information. This information is available through your web server host.
-          
+
 * Click “Proceed” to continue the installation. The resulting installation screen will list the installation as successful or note any problems during the install.
 * If successful, click "Activate Plugin" to activate it, or “Return to Plugin Installer” for further actions.
 
@@ -86,16 +165,16 @@ Please check out our __ssl certified__ [Demo Store](https://woocommerce.novalnet
 * Go to Plugins (Woocommerce payment gateway by Novalnet) screen and find the “Woocommerce payment gateway by Novalnet” in the list.
 * Click “Activate Plugin” to activate it.
 * Check the Details in the readme file for customization and further instructions.
- 
+
 = Now get the necessary authentication details from the Novalnet administration area: =
 
-For this, kindly log into the Novalnet administration area: 	
+For this, kindly log into the Novalnet administration area:
 
 1. Go to http://www.novalnet.com and click on "Login" (top right). You are redirected straight to the login form.
-2. Inside the Novalnet administration area, choose the tab "Projects" and click on the respective shop in the list you created. 	
+2. Inside the Novalnet administration area, choose the tab "Projects" and click on the respective shop in the list you created.
 3. Now choose the tab "Shop Parameters".
 4. Here you can find the necessary details to configure your WooCommerce plugin properly. These are vendor ID, Authorization code, Tariff ID, product ID and payment access key.
-    
+
 = Now you have all required details to finish setting up your WooCommerce-based shop!  =
 
 == Frequently Asked Questions ==
@@ -111,131 +190,17 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 == Screenshots ==
 1. Novalnet merchant global configuration
 2. Novalnet individual payment (Direct Debit SEPA) configuration
-3. Novalnet payments are displayed in the checkout. 
+3. Novalnet payments are displayed in the checkout.
 
 == Changelog ==
 
-= 2.0.0 =
+= 10.0.0 =
 
-	* Novalnet payment module have been adapted for the latest Wordpress repository 4.1 and WooCommerce version 2.2.10
-
-= 1.1.7 =
-
-	* The Payment Direct Debit Germany and Direct Debit Austria offered by the AG Novalnet be replaced from 01.08.2014 by the SEPA Direct Debit Scheme.
-	* Updated auto refill option for Credit card, Direct Debit SEPA payment methods
-	* Credit Card payment updated with 3D Secure authentication
-	* Compatibility has been checked upto woocommerce version 2.2.4
-
-= 1.1.1 =
-
- __version: wordpress_v_3.3-3.7.1_woocommerce_v_1.6.6_v_2.0.0-2.0.20_novalnet_v_1.1.1__
-
-  * Created option to display customer instruction at success page and order notification emails.
-  * Implemented Debug log feature.
-  * Optimized our module to display the transaction details in frontend order history without core update.
-  * Implemented Void, capture and Refund functionality in Novalnet payment gateway.
-  * Updated callback script file as per new test case.
-  
-= 1.1.0 =
-
- __version: wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.1.0__
-
-  * Added support for Wordpress Multi-Site
-  * Code optimization has been done.
-
-= 1.0.5 =
-
- __version: wordpress_v_3.3-3.6.1_woocommerce_v_1.6.6_v_2.0.0-2.0.14_novalnet_v_1.0.5__
-
-  * Added support for Woocommerce Sequential Order Numbers plugin
-  * Compatibility has been verified  
-  * Code optimization has been done.
-
-= 1.0.4 =
-
-  __version: wordpress_v_3.3-3.5.2_woocommerce_v_1.6.6_v_2.0.0-2.0.13_novalnet_v_1.0.4__
-
-  * Code optimization has been done.
-  * Credit card module has been re-written with PCI-Compliance
-  * Post-back parameter has been implemented
-
-= 1.0.3 =
-
-  __version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.10_novalnet_v_1.0.3__
-  
-  * Callbackscript function for PayPal payment method is included
-  * Completely translatable - .pot file is included
-
-= 1.0.2 =
-
- __Version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.8_novalnet_v_1.0.2__
-  
-  * Compatibility has been verified
-
-= 1.0.1 =
-
- __Version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_v_2.0.0-2.0.4_novalnet_v_1.0.1__
-
-  * Novalnet Telephone payment has been integrated.
-  * Novalnet Credit Card payment has been updated.
-  * Code optimization has been done.
-
-= 1.0.0 =
-
- __Version: wordpress_v_3.3-3.5.1_woocommerce_v_1.6.6_novalnet_v_1.0.0__
-
-  * First Release 
+  * First Release
 
 == Upgrade Notice ==
 
-= 1.1.7 =
-
-	* The Payment Direct Debit Germany and Direct Debit Austria offered by the AG Novalnet be replaced from 01.08.2014 by the SEPA Direct Debit Scheme.
-	* Updated auto refill option for Credit card, Direct Debit SEPA payment methods
-	* Credit Card payment updated with 3D Secure authentication
-	* Compatibility has been checked upto woocommerce version 2.2.4
-
-= 1.1.1 =
- 
-  * Created option to display customer instruction at success page and order notification emails.
-  * Implemented Debug log feature.
-  * Optimized our module to display the transaction details in frontend order history without core update.
-  * Implemented Void, capture and Refund functionality in Novalnet payment gateway.
-  * Updated callback script file as per new test case.
-  
-= 1.1.0 =
-
-  * Added support for Wordpress Multi-Site
-  * Code optimization has been done.
-
-= 1.0.5 =
-
-  * Added support for Woocommerce Sequential Order Numbers plugin
-  * Compatibility has been verified  
-  * Code optimization has been done.
-
-= 1.0.4 =
-
-  * Code optimization has been done.
-  * Credit card module has been re-written with PCI-Compliance
-  * Post-back parameter has been implemented
-
-= 1.0.3 =
-
-  * Callbackscript function for PayPal payment method is included
-  * Completely translatable - .pot file is included
-  
-= 1.0.2 =
-
-  * Compatibility has been verified
-
-= 1.0.1 =
-
-  * Novalnet Telephone payment has been integrated.
-  * Novalnet Credit Card payment has been updated.
-  * Code optimization has been done.
-
-= 1.0.0 =
+= 10.0.0 =
 
   * First Release
 
@@ -243,51 +208,53 @@ This Online Payment plugin only works with the WooCommerce plugin for you WordPr
 
 = Connect to WooCommerce :- =
 
-1. Switch back to the WordPress admin area. 
+1. Switch back to the WordPress admin area.
 
-2. Click on "WooCommerce" in the menu on the left and click directly on the sublevel tab "Settings" tab there. 
+2. Click on "WooCommerce" in the menu on the left and click directly on the sublevel tab "Settings" tab there.
 
-3. Please click on the "Checkout" tab there in order to configure your Novalnet payment interface properly. 
+3. Please click on the "Checkout" tab there in order to configure your Novalnet payment interface properly.
 
 4.1 Inside the "Checkout" tab you will have the Novalnet merchant global configuration. It will follow the below mentioned structure
 
-	* __Vendor ID:__ Kindly copy the exact details from the Novalnet admin area.
+    * __Merchant ID:__ Kindly copy the exact details from the Novalnet admin area.
 
-	* __Authorization code:__ Kindly copy the exact details from the Novalnet admin area.
+    * __Authentication code:__ Kindly copy the exact details from the Novalnet admin area.
 
-	* __Product ID:__ Kindly copy the exact details from the Novalnet admin area.
+    * __Project ID:__ Kindly copy the exact details from the Novalnet admin area.
 
-	* __Tariff ID:__ Kindly copy the exact details from the Novalnet admin area.
+    * __Tariff ID:__ Kindly copy the exact details from the Novalnet admin area.
 
-	* __Payment access key (Password):__ Kindly copy the exact details from the Novalnet admin area.| This step is only relevant to the payment types "Instant Bank Transfer", "Credit Card", "iDEAL" and "PayPal". 
+    * __Payment access key:__ Kindly copy the exact details from the Novalnet admin area.| This step is only relevant to the payment types "Instant Bank Transfer", "Credit Card", "iDEAL" and "PayPal".
 
 4.2 Inside the "Checkout" tab you will have the individual payment (Direct Debit SEPA) condfiguration. The payment configuration is structured as follows
 
-	* __Activate module:__ Option for the respective payment type need to display at the checkout or not.
+    * __Enable payment method:__ Option for the respective payment type need to display at the checkout or not.
 
-	* __Payment type title:__ Kindly mention the name for the respective payment type for both Engliash and German. 
+    * __Payment title in English:__ Kindly mention the name for the respective payment type in English.
 
-	* __Payment type description:__ The freely configurable description entered here is displayed when your customers select the respective payment type. 
+    * __Description in English:__ The freely configurable description entered here is displayed when your customers select the respective payment type in English.
 
-	* __Test mode:__ Option for the respective payment type mode to be live or in test mode.	 
+    * __Payment title in German:__ Kindly mention the name for the respective payment type in German.
 
-	* __Second Novalnet product ID:__ Optional for on-hold products
+    * __Description in German:__ The freely configurable description entered here is displayed when your customers select the respective payment type in German.
 
-	* __Second Novalnet tariff ID:__ optional for on-hold products
+    * __Enable test mode:__ Option for the respective payment type mode to be live or in test mode.
 
-	* __Payment type logo:__ Option for the logo of the respective payment type should be displayed at the checkout.
+    * __Display payment method logo:__ Option for the logo of the respective payment type should be displayed at the checkout.
 
-Now, just the following steps have to be executed for going live: 
-	
+    * __Display Novalnet logo:__ Option for the logo of the Novalnet should be displayed at the checkout.
+
+Now, just the following steps have to be executed for going live:
+
 = Go-Live: =
 
-1. Inside the shop (done by you as merchant) 
+1. Inside the shop (done by you as merchant)
 
 2. Inside the payment type (done by you as merchant)
 
-3. Inside the CRM by Novalnet (done by Novalnet as soon as all relevant contract documents are present)	
+3. Inside the CRM by Novalnet (done by Novalnet as soon as all relevant contract documents are present)
 
-As soon as all steps are completed, you can start with sales straight away! 
+As soon as all steps are completed, you can start with sales straight away!
 
 On Any Technical Problems, please contact __sales@novalnet.de / 0049-89-923 068 320__
 
