@@ -1,75 +1,69 @@
-CALLBACK SCRIPT TESTING PROCEDURE:-
----------------------------------
-Please follow the below mentioned steps to call the callback script for all the payment types.
+  CALLBACK SCRIPT TESTING PROCEDURE:
+  ---------------------------------
+  Kindly follow the below steps to test the callback script for all payment methods:
 
-Url: <siteurl>/<callaback script file name>
-	[Ex: https://woocommerce.novalnet.de/callback_novalnet2woocommerce.php]
-
-Note:
------
-
-Set Email Configuration 
-------------------------
-
-	//Reporting Email Address Settings
-	$mailHost      = '';   //adapt your mail host
-	$mailPort      = '';   //adapt your mail host port
-	$emailFromAddr = '';   //adapt sender email address, mandatory
-	$emailToAddr   = '';   //adapt recipient email address, mandatory
-	$emailSubject  = 'Novalnet Callback Script Access Report'; //adapt if necessary;
-	$emailBody     = '';   //Email text, let it be blank or adapt your text
-	$emailFromName = "";   // adapt Sender Name
-	$emailToName   = "";   // adapt Recipient Name
-
-For testing callback script, kindly make the below following changes in the file "callback_novalnet2woocommerce.php"
-----------------------------------------------------------------------------------------------------------------------------
+  URL: <Site URL>/?wc_api=novalnet_callback
  
- 1) $debug = true; 
+  E.g.: https://woocommerce.novalnet.de/?wc_api=novalnet_callback
 
- 2) $test  = true; 
+  For testing the callback script, Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+  ------------------------------------------------------------------------------------------------------------------------------------------    
+  1) Enable debug mode = Yes;
 
- 3) a) formatted url for Invoice / Prepayment :-
-	
-	<Site URL>/callback_novalnet2woocommerce.php?vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435&order_no=12
+  2) Enable test mode = Yes;
 
-		Payment type:
-		-------------
+  ------------------------------
+  Payment type      Payment name   
+  ------------------------------
+  INVOICE_CREDIT       Invoice                               
+  INVOICE_CREDIT       Prepayment                            
+  PAYPAL               PayPal                                
+  ONLINE_TRANSFER      Instant Bank Transfer                 
+  CREDITCARD           Credit Card and Credit Card 3D secure 
+  IDEAL                iDEAL                                 
+  DIRECT_DEBIT_SEPA    Direct Debit SEPA
+  EPS                  EPS
 
-		INVOICE_CREDIT (Invoice and Prepayment)
+  INVOICE_CREDIT payment_type 
+  ---------------------------
+  Formatted URL: <Site URL>/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435
 
-    b) formatted url for other payment types which are mentioned below: (except Invoice / Prepayment)
+  Other payment type
+  ------------------
+  Formatted URL: <Site URL>/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435
 
-	<Site URL>/callback_novalnet2woocommerce.php?vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435&order_no=12
+  Please use the respective payment type in the param "payment_type". (E.g.: payment_type=PAYPAL)
 
-		Payment types: 
-		--------------
+  Parameters:
+  -----------
+  vendor_id          - Merchant ID
 
-		PAYPAL (PayPal)
-		ONLINE_TRANSFER (Instant Bank Transfer)
-		CREDITCARD (Credit Card)
-		IDEAL (iDEAL)
-		DIRECT_DEBIT_SEPA (Direct Debit SEPA)
+  status             - Successful payment transaction value
 
-Please use the respective payment type in the param "payment_type". (EX : payment_type=PAYPAL) 
+  payment_type       - Type of payment process
 
+  tid_payment        - Existing appropriate order transaction id ( only for Invoice and Prepayment payment methods )
 
-   Parameters:
-   -----------
-	tid		Callscript Transaction TID
-	vendor_id	Merchant ID
-	status		Successfull payment transaction value
-	payment_type	Types of payment process
-	tid_payment	Existing appropriate order Transaction ID (only for Invoice/Prepayment payment methods)
-	amount		Customer paid amount in cents
-	order_no	Existing appropriate order number
+  amount             - Customer paid amount in cents
 
-For real time transactions, kindly do the following changes in the file "callback_novalnet2woocommerce.php"
--------------------------------------------------------------------------------------------------------------------
+  tid                - Callback script transaction id
 
- 1) $debug = false; 
- 
- 2) $test  = false;
+  For real time transaction
+  -------------------------
+  Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
 
---------------------------------------------------------------------------------------------
-For questions send a email to sales@novalnet.de or call 0049-89-923 068 320
---------------------------------------------------------------------------------------------
+  1) Enable debug mode = No;
+
+  2) Enable test mode = No;
+  
+  Email configuration 
+  -------------------
+  Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+
+  1. Enable E-mail notification for callback = True   // To receive mail for successful execution of callbackscript
+
+  2. E-mail address (To) = ''  //adapt recipient email address
+
+  3. E-mail address (Bcc) = '' //adapt recipient email address on BCC
+
+***** End of File *****
