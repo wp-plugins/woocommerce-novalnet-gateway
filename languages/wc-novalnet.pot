@@ -1,0 +1,1061 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Novalnet Payment Gateway for WooCommerce - Version "
+"10.0.1\n"
+"POT-Creation-Date: 2015-05-19 11:04+0530\n"
+"PO-Revision-Date: 2015-05-19 11:04+0530\n"
+"Last-Translator: Novalnet AG <salesa@novalnet.de>\n"
+"Language-Team: Novalnet <sales@novalnet.de>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_;gettext;gettext_noop;_;"
+"gettext;gettext_noop;_;gettext;gettext_noop;__;_e;__ngettext:1,2;_n:1,2;"
+"__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;"
+"_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: /var/www/dev/novalnet-payment-gateway-for-"
+"woocommerce\n"
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:51
+#, php-format
+msgid ""
+"WooCommerce plugin must be active for the plugin <b>Novalnet Payment Gateway "
+"for WooCommerce</b>.Kindly %s install & activate it %s "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:59
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:67
+msgid "Novalnet Administration Portal"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:68
+msgid ""
+"Login here with Novalnet merchant credentials. For the activation of new "
+"payment methods please contact <a href=\"mailto:support@novalnet.de"
+"\">support@novalnet.de</a>"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:79
+msgid "Configuration"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:159
+msgid "Enable payment method"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:165
+msgid "Payment title in English"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:171
+msgid "Description in English"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:177
+msgid "Payment title in German"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:183
+msgid "Description in German"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:189
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:259
+msgid "Enable test mode"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:191
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:202
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:208
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:235
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:271
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:278
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:174
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:195
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:226
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:256
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:262
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:268
+msgid "No"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:191
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:202
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:208
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:235
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:271
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:278
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:174
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:195
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:226
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:256
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:262
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:268
+msgid "Yes"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:192
+msgid ""
+"The payment will be processed in the test mode therefore amount for this "
+"transaction will not be charged"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:200
+msgid "Enable 3D secure"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:203
+msgid ""
+"The 3D-Secure will be activated for credit cards. The issuing bank prompts "
+"the buyer for a password what, in turn, help to prevent a fraudulent "
+"payment. It can be used by the issuing bank as evidence that the buyer is "
+"indeed their card holder. This is intended to help decrease a risk of charge-"
+"back."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:206
+msgid "Enable AMEX"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:212
+msgid "Limit for expiry year"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:215
+msgid ""
+"Enter the number for the maximum limit of credit card expiry year. In case "
+"if the field is empty, limit of 25 years from the current year will be set "
+"by default"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:220
+msgid "Payment due date (in days)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:223
+msgid ""
+"Enter the number of days to transfer the payment amount to Novalnet (must be "
+"greater than 7 days). In case if the field is empty, 14 days will be set as "
+"due date by default"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:227
+msgid "SEPA payment duration (in days)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:230
+msgid ""
+"Enter the number of days after which the payment should be processed (must "
+"be greater than 6 days)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:233
+msgid "Enable auto-fill for payment data"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:236
+msgid ""
+"For the registered users SEPA direct debit details will be filled "
+"automatically in the payment form"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:241
+msgid "Enable fraud prevention"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:243
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:242
+msgid "None"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:243
+msgid "PIN by callback"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:243
+msgid "PIN by SMS"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:243
+msgid "Reply via E-mail"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:244
+msgid ""
+"To authenticate the buyer for a transaction, the PIN or E-Mail will be "
+"automatically generated and sent to the buyer. This service is only "
+"available for customers from DE, AT, CH"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:248
+msgid "Minimum value of goods for the fraud module (in cents)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:250
+msgid ""
+"Enter the minimum value of goods from which the fraud module should be "
+"activated"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:255
+msgid "Notification for the buyer"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:257
+msgid "The entered text will be displayed on the checkout page"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:260
+msgid "Thank you page instructions"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:265
+msgid "E-mail instructions"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:269
+msgid "Display payment method logo"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:272
+msgid "The payment method logo will be displayed on the checkout page"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:276
+msgid "Display Novalnet logo"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:279
+msgid "The Novalnet logo will be displayed on the checkout page"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:285
+msgid "Order status for the pending payment"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:292
+msgid "Order completion status "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:299
+msgid "Callback order status"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:306
+msgid "Transaction reference 1"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:309
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:315
+msgid "This reference will appear in your bank account statement"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:312
+msgid "Transaction reference 2"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:395
+msgid ""
+"Please note: The payment will be processed in the test mode therefore amount "
+"for this transaction will not be charged"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:443
+msgid ""
+"You need to activate the CURL function on your server, please check with "
+"your hosting provider."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:447
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:74
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:36
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:38
+msgid "Please fill in all the mandatory fields"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:454
+msgid "Enter your PIN"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:454
+msgid "The PIN you entered is incorrect"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:467
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:37
+msgid "Your credit card details are invalid"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:472
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:257
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:39
+msgid "Your account details are invalid"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:477
+msgid "SEPA Due date is not valid"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:487
+msgid "Your E-mail address is invalid"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:487
+#, php-format
+msgid "Please enter your %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:487
+msgid "mobile number"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:487
+msgid "telephone number"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:606
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:658
+msgctxt "hash before order number"
+msgid "#"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:829
+msgid ""
+"You will shortly receive an information e-mail, please send the empty reply "
+"incl. the original e-mail"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:829
+msgid ""
+"You will shortly receive an SMS containing your transaction PIN to complete "
+"the payment"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:829
+msgid ""
+"You will shortly receive a transaction PIN through phone call to complete "
+"the payment"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:856
+msgid "The order amount has been changed, please proceed with the new order"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:967
+msgid "Customer name/email fields are not valid"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:994
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:92
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:908
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:395
+msgid "Novalnet transaction ID : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:995
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:94
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:149
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:909
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:396
+msgid "Test order"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:999
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:917
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:398
+msgid ""
+"Please transfer the amount to the below mentioned account details of our "
+"payment processor Novalnet"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1001
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:919
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:399
+msgid "Due date : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1003
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:921
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:400
+msgid "Account holder : Novalnet AG"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1007
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:928
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:404
+msgid "Amount : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1008
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:929
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:405
+msgid "Reference 1 : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1009
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:930
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:406
+msgid "Reference 2 : TID "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1010
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:931
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:407
+msgid "Reference 3 : Order number "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1167
+msgid "This is not processed as a subscription order!"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1322
+msgid "Thank you for choosing Novalnet payment."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1335
+msgid ""
+"After the successful verification, you will be redirected to Novalnet secure "
+"order page to proceed with the payment"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1343
+msgid "Pay"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1343
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:140
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:104
+msgid "Cancel"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-payment-gateway.php:1373
+msgid "While redirecting some data has been changed. The hash check failed"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:85
+#, php-format
+msgid ""
+"Novalnet Callback Script executed successfully for the TID: %s with amount "
+"%s %s on %s. Please refer PAID transaction in our Novalnet Merchant "
+"Administration with the TID: %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:127
+#, php-format
+msgid ""
+" Novalnet callback received. Chargeback executed successfully for the TID: "
+"%s amount: %s %s on %s. The subsequent TID: %s."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:148
+msgid "Novalnet Transaction ID : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:231
+#, php-format
+msgid ""
+"Novalnet Callback Script executed successfully for the TID: %s with amount "
+"%s %s on %s."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:251
+#, php-format
+msgid ""
+"Novalnet callback script received. Subscription has been stopped for the "
+"TID: %s on %s. Subscription has been canceled due to: %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:963
+msgid "Next charging date : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/novalnet-callback-handler.php:966
+#, php-format
+msgid ""
+"Novalnet Callback Script executed successfully for the subscription TID: %s "
+"with amount %s %s on %s. Please refer PAID transaction in our Novalnet "
+"Merchant Administration with the TID: %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:107
+msgid "Novalnet transaction details"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:140
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:42
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:51
+msgid "Select"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Product is costly"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Cheating"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Partner interfered"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Financial problem"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Content does not match my likes"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Content is not enough"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Interested only for a trial"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Page is very slow"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Satisfied customer"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Logging in problems"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:844
+msgid "Other"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-functions.php:909
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:140
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:267
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:103
+msgid "Confirm"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:80
+msgid "Please select the reason of subscription cancellation"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:101
+#, php-format
+msgid "Subscription has been canceled due to: %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:162
+#, php-format
+msgid "This subscription transaction has been suspended on %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:221
+#, php-format
+msgid "Subscription has been successfully activated on %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:268
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:186
+msgid "The date should be in future"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:273
+msgid "Please enter a date before the expiration date."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:296
+#, php-format
+msgid "Subscription renewal date has been successfully changed on %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/class-wc-novalnet-subscriptions.php:353
+#, php-format
+msgid "Subscription recurring amount %s has been updated successfully"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:104
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:121
+msgid "Global Configuration"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:123
+#, php-format
+msgid ""
+"For additional configurations login to %sNovalnet Administration Portal%s. "
+"To login to the Portal you need to have an account at Novalnet. If you don't "
+"have one yet, please contact <a href=\"mailto:sales@novalnet.de"
+"\">sales@novalnet.de</a> / tel. +49 (089) 923068320<br/>To use the PayPal "
+"payment method please enter your PayPal API details in %sNovalnet Merchant "
+"Administration portal%s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:127
+msgid "Merchant ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:128
+msgid "Enter Novalnet merchant ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:134
+msgid "Authentication code"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:135
+msgid "Enter Novalnet authentication code"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:141
+msgid "Project ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:142
+msgid "Enter Novalnet project ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:148
+msgid "Tariff ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:149
+msgid "Enter Novalnet tariff ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:156
+msgid "Payment access key"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:157
+msgid "Enter the Novalnet payment access key"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:163
+msgid "Set a limit for on-hold transaction (in cents)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:164
+msgid ""
+"In case the order amount exceeds mentioned limit, the transaction will be "
+"set on hold till your confirmation of transaction"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:170
+msgid "Enable auto-fill"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:171
+msgid ""
+"The payment details will be filled automatically in the payment form during "
+"the checkout process"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:178
+msgid ""
+"Enter the IP address of your proxy server along with the port number in the "
+"following format IP Address : Port Number (if applicable)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:184
+msgid "Gateway timeout (in seconds)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:185
+msgid ""
+"In case the order processing time exceeds the gateway timeout, the order "
+"will not be placed"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:192
+msgid "Debug log"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:197
+#, php-format
+msgid "Novalnet payment events log in the mentioned path <code>%s.txt</code>"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:200
+msgid "Referrer ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:201
+msgid ""
+"Enter the referrer ID of the person/company who recommended you Novalnet"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:207
+msgid "Order status management for on-hold transaction(-s)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:209
+msgid "Confirmation order status"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:215
+msgid "Cancellation order status"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:221
+msgid "Subscription configuration"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:223
+msgid "Enable subscription"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:230
+msgid "Subscription payments"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:234
+msgid "Credit card"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:235
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:242
+msgid "Direct Debit SEPA"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:236
+msgid "Invoice"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:237
+msgid "Prepayment"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:243
+msgid "Subscription Tariff ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:244
+msgid "Enter Novalnet subscription tariff ID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:250
+msgid "Merchant script management"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:252
+msgid "Enable debug mode"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:254
+msgid "Set the debug mode to execute the merchant script in debug mode"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:265
+msgid "Enable E-mail notification for callback"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:272
+msgid "E-mail address (To)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:274
+msgid "E-mail address of the recipient"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:279
+msgid "E-mail address (Bcc)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-novalnet-settings.php:281
+msgid "E-mail address of the recipient for BCC"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:89
+msgid "Manage transaction process"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:102
+msgid "Refund process"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:120
+msgid "Change the amount / due date "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:120
+msgid "Amount update"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:140
+msgid "Please select status"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:144
+msgid "Please select status!"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:147
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:196
+msgid "Update"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:177
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:234
+msgid "The amount is invalid"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:179
+msgid "Update transaction amount"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:179
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:246
+msgid "(in cents)"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:181
+msgid "Are you sure you want to change the order amount?"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:185
+msgid "Due date is not valid"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:189
+msgid "Transaction due date"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:191
+msgid "Are you sure you want to change the order amount or due date?"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:236
+msgid "Refund cannot be processed, as the amount exceeds the paid amount!"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:242
+msgid "Select the refund option"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:246
+msgid "Please enter the refund amount"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:250
+msgid "Refund reference : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:259
+msgid "Account holder : "
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:328
+#, php-format
+msgid "The transaction has been confirmed on %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:334
+#, php-format
+msgid "The transaction has been canceled on %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:414
+#, php-format
+msgid "The transaction amount %s has been updated successfully on %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:455
+#, php-format
+msgid "The refund has been executed for the TID: %s with the amount of %s."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/includes/admin/class-wc-meta-box-novalnet-extensions.php:458
+#, php-format
+msgid "Your new TID for the refund amount: %s"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:40
+msgid "Type of card"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:51
+msgid "Card holder name"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:55
+msgid "Card number"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:59
+msgid "Expiry date"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "Month"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "January"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "February"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "March"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "April"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "May"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "June"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "July"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "August"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "September"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "October"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "November"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:62
+msgid "December"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:69
+msgid "Year"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:81
+msgid "CVC/CVV/CID"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:94
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-invoice-form.php:27
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:75
+msgid "Telephone number"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:94
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-invoice-form.php:27
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:75
+msgid "Mobile number"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:94
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-invoice-form.php:27
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:75
+msgid "E-mail address"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:102
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-invoice-form.php:35
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:82
+msgid "Transaction PIN"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-cc-payment-form.php:104
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-invoice-form.php:37
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:84
+msgid "Forgot your PIN?"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:37
+msgid "Please accept the SEPA direct debit mandate"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:45
+msgid "Account holder"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:49
+msgid "Bank country"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:61
+msgid "IBAN or Account number"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:65
+msgid "BIC or Bank code"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-payment-form.php:69
+msgid ""
+"I hereby grant the SEPA direct debit mandate and confirm that the given IBAN "
+"and BIC are correct"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:35
+msgid "Direct debit SEPA mandate confirmation"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:42
+msgid "Creditor"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:46
+msgid "Creditor identifier"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:50
+msgid "Mandate reference"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:55
+msgid ""
+"By granting this mandate form, I authorize (A) the creditor to send "
+"instructions to my bank to debit my account and (B) my bank to debit my "
+"account in accordance with the instructions from the creditor for this and "
+"future payments. <br/><br/> As part of my rights, I am entitled to a refund "
+"from my bank under the terms and conditions of my agreement with my bank. A "
+"refund must be claimed within eight weeks from the date on which my account "
+"was debited."
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:59
+msgid "Name of the payee"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:63
+msgid "Company name"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:67
+msgid "Street name and number"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:71
+msgid "Postal code and City"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:75
+msgid "Country"
+msgstr ""
+
+#: /var/www/dev/novalnet-payment-gateway-for-woocommerce/templates/checkout/render-sepa-overlay.php:79
+msgid "E-mail"
+msgstr ""

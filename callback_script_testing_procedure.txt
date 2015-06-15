@@ -1,0 +1,69 @@
+  CALLBACK SCRIPT TESTING PROCEDURE:
+  ---------------------------------
+  Kindly follow the below steps to test the callback script for all payment methods:
+
+  URL: <Site URL>/?wc_api=novalnet_callback
+ 
+  E.g.: https://woocommerce.novalnet.de/?wc_api=novalnet_callback
+
+  For testing the callback script, Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+  ------------------------------------------------------------------------------------------------------------------------------------------    
+  1) Enable debug mode = Yes;
+
+  2) Enable test mode = Yes;
+
+  ------------------------------
+  Payment type      Payment name   
+  ------------------------------
+  INVOICE_CREDIT       Invoice                               
+  INVOICE_CREDIT       Prepayment                            
+  PAYPAL               PayPal                                
+  ONLINE_TRANSFER      Instant Bank Transfer                 
+  CREDITCARD           Credit Card and Credit Card 3D secure 
+  IDEAL                iDEAL                                 
+  DIRECT_DEBIT_SEPA    Direct Debit SEPA
+  EPS                  EPS
+
+  INVOICE_CREDIT payment_type 
+  ---------------------------
+  Formatted URL: <Site URL>/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435
+
+  Other payment type
+  ------------------
+  Formatted URL: <Site URL>/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435
+
+  Please use the respective payment type in the param "payment_type". (E.g.: payment_type=PAYPAL)
+
+  Parameters:
+  -----------
+  vendor_id          - Merchant ID
+
+  status             - Successful payment transaction value
+
+  payment_type       - Type of payment process
+
+  tid_payment        - Existing appropriate order transaction id ( only for Invoice and Prepayment payment methods )
+
+  amount             - Customer paid amount in cents
+
+  tid                - Callback script transaction id
+
+  For real time transaction
+  -------------------------
+  Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+
+  1) Enable debug mode = No;
+
+  2) Enable test mode = No;
+  
+  Email configuration 
+  -------------------
+  Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+
+  1. Enable E-mail notification for callback = True   // To receive mail for successful execution of callbackscript
+
+  2. E-mail address (To) = ''  //adapt recipient email address
+
+  3. E-mail address (Bcc) = '' //adapt recipient email address on BCC
+
+***** End of File *****
