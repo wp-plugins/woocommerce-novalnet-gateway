@@ -13,9 +13,9 @@
 
     if ( jQuery('#novalnet_shop_admin').val() == 1 ) {
         jQuery('.cancelled').click(function() {
-			if(jQuery('.cancelled').parent('div').attr('class') == 'row-actions'){
-				jQuery('.cancelled').parent('div').removeClass('row-actions');
-			}
+            if(jQuery('.cancelled').parent('div').attr('class') == 'row-actions'){
+                jQuery('.cancelled').parent('div').removeClass('row-actions');
+            }
             var cancelhref = jQuery(this).children("a").attr('href').split("?")[1];
             var action_url = jQuery(this).children("a").attr('href');
             var hrefparams = cancelhref.split("&");
@@ -42,9 +42,9 @@
             jQuery(this).css('visibility','hidden');
         });
 
-	jQuery('.subscription-actions').find("a.cancel").each(function() {
+    jQuery('.subscription-actions').find("a.cancel").each(function() {
             jQuery(this).bind("click", function(event){
-				jQuery(this).css('visibility','hidden');
+                jQuery(this).css('visibility','hidden');
                 var cancelhref = jQuery(this).attr("href").split("?")[1];
                 var hrefparams = cancelhref.split("&");
                 for(var i=0; i < hrefparams.length; i++) {
@@ -66,7 +66,7 @@
  });
 
  function process_cancel_option( url, subs_key, curElement, action_url ){
-	var url_value = url + '?nov_action=subs_cancel&'+subs_key;
+    var url_value = url + '?nov_action=subs_cancel&'+subs_key;
     if ('XDomainRequest' in window && window.XDomainRequest !== null) {
         var xdr = new XDomainRequest();
         xdr.open('POST' , url_value);

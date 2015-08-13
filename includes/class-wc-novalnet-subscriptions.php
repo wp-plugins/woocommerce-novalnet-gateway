@@ -1,7 +1,7 @@
 <?php
 
  // Exit if accessed directly
- if ( ! defined('ABSPATH') )
+ if ( ! defined( 'ABSPATH' ) )
     exit;
 
 /**
@@ -17,7 +17,7 @@
  * comment on merchant form would be greatly appreciated.
  *
  * @class       Novalnet_Subscriptions
- * @version     10.0.0
+ * @version     10.1.0
  * @package     Novalnet/Classes
  * @category    Class
  * @author      Novalnet
@@ -29,15 +29,15 @@
  class Novalnet_Subscriptions {
 
     function __construct() {
-		
-		
+
+
         $this->query_params = isset( $_REQUEST ) ? $_REQUEST : '';
         $this->subscription_key = isset( $this->query_params['subscription_key'] ) ? $this->query_params['subscription_key'] : ( isset( $this->query_params['subscription'] ) ? $this->query_params['subscription'] : ( isset( $this->query_params['wcs_subscription_key'] ) ? $this->query_params['wcs_subscription_key'] : '' ) );
 
         add_action( 'init', array( &$this, 'initialize_novalnet_subscription' ) , 10 );
         add_action( 'woocommerce_before_my_account', 'wc_novalnet_customize_subscription_cancel' );
         add_action( 'wp_ajax_wcs_update_next_payment_date', array( &$this, 'perform_subscription_recurring_date_extension' ), 9 );
-        add_action( 'woocommerce_process_shop_order_meta',array( $this, 'perform_subscription_recurring_amount_update'), 11, 2 );
+        add_action( 'woocommerce_process_shop_order_meta',array( $this, 'perform_subscription_recurring_amount_update' ), 11, 2 );
     }
 
     /**
@@ -47,14 +47,26 @@
      * @return void
      */
     public function initialize_novalnet_subscription() {
+
         if ( ! empty( $this->query_params ) ) {
-            if ( isset( $this->query_params['nov_action'] ) && $this->query_params['nov_action'] == 'subs_cancel' && ! empty( $this->query_params['nov_cus_subs_key'] )) {
-                $cus_order_id = explode( '_' , $this->query_params['nov_cus_subs_key'] );
+            $subs_key = '';
+            if(! empty( $this->query_params['nov_cus_subs_key'] ) ) {
+                $subs_key = $this->query_params['nov_cus_subs_key'];
+            }elseif( ! empty( $this->query_params['subscription'] ) ) {
+                $subs_key = $this->query_params['subscription'];
+            }
+            $cus_order_id = explode( '_' , $subs_key );
+
+            if ( isset( $this->query_params['nov_action'] ) && $this->query_params['nov_action'] == 'subs_cancel' && ! empty( $this->query_params['nov_cus_subs_key'] ) && !isset( $this->query_params['nov_reason'] ) ) {
+
                 echo wc_novalnet_authenticate_subs_cancel( $cus_order_id[0] );
                 exit;
             } else {
                 $subs_status = ( is_admin() && isset( $this->query_params['new_status'] ) ) ? $this->query_params['new_status'] : ( isset( $this->query_params[ 'change_subscription_to' ] ) ? $this->query_params[ 'change_subscription_to' ] : '' );
                 if ( ! empty( $subs_status ) ) {
+
+                    $this->perform_novalnet_lower_version_restriction( $cus_order_id[0], ( $subs_status != 'cancelled' ) ? true : false );
+
                     if ( $subs_status == 'cancelled' ) {
                         $this->perform_subscription_cancel();
                     } else if ( $subs_status == 'on-hold' ) {
@@ -77,26 +89,37 @@
         global $wpdb;
         $subscription = WC_Subscriptions_Manager::get_subscription( $this->subscription_key );
         $order = new WC_Order( $subscription['order_id'] );
+
         $reason_id = isset( $this->query_params['nov_reason'] ) ? $this->query_params['nov_reason'] : '';
         if ( empty( $reason_id ) ) {
             wc_novalnet_subs_admin_messages( __('Please select the reason of subscription cancellation','wc-novalnet'), 'error' );
         } else {
             $cancel_reason = wc_novalnet_subscription_cancel_list();
-            $result_set = $wpdb->get_row( $wpdb->prepare( "SELECT vendor_id, auth_code, product_id, tariff_id, payment_id,tid FROM {$wpdb->prefix}novalnet_transaction_detail WHERE order_no=%d" , $subscription['order_id'] ) );
+            $result_set = $wpdb->get_row( $wpdb->prepare( "SELECT vendor_id, auth_code, product_id, tariff_id, payment_id,tid FROM {$wpdb->prefix}novalnet_transaction_detail WHERE order_no=%d" , $subscription['order_id'] ), ARRAY_A );
             $language = wc_novalnet_shop_language();
-            if ( ! empty( $result_set->vendor_id ) && ! empty( $result_set->auth_code ) && ! empty( $result_set->product_id ) && ! empty( $result_set->tariff_id ) && ! empty( $result_set->tid ) && ! empty( $result_set->payment_id ) ) {
-                $cancel_requset = array(
-                    'vendor'    => $result_set->vendor_id,
-                    'auth_code' => $result_set->auth_code,
-                    'product'   => $result_set->product_id,
-                    'tariff'    => $result_set->tariff_id,
-                    'tid'       => $result_set->tid,
-                    'key'       => $result_set->payment_id,
+            if ( empty ( $result_set ) ) {
+                $payment_details = wc_novalnet_payment_details();
+                preg_match( '/ID[\s]*:[\s]*([0-9]{17})/', $order->customer_note, $nn_tid );
+                $payment_type = get_post_meta($subscription['order_id'],'_recurring_payment_method',true);
+                $result_set = wc_novalnet_global_configurations( true );
+                $result_set['tariff_id']  = $result_set['subs_tariff_id'];
+                $result_set['tid']        = $nn_tid['1'];
+                $result_set['payment_id'] = $payment_details[ $payment_type ]['payment_key'];
+            }
+            if ( ! empty( $result_set['vendor_id'] ) && ! empty( $result_set['auth_code'] ) && ! empty( $result_set['product_id'] ) && ! empty( $result_set['tariff_id'] ) && ! empty( $result_set['tid'] ) ) {
+                $cancel_request = array(
+                    'vendor'    => $result_set['vendor_id'],
+                    'auth_code' => $result_set['auth_code'],
+                    'product'   => $result_set['product_id'],
+                    'tariff'    => $result_set['tariff_id'],
+                    'tid'       => $result_set['tid'],
+                    'key'       => $result_set['payment_id'],
                     'cancel_sub'=> 1,
                     'cancel_reason' => $cancel_reason[ $reason_id ],
                     'lang' => $language
                 );
-                $cancel_response =  wc_novalnet_submit_request( $cancel_requset );
+
+                $cancel_response =  wc_novalnet_submit_request( $cancel_request );
 
                 if ( 100 == $cancel_response['status'] ) {
 
@@ -161,11 +184,11 @@
 
             $users_subscriptions = WC_Subscriptions_Manager::update_users_subscriptions( $order->user_id, array( $this->subscription_key => array( 'status' => 'on-hold', 'suspension_count' => $suspension_count ) ) );
 
-            $suspend_msg = sprintf(__('This subscription transaction has been suspended on %s','wc-novalnet'), date_i18n( get_option('date_format'), strtotime( date( 'd-m-Y' ) ) ) );
+            $suspend_msg = sprintf(__( 'This subscription transaction has been suspended on %s','wc-novalnet' ), date_i18n( get_option( 'date_format' ), strtotime( date( 'd-m-Y' ) ) ) );
 
             wc_novalnet_update_customer_notes( $subscription['order_id'], $suspend_msg );
 
-            $wpdb->update( "{$wpdb->prefix}novalnet_subscription_details", array(  'suspended_date' => date('Y-m-d H:i:s') ),  array( 'order_no' => $subscription['order_id'] ) );
+            $wpdb->update( "{$wpdb->prefix}novalnet_subscription_details", array(  'suspended_date' => date( 'Y-m-d H:i:s' ) ),  array( 'order_no' => $subscription['order_id'] ) );
 
             wc_novalnet_subs_admin_messages( $suspend_msg );
         } else {
@@ -248,9 +271,19 @@
     public function perform_subscription_recurring_date_extension() {
         global $wpdb;
         if ( isset( $this->query_params['action'] ) && $this->query_params['action'] == 'wcs_update_next_payment_date' ) {
-            $new_recurring_date = $this->query_params['wcs_year'] . '-' . $this->query_params['wcs_month'] . '-' . $this->query_params['wcs_day'];
 
+            $cus_nov_id = explode('_',$this->query_params['wcs_subscription_key']);
+
+            $this->perform_novalnet_lower_version_restriction( $cus_nov_id[0],false,true );
+
+            $new_recurring_date = $this->query_params['wcs_year'] . '-' . $this->query_params['wcs_month'] . '-' . $this->query_params['wcs_day'];
             $subscription = WC_Subscriptions_Manager::get_subscription( $this->subscription_key );
+
+            if( $new_recurring_date != date( 'Y-m-d',strtotime( $new_recurring_date ) ) ) {
+                $response['message'] = sprintf( '<div class="error">%s</div>', __( 'Due date is not valid', 'wc-novalnet' ) );
+                echo json_encode( $response );
+                exit();
+            }
 
             $order = new WC_Order( $subscription['order_id'] );
 
@@ -295,11 +328,11 @@
                             'tid'               => $result_set->tid
                         )
                     );
-                    $date_update_msg = sprintf( __( 'Subscription renewal date has been successfully changed on %s','wc-novalnet'),  date_i18n( get_option('date_format'), strtotime( $date_extension_gateway_response['next_subs_cycle'] ) ) );
+                    $date_update_msg = sprintf( __( 'Subscription renewal date has been successfully changed on %s','wc-novalnet' ),  date_i18n( get_option( 'date_format' ), strtotime( $date_extension_gateway_response['next_subs_cycle'] ) ) );
 
                     wc_novalnet_update_customer_notes( $subscription['order_id'], $date_update_msg );
 
-                    $wpdb->update( "{$wpdb->prefix}novalnet_subscription_details", array( 'next_payment_date' => date('Y-m-d', strtotime( $date_extension_gateway_response[ 'next_subs_cycle' ] ) ) ),  array( 'order_no' => $subscription['order_id'] ) );
+                    $wpdb->update( "{$wpdb->prefix}novalnet_subscription_details", array( 'next_payment_date' => date( 'Y-m-d', strtotime( $date_extension_gateway_response[ 'next_subs_cycle' ] ) ) ),  array( 'order_no' => $subscription['order_id'] ) );
                     wc_novalnet_subs_admin_messages( $date_update_msg );
 
                 } else {
@@ -368,6 +401,36 @@
                         wc_novalnet_subs_admin_messages( $response_text, 'error' );
                     }
                 }
+            }
+        }
+    }
+    /**
+     * Performs restrictions for the orders placed through lower Novalnet version
+     *
+     * @param integer $order_id
+     * @param boolean $restrict_order
+     * @param boolean $date_change_process
+     * @return void
+     */
+    public function perform_novalnet_lower_version_restriction( $order_id, $restrict_order = false, $date_change_process = false ) {
+        $nn_version_check = get_post_meta( $order_id,'_nn_version', true );
+        $nn_status_check = get_post_meta( $order_id,'_nn_status_code', true );
+
+        $nov_payment = get_post_meta( $order_id,'_payment_method', true );
+
+        if ( !$nn_version_check && $nn_status_check && $nov_payment && substr( $nov_payment, 0, 3 ) == 'nov' ) {
+            $nov_restriction_error = __('This operation is not possible for this order.','wc-novalnet');
+
+            if ( $date_change_process ) {
+
+                $response['message'] = sprintf( '<div class="error">%s</div>', $nov_restriction_error );
+
+                echo json_encode( $response );
+
+                exit();
+            } else if ( $restrict_order ) {
+
+                wc_novalnet_subs_admin_messages( $nov_restriction_error, 'error' );
             }
         }
     }

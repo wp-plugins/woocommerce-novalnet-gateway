@@ -14,7 +14,7 @@
  * you have found this script useful a small recommendation as well as a
  * comment on merchant form would be greatly appreciated.
  *
- * @version     10.0.0
+ * @version     10.1.0
  * @package     Novalnet/Templates
  * @author      Novalnet
  *
@@ -32,22 +32,22 @@
 <div id='sepa_mandate_overlay_block' style='display:none;' class='overlay_window_block'>
     <!-- Overlay Header -->
     <div class='nn_header'>
-        <h1 id="sepa_overlay_text"><?php echo __('Direct debit SEPA mandate confirmation','wc-novalnet'); ?></h1>
+        <h1 id="sepa_overlay_text"><?php echo __( 'Direct debit SEPA mandate confirmation','wc-novalnet' ); ?></h1>
     </div>
 
     <!-- Overlay Body -->
     <div class='body_div' id='overlay_window_block_body'>
         <table class="nov_overlay">
             <tr>
-                <td><?php echo __('Creditor', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'Creditor', 'wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_payee_span'> </span></td>
             </tr>
             <tr>
-                <td><?php echo __('Creditor identifier','wc-novalnet'); ?></td>
+                <td><?php echo __( 'Creditor identifier','wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_creditoridentificationnumber_span'> </span></td>
             </tr>
             <tr>
-                <td><?php echo __('Mandate reference', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'Mandate reference', 'wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_mandatereference_span'> </span></td>
             </tr>
         </table>
@@ -56,27 +56,27 @@
         <br/><br/>
         <table class="nov_overlay">
             <tr>
-                <td><?php echo __('Name of the payee', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'Name of the payer', 'wc-novalnet' ); ?></td>
                 <td><span class='sepa_overlay_enduser_name_span'> </span></td>
             </tr>
             <tr id="overlay_company">
-                <td><?php echo __('Company name', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'Company name', 'wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_enduser_company_span'> </span></td>
             </tr>
             <tr id="overlay_address">
-                <td><?php echo __('Street name and number', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'Street name and number', 'wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_enduser_address_span'> </span></td>
             </tr>
             <tr id="overlay_city">
-                <td><?php echo __('Postal code and City', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'Postal code and City', 'wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_enduser_zip_span'> </span> <span class='sepa_overlay_enduser_city_span'> </span></td>
             </tr>
             <tr>
-                <td><?php echo __('Country', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'Country', 'wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_enduser_country_span'> </span></td>
             </tr>
             <tr id="overlay_email">
-                <td><?php echo __('E-mail', 'wc-novalnet'); ?></td>
+                <td><?php echo __( 'E-mail', 'wc-novalnet' ); ?></td>
                 <td><span id='sepa_overlay_enduser_email_span'> </span></td>
             </tr>
             <tr id='nn_sepa_overlay_iban_tr'>
@@ -100,8 +100,8 @@
 
     <!-- Overlay Footer -->
     <div class='nn_footer'>
-        <input type='button' value='<?php echo __('Confirm', 'wc-novalnet'); ?>' class='sepa_overlay_buttons' id='mandate_confirm' onclick="confirm_mandate_overlay();" />
-        <input type='button' value='<?php echo __('Cancel', 'wc-novalnet'); ?>' class='sepa_overlay_buttons' id='mandate_cancel' onclick="close_mandate_overlay();" />
+        <input type='button' value='<?php echo __( 'Confirm', 'wc-novalnet' ); ?>' class='sepa_overlay_buttons' id='mandate_confirm' onclick="confirm_mandate_overlay();" />
+        <input type='button' value='<?php echo __( 'Cancel', 'wc-novalnet' ); ?>' class='sepa_overlay_buttons' id='mandate_cancel' onclick="close_mandate_overlay();" />
         <img src="<?php echo NN_Fns()->nn_plugin_url() . '/assets/images/novalnet_logo.png'; ?>" alt='Novalnet' style='float:right; width:120px'/>
     </div>
 </div>

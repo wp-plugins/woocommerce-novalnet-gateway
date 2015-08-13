@@ -2,11 +2,12 @@
   ---------------------------------
   Kindly follow the below steps to test the callback script for all payment methods:
 
-  URL: <Site URL>/?wc_api=novalnet_callback
+  URL: {shop_url}/?wc_api=novalnet_callback
  
   E.g.: https://woocommerce.novalnet.de/?wc_api=novalnet_callback
 
-  For testing the callback script, Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+  For testing the callback script, Kindly make the following changes in the mentioned path, login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+
   ------------------------------------------------------------------------------------------------------------------------------------------    
   1) Enable debug mode = Yes;
 
@@ -26,11 +27,11 @@
 
   INVOICE_CREDIT payment_type 
   ---------------------------
-  Formatted URL: <Site URL>/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435
+  Formatted URL: {shop_url}/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=INVOICE_CREDIT&tid_payment=12675800001204435&amount=3778&tid=12675800001204435
 
   Other payment type
   ------------------
-  Formatted URL: <Site URL>/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435
+  Formatted URL: {shop_url}/?wc_api=novalnet_callback&vendor_id=4&status=100&payment_type=PAYPAL&amount=3778&tid=12675800001204435
 
   Please use the respective payment type in the param "payment_type". (E.g.: payment_type=PAYPAL)
 
@@ -50,7 +51,8 @@
 
   For real time transaction
   -------------------------
-  Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+  Kindly make the following changes in the mentioned path, login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+
 
   1) Enable debug mode = No;
 
@@ -58,7 +60,8 @@
   
   Email configuration 
   -------------------
-  Kindly make the following changes in following path login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+  Kindly make the following changes in the mentioned path, login as ADMIN and goto WooCommerce -> Settings -> Novalnet Global Configuration by clicking and configure the data under Merchant script management.
+
 
   1. Enable E-mail notification for callback = True   // To receive mail for successful execution of callbackscript
 

@@ -3,44 +3,44 @@
  */
 
 #novalnet_loading_div {
-	display:none;
-	background: none repeat scroll 0px 0px rgb(0, 0, 0);
-	height: 100%;
-	left: 0px;
-	position: fixed;
-	top: 0px;
-	width: 100%;
-	z-index: 100000;
-	background: url('../images/novalnet_loading_icon.gif') 50% 50% no-repeat;
+    display:none;
+    background: none repeat scroll 0px 0px rgb(0, 0, 0);
+    height: 100%;
+    left: 0px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 100000;
+    background: url('../images/novalnet_loading_icon.gif') 50% 50% no-repeat;
 }
 
 #nn_cancel_btn {
-	background-color:#339933;
-	color:white;
-	font-size: 12px;
-	border: 2px solid;
-	border-radius: 5px;
+    background-color:#339933;
+    color:white;
+    font-size: 12px;
+    border: 2px solid;
+    border-radius: 5px;
 }
 
 .nn_map_header {
-	background-color:#0080c9;
-	color:#fff;
-	font-size:14px;
-	font-family:calibri;
-	font-weight:bold;
-	padding:5px;
-	text-align:center;
-	width:98%;
+    background-color:#0080c9;
+    color:#fff;
+    font-size:14px;
+    font-family:calibri;
+    font-weight:bold;
+    padding:5px;
+    text-align:center;
+    width:98%;
 }
 
 .nn_map_header:hover{
-	background-color:#878787;
+    background-color:#878787;
 }
 
 .nn_map_header a{
-	color:#fff;
+    color:#fff;
 }
 
 .nn_map_header a:hover{
-	color:#fff;
+    color:#fff;
 }

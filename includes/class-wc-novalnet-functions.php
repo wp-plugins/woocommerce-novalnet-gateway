@@ -15,7 +15,7 @@
  * comment on merchant form would be greatly appreciated.
  *
  * @class       Novalnet_Functions
- * @version     10.0.0
+ * @version     10.1.0
  * @package     Novalnet/Classes
  * @category    Class
  * @author      Novalnet
@@ -84,12 +84,12 @@
  add_filter( 'woocommerce_available_payment_gateways','wc_novalnet_filter_gateways' , 1 );
 
  // action on login and logout
- add_action('wp_logout', 'wc_novalnet_clear_sessions');
- add_action('wp_login', 'wc_novalnet_clear_sessions');
+ add_action( 'wp_logout', 'wc_novalnet_clear_sessions' );
+ add_action( 'wp_login', 'wc_novalnet_clear_sessions' );
 
 
- if ( WOOCOMMERCE_VERSION < '2.3.0') {
-    add_action( 'woocommerce_order_details_after_order_table','wc_novalnet_display_transaction_info') ;
+ if ( WOOCOMMERCE_VERSION < '2.3.0' ) {
+    add_action( 'woocommerce_order_details_after_order_table','wc_novalnet_display_transaction_info' ) ;
  } else {
     add_action( 'woocommerce_order_items_table', 'wc_novalnet_align_transaction_info' );
  }
@@ -104,8 +104,8 @@
  function wc_novalnet_display_transaction_info( $order ) {
     global $novalnet_payments;
     if ( in_array( $order->payment_method, $novalnet_payments ) && $order->customer_note ) {
-        echo wpautop('<h2>' . __('Novalnet transaction details', 'novalnet') . '</h2>');
-        echo wpautop(wptexturize($order->customer_note));
+        echo wpautop( '<h2>' . __( 'Novalnet transaction details', 'novalnet' ) . '</h2>' );
+        echo wpautop( wptexturize( $order->customer_note ) );
     }
  }
 
@@ -144,11 +144,11 @@
         $_SESSION['novalnet'] = false;
     }
 
-	if ( isset( $_SESSION['novalnet_cc'] ) )
+    if ( isset( $_SESSION['novalnet_cc'] ) )
         $_SESSION['novalnet_cc'] = false;
-	if ( isset( $_SESSION['novalnet_invoice'] ) )
+    if ( isset( $_SESSION['novalnet_invoice'] ) )
         $_SESSION['novalnet_invoice'] = false;
-	if ( isset( $_SESSION['novalnet_sepa'] ) )
+    if ( isset( $_SESSION['novalnet_sepa'] ) )
         $_SESSION['novalnet_sepa'] = false;
 
     if ( isset( WC()->session->novalnet_aff_id ) )
@@ -178,25 +178,26 @@
   */
  function wc_novalnet_filter_gateways( $gateways ) {
     global $novalnet_payments;
-
     $enabled_novalnet_payments = array();
     foreach ( $gateways as $k ) {
+
         if ( in_array( $k->id, $novalnet_payments ) ) {
             $enabled_novalnet_payments[] = $k->id;
         }
     }
     $validate = wc_novalnet_global_validation( NN_Fns()->global_settings );
 
+
     foreach ( $enabled_novalnet_payments as $payments ) {
-		if ( $validate ) {
+        if ( $validate ) {
             unset( $gateways[ $payments ] );
         }
         if ( isset( $_SESSION[ $payments ]['invalid_count'] ) ) {
-			if ( isset( $_SESSION[ $payments ]['time_limit'] ) && time() > $_SESSION[ $payments]['time_limit'] ) {
-				unset( $_SESSION[ $payments ]['invalid_count'], $_SESSION[ $payments ]['time_limit'] );
-			} else {
-				unset( $gateways[ $payments ] );
-			}
+            if ( isset( $_SESSION[ $payments ]['time_limit'] ) && time() > $_SESSION[ $payments]['time_limit'] ) {
+                unset( $_SESSION[ $payments ]['invalid_count'], $_SESSION[ $payments ]['time_limit'] );
+            } else {
+                unset( $gateways[ $payments ] );
+            }
         }
     }
 
@@ -204,18 +205,18 @@
  }
 
  function wc_novalnet_get_woocommerce_order_status() {
-	global $wpdb;
-	if ( WOOCOMMERCE_VERSION >= '2.2.0' ) {
-		$available_status = wc_get_order_statuses();
-	}else {
-		$sql = "SELECT slug, name FROM $wpdb->terms WHERE term_id in(SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy='%s')";
-		$row = $wpdb->get_results( $wpdb->prepare( $sql,'shop_order_status') );
+    global $wpdb;
+    if ( WOOCOMMERCE_VERSION >= '2.2.0' ) {
+        $available_status = wc_get_order_statuses();
+    }else {
+        $sql = "SELECT slug, name FROM $wpdb->terms WHERE term_id in(SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy='%s' )";
+        $row = $wpdb->get_results( $wpdb->prepare( $sql,'shop_order_status' ) );
 
-		for ( $i=0; $i < sizeof($row); $i++ ) {
-			$available_status[ $row[ $i ]->slug ]=__( $row[$i]->name, 'woocommerce' );
-		}
-	}
-	return $available_status;
+        for ( $i=0; $i < sizeof( $row ); $i++ ) {
+            $available_status[ $row[ $i ]->slug ]=__( $row[$i]->name, 'woocommerce' );
+        }
+    }
+    return $available_status;
  }
 
  /**
@@ -225,14 +226,15 @@
   * @return void
   */
  function wc_novalnet_custom_admin_redirect() {
-	$redirect = get_admin_url() . 'admin.php?' . http_build_query($_GET);
-	if (isset($_GET['wc_error'])){
-		$redirect = remove_query_arg('wc_error');
-		echo '<script type="text/javascript">
-			var url = "'.$redirect.'"
-			jQuery("form").attr("action",url);
-		  </script>';
-	}
+     $get = $_GET;
+    $redirect = get_admin_url() . 'admin.php?' . http_build_query( $get );
+    if ( isset( $get['wc_error'] ) ) {
+        $redirect = remove_query_arg( 'wc_error' );
+        echo '<script type="text/javascript">
+            var url = "'.$redirect.'"
+            jQuery("form").attr("action",url);
+          </script>';
+    }
  }
 
  /**
@@ -263,6 +265,7 @@
 
     switch ( $message_type ) {
         case 'error':
+
             $_SESSION['errors'][] = $message;
             wc_add_notice( $message, 'error' );
             break;
@@ -281,20 +284,35 @@
   */
  function wc_novalnet_global_validation( $option ) {
     $is_error = false;
-    unset($option['subs_payments']);
-	$options = array_map( "trim" , $option );
+    unset( $option['subs_payments'] );
+    $options = array_map( "trim" , $option );
 
     $pattern = "/^\d+\|\d+\|\d+\|\w+\|\w+$/";
     $value = $options['vendor_id'].'|'.$options['product_id'].'|'.$options['tariff_id'].'|'. $options['auth_code'] . '|' .$options['key_password'];
-    preg_match($pattern, $value, $match);
+    preg_match( $pattern, $value, $match );
 
     if ( empty( $match ) ) {
       $is_error = true;
-	}
-    if( ! $is_error && ( $options['enable_subs'] && ! wc_novalnet_digits_check( $options['subs_tariff_id'] ) ) || ( $options['callback_emailtoaddr'] && ! is_email( $options['callback_emailtoaddr'] ) ) || ( $options['manual_limit'] && ! wc_novalnet_digits_check( $options['manual_limit'] ) ) || ( $options['referrer_id'] && ! wc_novalnet_digits_check($options['referrer_id'] ) ) || ( $options['gateway_timeout'] && ! wc_novalnet_digits_check($options['gateway_timeout'] ) ) )
+    }
+    if( ! $is_error && ( $options['enable_subs'] && ! wc_novalnet_digits_check( $options['subs_tariff_id'] ) ) || ( $options['callback_emailtoaddr'] && ! is_email( $options['callback_emailtoaddr'] ) ) || ( $options['manual_limit'] && ! wc_novalnet_digits_check( $options['manual_limit'] ) ) || ( $options['referrer_id'] && ! wc_novalnet_digits_check( $options['referrer_id'] ) ) || ( $options['gateway_timeout'] && ! wc_novalnet_digits_check( $options['gateway_timeout'] ) ) )
         $is_error = true;
 
     return $is_error;
+ }
+
+ /**
+  * Validates the reference fields for Invoice and Prepayment
+  *
+  * @param array $option
+  * @return boolean
+  */
+ function wc_novalnet_reference_validation( $option ) {
+    $payment_type = ( 'wc_gateway_novalnet_invoice'== $option['section'] ) ? 'novalnet_invoice' : 'novalnet_prepayment';
+    if( empty( $option['woocommerce_'. $payment_type .'_payment_reference_1'] ) && empty( $option['woocommerce_'. $payment_type .'_payment_reference_2'] ) && empty( $option['woocommerce_'. $payment_type .'_payment_reference_3'] ) ) {
+
+        return true;
+    }
+    return false;
  }
 
  /**
@@ -304,7 +322,7 @@
   * @return boolean
   */
  function wc_novalnet_digits_check( $input ) {
-    $input = trim($input);
+    $input = trim( $input );
     return ( preg_match ("/^[0-9]+$/" , $input ) );
  }
 
@@ -333,12 +351,12 @@
     foreach ( $encoded_values as $v ) {
         $data = $payment_parameters[ $v ];
         try {
-            $crc = sprintf('%u', crc32( $data ) );
+            $crc = sprintf( '%u', crc32( $data ) );
             $data = $crc . "|" . $data;
             $data = bin2hex( $data . trim( $key ) );
             $data = strrev( base64_encode( $data) );
         } catch ( Exception $e ) {
-            echo('Error: ' . $e );
+            echo( 'Error: ' . $e );
         }
         $payment_parameters[ $v ] = $data;
     }
@@ -363,12 +381,12 @@
         }
         $crc = substr( $data, 0, $pos );
         $value = trim(substr( $data, $pos + 1 ) );
-        if ( $crc != sprintf('%u', crc32( $value ) ) ) {
+        if ( $crc != sprintf( '%u', crc32( $value ) ) ) {
                 return("Error; CKSum invalid!");
         }
         return $value;
     } catch ( Exception $e ) {
-            echo('Error: ' . $e );
+            echo( 'Error: ' . $e );
     }
 
     return $data;
@@ -381,7 +399,7 @@
   * @return string
   */
  function wc_novalnet_generate_hash( $payment_parameters = array() ) {
-	$aff_details = wc_process_affiliate_action();
+    $aff_details = wc_process_affiliate_action();
     $key = ( !empty( $aff_details['aff_accesskey'] ) ) ? $aff_details['aff_accesskey'] : NN_Fns()->global_settings['key_password'] ;
     return md5( $payment_parameters['auth_code'] . $payment_parameters['product'] . $payment_parameters['tariff'] . $payment_parameters['amount'] . $payment_parameters['test_mode'] . $payment_parameters['uniqid'] . strrev( trim( $key ) ) );
  }
@@ -420,10 +438,10 @@
   */
  function wc_novalnet_submit_request( $request, $url = '' ) {
     if ( empty( $url ) ) {
-        $url = ( is_ssl() ? 'https://' : 'http://' ). 'payport.novalnet.de/paygate.jsp';
+        $url = 'https://payport.novalnet.de/paygate.jsp';
     }
-    $data = wc_novalnet_perform_curl_request($url, $request);
-    wp_parse_str($data, $ary_response);
+    $data = wc_novalnet_perform_curl_request( $url, $request );
+    wp_parse_str( $data, $ary_response );
     return $ary_response;
  }
 
@@ -435,8 +453,8 @@
   */
  function wc_novalnet_random_string() {
     $randomwordarray=array( "a","b","c","d","e","f","g","h","i","j","k","l","m","1","2","3","4","5","6","7","8","9","0");
-    shuffle($randomwordarray);
-    return substr(implode($randomwordarray,""), 0, 30);
+    shuffle( $randomwordarray );
+    return substr( implode( $randomwordarray,"" ), 0, 30 );
  }
 
  /**
@@ -480,7 +498,7 @@
   * @return void | string $response
   */
  function wc_novalnet_perform_curl_request( $url, $request_data ) {
-    if ( ! empty( $url ) && ! empty( $request_data ) ) {
+      if ( ! empty( $url ) && ! empty( $request_data ) ) {
         $curl_timeout = wc_novalnet_digits_check( NN_Fns()->global_settings['gateway_timeout'] ) ? NN_Fns()->global_settings['gateway_timeout'] : 0;
         $ch = curl_init( $url );
         curl_setopt( $ch, CURLOPT_POST, 1 );
@@ -510,8 +528,8 @@
 
     $validate_data = wc_novalnet_is_basic_validation( $request_param , true);
     if ( $validate_data ) {
-        $data_xml = wc_novalnet_perform_curl_request( ( is_ssl() ? 'https://' : 'http://' ) . 'payport.novalnet.de/nn_infoport.xml', wc_novalnet_form_xmlrequest( $request_param ) );
-        $data = json_decode(json_encode((array)simplexml_load_string($data_xml)),1);
+        $data_xml = wc_novalnet_perform_curl_request( 'https://payport.novalnet.de/nn_infoport.xml', wc_novalnet_form_xmlrequest( $request_param ) );
+        $data = json_decode( json_encode( (array) simplexml_load_string( $data_xml ) ),1 );
         return $data;
     } else
         return array();
@@ -526,7 +544,7 @@
  function wc_novalnet_form_xmlrequest( $request_param ) {
 
     $urlparam = '<?xml version="1.0" encoding="UTF-8"?><nnxml><info_request>';
-    foreach ($request_param as $key => $value){
+    foreach ( $request_param as $key => $value ) {
         $urlparam .= '<' . $key . '>' . $value . '</' . $key . '>';
     }
     $urlparam .='</info_request></nnxml>';
@@ -574,7 +592,7 @@
   * @return boolean
   */
  function wc_novalnet_check_test_mode_status( $response_mode, $shop_mode = false ) {
-	return ( ( ( isset( $response_mode ) && $response_mode ) ||  $shop_mode ) ? 1 : 0 );
+    return ( ( ( isset( $response_mode ) && $response_mode ) ||  $shop_mode ) ? 1 : 0 );
  }
 
  /**
@@ -600,8 +618,8 @@
         $configuration_data['manual_limit']         = get_option( 'novalnet_manual_limit' );
         $configuration_data['auto_refill']          = get_option( 'novalnet_auto_refill' );
         $configuration_data['proxy']                = get_option( 'novalnet_proxy' );
-        $configuration_data['referrer_id']      	= get_option( 'novalnet_referrer_id' );
-        $configuration_data['debug_log']      		= get_option( 'novalnet_debug_log' );
+        $configuration_data['referrer_id']          = get_option( 'novalnet_referrer_id' );
+        $configuration_data['debug_log']            = get_option( 'novalnet_debug_log' );
         $configuration_data['gateway_timeout']      = get_option( 'novalnet_gateway_timeout' );
         $configuration_data['onhold_cancel_status'] = get_option( 'novalnet_onhold_cancel_status' );
         $configuration_data['onhold_success_status']= get_option( 'novalnet_onhold_success_status' );
@@ -618,7 +636,7 @@
   * @param string $type
   * @return string
   */
- function wc_novalnet_server_addr( $type = 'REMOTE_ADDR') {
+ function wc_novalnet_server_addr( $type = 'REMOTE_ADDR' ) {
     return ( ( $_SERVER[ $type] == '::1' ) ? '127.0.0.1' : $_SERVER[ $type ] );
  }
 
@@ -629,7 +647,10 @@
   * @return boolean
   */
  function wc_novalnet_fraud_prevention_option( $option ) {
-    if ( in_array( WC()->customer->country , array('AT', 'DE', 'CH') ) && !empty( $option['pin_by_callback'] ) && ( isset( $option['pin_amt_limit'] ) && ( empty( $option['pin_amt_limit'] ) || $option['pin_amt_limit'] <= WC()->session->total*100 ) && ! isset( $_REQUEST['pay_for_order'] ) ) ) {
+    $current_amount = WC()->session->total;
+    $current_amount = wc_novalnet_currency_format( $current_amount );
+
+    if ( in_array( WC()->customer->country , array( 'AT', 'DE', 'CH' ) ) && !empty( $option['pin_by_callback'] ) && ( isset( $option['pin_amt_limit'] ) && ( empty( $option['pin_amt_limit'] ) || $option['pin_amt_limit'] <= (string) $current_amount ) && ! isset( $_REQUEST['pay_for_order'] ) ) ) {
             return true;
     }
     return false;
@@ -665,18 +686,29 @@
     $post_no = wc_novalnet_get_order_no();
 
     if ( ! empty( $post_no ) && isset( $_REQUEST['pay_for_order'] ) && ! empty( $_REQUEST['pay_for_order'] ) ) {
+
+		$nn_version_check = get_post_meta( $post_no,'_nn_version',true );
+
+		$nov_payment = get_post_meta( $post_no,'_payment_method',true );
+
         $gateway_status = $wpdb->get_var( $wpdb->prepare( "SELECT gateway_status FROM {$wpdb->prefix}novalnet_transaction_detail WHERE order_no=%d", $post_no ) );
+
+		$nn_status_check = get_post_meta( $post_no,'_nn_status_code', true );
 
         if ( ! isset( $_REQUEST['change_payment_method'] ) && ! empty( $post_no ) && ! empty( $gateway_status ) ) {
             $message = 'Novalnet Transaction for the Order has been executed / cancelled already.';
             if ( substr( get_bloginfo('language'), 0, 2 ) == 'de' )
                 $message = 'Die Novalnet-Buchung für die Bestellung wurde schon ausgeführt / abgeschlossen.';
 
-        } else if ( isset( $_REQUEST['change_payment_method'] ) && $gateway_status != 100 ) {
+        } else if ( isset( $_REQUEST['change_payment_method'] ) && $gateway_status && $gateway_status != 100 ) {
             $message = 'Your order is not confirmed, kindly contact the merchant.';
             if ( substr( get_bloginfo('language'), 0, 2 ) == 'de' )
                     $message = 'Ihre Bestellung wurde nicht bestätigt; kontaktieren Sie bitte den Händler.';
-        }
+        } else if ( !$nn_version_check && $nn_status_check && $nov_payment && substr( $nov_payment, 0, 3 ) == 'nov' ) {
+			$message = 'This operation is not possible for this order.';
+			if ( substr( get_bloginfo('language'), 0, 2 ) == 'de' )
+                    $message = 'Dieser Vorgang ist für diese Bestellung nicht möglich.';
+		}
 
         if ( ! empty( $message ) ) {  ?>
             <style>
@@ -703,8 +735,6 @@
   * @return array
   */
  function wc_novalnet_payment_details() {
-
-    $domain = is_ssl() ? 'https://' : 'http://';
     $plugins_url = NN_Fns()->nn_plugin_url();
 
     return array(
@@ -715,7 +745,7 @@
             'description_en'    => 'The amount will be debited from your credit card once the order is submitted',
             'description_de'    =>'Der Betrag wird von Ihrer Kreditkarte abgebucht, sobald die Bestellung abgeschickt wird.',
             'payment_type'      => 'CREDITCARD',
-            'paygate_url'       => $domain . 'payport.novalnet.de/paygate.jsp',
+            'paygate_url'       => 'https://payport.novalnet.de/paygate.jsp',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_cc.png'
         ),
         'novalnet_eps' => array(
@@ -725,7 +755,7 @@
             'description_en'    => 'After the successful verification, you will be redirected to Novalnet secure order page to proceed with the payment',
             'description_de'    => 'Nach der erfolgreichen Überprüfung werden Sie auf die abgesicherte Novalnet-Bestellseite umgeleitet, um die Zahlung fortzusetzen.',
             'payment_type'      => 'EPS',
-            'paygate_url'       => $domain . 'payport.novalnet.de/eps_payport',
+            'paygate_url'       => 'https://payport.novalnet.de/eps_payport',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_eps.png'
 
         ),
@@ -736,7 +766,7 @@
             'description_en'    => 'After the successful verification, you will be redirected to Novalnet secure order page to proceed with the payment',
             'description_de'    => 'Nach der erfolgreichen Überprüfung werden Sie auf die abgesicherte Novalnet-Bestellseite umgeleitet, um die Zahlung fortzusetzen.',
             'payment_type'      => 'IDEAL',
-            'paygate_url'       => $domain . 'payport.novalnet.de/online_transfer_payport',
+            'paygate_url'       => 'https://payport.novalnet.de/online_transfer_payport',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_ideal.png'
         ),
         'novalnet_invoice' => array(
@@ -746,7 +776,7 @@
             'description_en'    =>  'Once you\'ve submitted the order, you will receive an e-mail with account details to make payment',
             'description_de'    => 'Nachdem Sie die Bestellung abgeschickt haben, erhalten Sie eine Email mit den Bankdaten, um die Zahlung durchzuführen.',
             'payment_type'      => 'INVOICE',
-            'paygate_url'       => $domain . 'payport.novalnet.de/paygate.jsp',
+            'paygate_url'       => 'https://payport.novalnet.de/paygate.jsp',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_invoice.png'
         ),
         'novalnet_paypal' => array(
@@ -756,7 +786,7 @@
             'description_en'    => 'After the successful verification, you will be redirected to Novalnet secure order page to proceed with the payment',
             'description_de'    => 'Nach der erfolgreichen Überprüfung werden Sie auf die abgesicherte Novalnet-Bestellseite umgeleitet, um die Zahlung fortzusetzen.',
             'payment_type'      => 'PAYPAL',
-            'paygate_url'       => $domain . 'payport.novalnet.de/paypal_payport',
+            'paygate_url'       => 'https://payport.novalnet.de/paypal_payport',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_paypal.png'
         ),
         'novalnet_prepayment' => array(
@@ -766,7 +796,7 @@
             'description_en'    =>  'Once you\'ve submitted the order, you will receive an e-mail with account details to make payment',
             'description_de'    => 'Nachdem Sie die Bestellung abgeschickt haben, erhalten Sie eine Email mit den Bankdaten, um die Zahlung durchzuführen.',
             'payment_type'      => 'PREPAYMENT',
-            'paygate_url'       => $domain . 'payport.novalnet.de/paygate.jsp',
+            'paygate_url'       => 'https://payport.novalnet.de/paygate.jsp',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_prepayment.png'
         ),
         'novalnet_sepa' => array(
@@ -776,7 +806,7 @@
             'description_en'    => 'Your account will be debited upon the order submission',
             'description_de'    => 'Ihr Konto wird nach Abschicken der Bestellung belastet.',
             'payment_type'      => 'DIRECT_DEBIT_SEPA',
-            'paygate_url'       => $domain . 'payport.novalnet.de/paygate.jsp',
+            'paygate_url'       => 'https://payport.novalnet.de/paygate.jsp',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_sepa.png'
         ),
         'novalnet_instantbank' => array(
@@ -786,7 +816,7 @@
             'description_en'    => 'After the successful verification, you will be redirected to Novalnet secure order page to proceed with the payment',
             'description_de'    => 'Nach der erfolgreichen Überprüfung werden Sie auf die abgesicherte Novalnet-Bestellseite umgeleitet, um die Zahlung fortzusetzen.',
             'payment_type'      => 'ONLINE_TRANSFER',
-            'paygate_url'       => $domain . 'payport.novalnet.de/online_transfer_payport',
+            'paygate_url'       => 'https://payport.novalnet.de/online_transfer_payport',
             'payment_logo'      => $plugins_url . '/assets/images/novalnet_instantbank.png'
         )
     );
@@ -797,7 +827,7 @@
  function wc_process_affiliate_action() {
     global $wpdb, $current_user;
 
-    $session_aff_data =  WC()->session->get('novalnet_aff_id') ;
+    $session_aff_data =  WC()->session->get( 'novalnet_aff_id' ) ;
 
     if ( ! empty( $session_aff_data ) ) {
 
@@ -828,7 +858,7 @@
   * @return integer
   */
  function wc_assign_payment_tariff( $order ) {
-    if ( in_array( $order->payment_method, NN_Fns()->global_settings['subs_payments'] ) && class_exists('WC_Subscriptions') && WC_Subscriptions_Order::order_contains_subscription( $order ) && NN_Fns()->global_settings['enable_subs'] ) {
+    if ( in_array( $order->payment_method, NN_Fns()->global_settings['subs_payments'] ) && class_exists( 'WC_Subscriptions' ) && WC_Subscriptions_Order::order_contains_subscription( $order ) && NN_Fns()->global_settings['enable_subs'] ) {
         return NN_Fns()->global_settings['subs_tariff_id'];
     } else {
         return NN_Fns()->global_settings['tariff_id'];
@@ -842,9 +872,9 @@
   * @return string | array $cancel_arrs
   */
  function wc_novalnet_subscription_cancel_list( $merge = false ) {
-    $cancel_arrs = array( '--' . __('Select','wc-novalnet') . '--', __('Product is costly','wc-novalnet'), __('Cheating','wc-novalnet'), __('Partner interfered','wc-novalnet'), __('Financial problem','wc-novalnet'), __('Content does not match my likes','wc-novalnet'), __('Content is not enough','wc-novalnet'), __('Interested only for a trial','wc-novalnet'), __('Page is very slow','wc-novalnet'), __('Satisfied customer','wc-novalnet'), __('Logging in problems','wc-novalnet'), __('Other','wc-novalnet') ) ;
+    $cancel_arrs = array( '--' . __( 'Select','wc-novalnet' ) . '--', __( 'Product is costly','wc-novalnet' ), __( 'Cheating','wc-novalnet' ), __( 'Partner interfered','wc-novalnet' ), __( 'Financial problem','wc-novalnet' ), __( 'Content does not match my likes','wc-novalnet' ), __( 'Content is not enough','wc-novalnet' ), __( 'Interested only for a trial','wc-novalnet' ), __( 'Page is very slow','wc-novalnet' ), __( 'Satisfied customer','wc-novalnet' ), __( 'Logging in problems','wc-novalnet' ), __( 'Other','wc-novalnet' ) ) ;
 
-    return ( ($merge == true ) ? implode( "|", $cancel_arrs ) : $cancel_arrs );
+    return ( ( $merge == true ) ? implode( "|", $cancel_arrs ) : $cancel_arrs );
  }
 
  /**
@@ -855,8 +885,24 @@
   */
  function wc_novalnet_authenticate_subs_cancel( $order_id ) {
     global $wpdb;
-    $trans_details = $wpdb->get_row( $wpdb->prepare( "SELECT id, subs_id FROM {$wpdb->prefix}novalnet_transaction_detail WHERE order_no=%d ORDER BY id DESC limit 1", $order_id ));
-    return ( ! empty( $trans_details->subs_id ) ? 'success' : 'failure' );
+    $trans_details = $wpdb->get_row( $wpdb->prepare( "SELECT id, subs_id FROM {$wpdb->prefix}novalnet_transaction_detail WHERE order_no=%d ORDER BY id DESC limit 1", $order_id ), ARRAY_A);
+	if ( empty( $trans_details ) ) {
+		$order_comments = $wpdb->get_var( $wpdb->prepare( "SELECT post_excerpt FROM $wpdb->posts where ID='%s'", $order_id ) );
+		preg_match( '/ID[\s]*:[\s]*([0-9]{17})/', $order_comments, $nn_tid );
+		$config_data = wc_novalnet_global_configurations( true );
+
+		$transaction_status_request = array(
+			'vendor_id'      => $config_data['vendor_id'],
+			'vendor_authcode'=> $config_data['auth_code'],
+			'product_id'     => $config_data['product_id'],
+			'request_type'   => 'TRANSACTION_STATUS',
+			'tid'            => $nn_tid[1]
+		);
+
+		$trans_details = wc_novalnet_perform_xmlrequest( $transaction_status_request );
+	}
+
+    return ( ! empty( $trans_details['subs_id'] ) ? 'success' : 'failure' );
  }
 
  /**
@@ -874,7 +920,7 @@
         $action = ( $type == 'error' ) ? 'error_messages' : 'messages';
         $msg_action[ $action ] = array( $message );
 
-        add_filter( 'woocommerce_subscriptions_list_table_pre_process_actions', 'wc_novalnet_admin_messages');
+        add_filter( 'woocommerce_subscriptions_list_table_pre_process_actions', 'wc_novalnet_admin_messages' );
     } else {
         wc_novalnet_display_info( $message, $type );
         wp_safe_redirect( get_permalink( woocommerce_get_page_id( 'myaccount' ) ) );
@@ -894,6 +940,25 @@
  }
 
  /**
+  * Formats amount
+  *
+  * @param $amount
+  * @return integer
+  */
+ function wc_novalnet_currency_format( $amount ) {
+    return str_replace( ',', '', sprintf( "%0.2f", $amount ) ) * 100;
+ }
+ /**
+  * Check for 3d secure enable for fraud module
+  *
+  * @param $amount
+  * @return integer
+  */
+ function wc_novalnet_check_3d_secure( $current_payment_id, $settings  ) {
+    return ( 'novalnet_cc' == $current_payment_id && $settings['cc_secure_enabled'] ) ? false : true;
+ }
+
+ /**
   * Calls from the hook "woocommerce_before_my_account"
   * Add the custom fields used for subscription cancel option
   *
@@ -907,7 +972,7 @@
     <input type="hidden" id="novalnet_url" value="' . site_url() . '" />
     <input type="hidden" id="novalnet_shop_admin" value="' . is_admin() . '" />
     <input type="hidden" id="avail_reasons" value="' . $reasons . '" />
-    <input type="hidden" id="subs_cancel_button" value="' . __('Confirm', 'wc-novalnet') . '" />
+    <input type="hidden" id="subs_cancel_button" value="' . __( 'Confirm', 'wc-novalnet' ) . '" />
     <script src="' . NN_Fns()->nn_plugin_url() . '/assets/js/jquery-min.js" type="text/javascript"></script>
     <script src="' . NN_Fns()->nn_plugin_url() . '/assets/js/novalnet_subscription.js" type="text/javascript"></script> ';
  }

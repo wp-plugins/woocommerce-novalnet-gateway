@@ -2,8 +2,14 @@
 *                    CHANGE LOGS                              *
 ***************************************************************
 								
+Version: wordpress_v_3.7.x-4.x_woocommerce_v_2.1.x-2.3.x_novalnet_v_10.1.0.zip 
+------------------------------------------------------------------------------				 			
+
+    - External plugin compatibility has been checked.
+    - Payment reference has been implemented.							
+
+								
 Version: wordpress_v_3.7.x-4.x_woocommerce_v_2.1.x-2.3.x_novalnet_v_10.0.0.zip 
---------------------------------------------------------------------				 			
+------------------------------------------------------------------------------				 			
 
-	- New release							
-
+    - New release
