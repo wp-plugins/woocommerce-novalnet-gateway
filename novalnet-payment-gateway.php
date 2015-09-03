@@ -388,7 +388,7 @@
 
                 if ( $this->current_payment_id == 'novalnet_cc' && $this->settings['cc_secure_enabled'] ) {
                     array_push( $this->redirect_payments, $this->current_payment_id );
-                    $this->payment_details[ $this->current_payment_id ]['paygate_url'] =  ( is_ssl() ? 'https://' : 'http://' ) . 'payport.novalnet.de/global_pci_payport';
+                    $this->payment_details[ $this->current_payment_id ]['paygate_url'] = 'https://payport.novalnet.de/global_pci_payport';
                 }
             }
 
