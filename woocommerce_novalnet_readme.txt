@@ -30,11 +30,11 @@
  *
  * Woocommerce subscription version  - 1.4.x-1.5.x
  *
- * Shop (WooCommerce) Version        - 2.1.x-2.3.x
+ * Shop (WooCommerce) Version        - 2.1.x-2.4.x
  *
- * Novalnet Version                  - 10.1.0
+ * Novalnet Version                  - 10.1.1
  *
- * Last Updated                      - 10-08-2015
+ * Last Updated                      - 28-08-2015
  *
  * Stability                         - Stable
  *
@@ -69,7 +69,7 @@ You have to install php modules: php-curl in your Webserver.
 Step 2:
 ========
 
-To install Novalnet payment module, kindly refer "IG-wordpress_v_3.7.x-4.x_woocommerce_v_2.1.x-2.3.x_novalnet_v_10.1.0.pdf".
+To install Novalnet payment module, kindly refer "IG-wordpress_v_3.7.x-4.x_woocommerce_v_2.1.x-2.4.x_novalnet_v_10.1.1.pdf".
 
 
 Step 3:

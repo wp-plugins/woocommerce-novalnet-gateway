@@ -17,7 +17,7 @@
  * comment on merchant form would be greatly appreciated.
  *
  * @class       Novalnet_Subscriptions
- * @version     10.1.0
+ * @version     10.1.1
  * @package     Novalnet/Classes
  * @category    Class
  * @author      Novalnet
@@ -34,14 +34,14 @@
         $this->query_params = isset( $_REQUEST ) ? $_REQUEST : '';
         $this->subscription_key = isset( $this->query_params['subscription_key'] ) ? $this->query_params['subscription_key'] : ( isset( $this->query_params['subscription'] ) ? $this->query_params['subscription'] : ( isset( $this->query_params['wcs_subscription_key'] ) ? $this->query_params['wcs_subscription_key'] : '' ) );
 
-        add_action( 'init', array( &$this, 'initialize_novalnet_subscription' ) , 10 );
+        add_action( 'wp_loaded', array( &$this, 'initialize_novalnet_subscription' ) , 10 );
         add_action( 'woocommerce_before_my_account', 'wc_novalnet_customize_subscription_cancel' );
         add_action( 'wp_ajax_wcs_update_next_payment_date', array( &$this, 'perform_subscription_recurring_date_extension' ), 9 );
         add_action( 'woocommerce_process_shop_order_meta',array( $this, 'perform_subscription_recurring_amount_update' ), 11, 2 );
     }
 
     /**
-     * call from the hook "init"
+     * call from the hook "wp_loaded"
      *
      * @param none
      * @return void
@@ -280,7 +280,7 @@
             $subscription = WC_Subscriptions_Manager::get_subscription( $this->subscription_key );
 
             if( $new_recurring_date != date( 'Y-m-d',strtotime( $new_recurring_date ) ) ) {
-                $response['message'] = sprintf( '<div class="error">%s</div>', __( 'Due date is not valid', 'wc-novalnet' ) );
+                $response['message'] = sprintf( '<div class="error">%s</div>', __( 'Invalid due date', 'wc-novalnet' ) );
                 echo json_encode( $response );
                 exit();
             }

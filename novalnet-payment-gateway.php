@@ -1,11 +1,11 @@
 <?php
 /*
- * Plugin Name: Novalnet Payment Gateway for WooCommerce
+ * Plugin Name: Novalnet Payment Plugin - WooCommerce
  * Plugin URI:  http://www.novalnet.com/modul/woocommerce
- * Description: Novalnet payment plugin for WooCommerce.
+ * Description: Plug-in to process payments in WooCommerce through Novalnet Gateway
  * Author:      Novalnet
  * Author URI:  https://www.novalnet.de
- * Version:     10.1.0
+ * Version:     10.1.1
  * Text Domain: wc-novalnet
  * Domain Path: /languages/
  * License:     GPLv2
@@ -36,8 +36,7 @@
         wc_novalnet_check_pay_status();
     }
  }
-
- add_action( 'init', 'novalnet_api_gateway_response' );
+ add_action( 'wp_loaded', 'novalnet_api_gateway_response' );
 
  /**
   * Check if WooCommerce is active, and if it isn't, disable Novalnet payments.
@@ -78,7 +77,7 @@
 
  add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'novalnet_action_links' );
 
- define( 'NN_VERSION', '10.1.0' );
+ define( 'NN_VERSION', '10.1.1' );
  define( 'NN_PLUGIN_FILE', __FILE__ );
 
  function init_wc_novalnet_payment_gateway() {
@@ -139,8 +138,8 @@
                 if ( $this->global_settings['debug_log'] ) {
                     $this->novalnet_log = new WC_Logger();
                 }
-                add_action( 'init', array( &$this, 'novalnet_redirect_response' ) );
-                add_action( 'init', array( &$this, 'novalnet_callback_script_execution' ) );
+                add_action( 'wp_loaded', array( &$this, 'novalnet_redirect_response' ) );
+                add_action( 'wp_loaded', array( &$this, 'novalnet_callback_script_execution' ) );
                 add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
                 add_action( 'woocommerce_thankyou_' . $this->current_payment_id, array(&$this, 'thankyou_page' ));
                 add_action( 'woocommerce_email_after_order_table', array( $this, 'novalnet_email_instructions' ), 15, 2 );
@@ -388,7 +387,7 @@
 
                 if ( $this->current_payment_id == 'novalnet_cc' && $this->settings['cc_secure_enabled'] ) {
                     array_push( $this->redirect_payments, $this->current_payment_id );
-                    $this->payment_details[ $this->current_payment_id ]['paygate_url'] =  ( is_ssl() ? 'https://' : 'http://' ) . 'payport.novalnet.de/global_pci_payport';
+                    $this->payment_details[ $this->current_payment_id ]['paygate_url'] =  'https://payport.novalnet.de/global_pci_payport';
                 }
             }
 
@@ -520,14 +519,14 @@
 
                         $callback_sms_new_pin = isset( $_SESSION['novalnet'][ $this->current_payment_id . '_new_pin' ] ) ? $_SESSION['novalnet'][ $this->current_payment_id . '_new_pin' ] : '';
 
-                        $_SESSION['novalnet'][ $this->current_payment_id . '_new_pin' ] = !empty( $_POST[ $this->current_payment_id . '_new_pin' ] ) ? $_POST[ $this->current_payment_id . '_new_pin' ] : $_SESSION['novalnet'][ $this->current_payment_id . '_new_pin' ];
+                        $_SESSION['novalnet'][ $this->current_payment_id . '_new_pin' ] = !empty( $_POST[ $this->current_payment_id . '_new_pin' ] ) ? $_POST[ $this->current_payment_id . '_new_pin' ] : $callback_sms_new_pin;
 
                         $callback_sms_pin = isset( $_SESSION['novalnet'][ $this->current_payment_id . '_pin' ] ) ? $_SESSION['novalnet'][ $this->current_payment_id . '_pin' ] : '';
 
                         $_SESSION['novalnet'][ $this->current_payment_id . '_pin' ] = !empty( $_POST[ $this->current_payment_id . '_pin' ] ) ? $_POST[ $this->current_payment_id . '_pin' ] : $callback_sms_pin;
 
 
-                        if ( ! isset( $_SESSION['novalnet'][ $this->current_payment_id . '_new_pin'] ) && $this->settings['pin_by_callback'] != 'email' ) {
+                        if ( empty( $_SESSION['novalnet'][ $this->current_payment_id . '_new_pin'] ) && $this->settings['pin_by_callback'] != 'email' ) {
                             $pin = trim( $_SESSION['novalnet'][ $this->current_payment_id . '_pin'] );
                             $error = ( empty( $pin ) ? __( 'Enter your PIN', 'wc-novalnet' ) : ( ! wc_novalnet_alphanumeric_check( $pin ) ? __( 'The PIN you entered is incorrect', 'wc-novalnet' ) : '' ) );
                             if ( $error != '' ) {
@@ -564,9 +563,9 @@
                             $error =  __( 'SEPA Due date is not valid', 'wc-novalnet' );
                         }
                     }
-
-                     $_SESSION['novalnet'][ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] = isset( $_POST[ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] ) ? $_POST[ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] : (isset($_SESSION['novalnet'][ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ]) ? $_SESSION['novalnet'][ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] : '');
-
+                    if( in_array( $this->current_payment_id, array( 'novalnet_cc', 'novalnet_sepa', 'novalnet_invoice' ) ) ) {
+						$_SESSION['novalnet'][ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] = isset( $_POST[ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] ) ? $_POST[ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] : (isset($_SESSION['novalnet'][ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ]) ? $_SESSION['novalnet'][ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] : '');
+					}
                     if ( wc_novalnet_check_3d_secure( $this->current_payment_id, $this->settings ) && ! empty( $this->settings['pin_by_callback'] ) &&  isset(  $_SESSION['novalnet'][ $this->current_payment_id . '_pin_by_' . $this->settings['pin_by_callback'] ] ) && wc_novalnet_fraud_prevention_option( $this->settings ) ) {
 
 
@@ -578,7 +577,7 @@
                            $error = ( $this->settings['pin_by_callback'] == 'email' ) ? __( 'Your E-mail address is invalid', 'wc-novalnet' ) : sprintf( __( 'Please enter your %s', 'wc-novalnet' ), ( ( $this->settings['pin_by_callback'] == 'mobile' ) ? __( 'mobile number','wc-novalnet' ) : __( 'telephone number', 'wc-novalnet' ) ) ) ;
                         }
                     }
-                    if( ( in_array( $this->current_payment_id, array( 'novalnet_invoice', 'novalnet_prepayment' ) ) ) && ( 'no' == $this->settings['payment_reference_1'] && 'no' == $this->settings['payment_reference_2'] && 'no' == $this->settings['payment_reference_3'] ) ) {
+                    if ( ( in_array( $this->current_payment_id, array( 'novalnet_invoice', 'novalnet_prepayment' ) ) && ( ( !isset($this->settings['payment_reference_1']) && !isset($this->settings['payment_reference_2'] ) && !isset($this->settings['payment_reference_3'] ) ) || ( 'yes' != $this->settings['payment_reference_1'] && 'yes' != $this->settings['payment_reference_2'] && 'yes' != $this->settings['payment_reference_3'] ) ) ) ) {
                             $error = __( 'Please select atleast one payment reference', 'wc-novalnet' );
                         }
 
@@ -909,7 +908,7 @@
                         'inputval1' => $response['inputval1'],
                         'order_no'  => $response['order_no']
                     );
-                    if ( $_SESSION['novalnet'][ $this->current_payment_id ] != '' )
+                    if ( !empty($_SESSION['novalnet'][ $this->current_payment_id ])  )
                         $_SESSION['novalnet'][ $this->current_payment_id ] = array_merge( $_SESSION['novalnet'][ $this->current_payment_id ], $session_details );
                     else
                         $_SESSION['novalnet'][ $this->current_payment_id ]  = $session_details;
@@ -1003,7 +1002,7 @@
                         $_SESSION[  $this->current_payment_id ]['invalid_count'] = true;
                         $_SESSION[  $this->current_payment_id ]['time_limit'] = time()+(30*60);
                     }
-                    $type = ( $data['status'] == '0529009' ) ? 'message' : 'error';
+                    $type = ( isset( $data['status'] ) && $data['status'] == '0529009' ) ? 'message' : 'error';
                     $response_text = wc_novalnet_response_text( $data );
                     if ( $this->global_settings['debug_log'] ) {
                         $this->novalnet_log->add( 'novalnetpayments', 'Fraud check second call has been failed due to : ' . $response_text );
@@ -1265,7 +1264,7 @@
                     'auth_code'         => $post_back_param['auth_code'],
                     'product_id'        => $post_back_param['product'],
                     'tariff_id'         => $post_back_param['tariff'] ,
-                    'subs_id'           => !is_array( $gateway_status['subs_id'] ) ? $gateway_status['subs_id'] : '',
+                    'subs_id'           => ! empty( $gateway_status['subs_id'] ) ? $gateway_status['subs_id'] : '',
                     'payment_id'        => $this->payment_details[ $paymentmethod ]['payment_key'],
                     'payment_type'      => $paymentmethod,
                     'tid'               => $response['tid'],
@@ -1317,7 +1316,7 @@
                             'recurring_amount'      => class_exists( 'WC_Subscriptions_Order' ) ? ( WC_Subscriptions_Order::get_recurring_total( $order, '' ) * 100 ) : '',
                             'recurring_tid'         => $response['tid'],
                             'signup_date'           => date( 'Y-m-d H:i:s' ),
-                            'subs_id'               => !is_array( $gateway_status['subs_id'] ) ? $gateway_status['subs_id'] : '',
+                            'subs_id'               => ! empty( $gateway_status['subs_id'] ) ? $gateway_status['subs_id'] : '',
                             'next_payment_date'     => $gateway_status['next_subs_cycle'],
                             'subscription_length'   => $tmp_length
                         )

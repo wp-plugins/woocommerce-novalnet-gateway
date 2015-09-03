@@ -2,6 +2,12 @@
 *                    CHANGE LOGS                              *
 ***************************************************************
 								
+								
+Version: wordpress_v_3.7.x-4.x_woocommerce_v_2.1.x-2.4.x_novalnet_v_10.1.1.zip 
+------------------------------------------------------------------------------				 			
+
+    - Compatibility has been checked for WooCommerce version upto 2.4.6.					
+
 Version: wordpress_v_3.7.x-4.x_woocommerce_v_2.1.x-2.3.x_novalnet_v_10.1.0.zip 
 ------------------------------------------------------------------------------				 			
 

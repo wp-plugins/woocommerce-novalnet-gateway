@@ -72,8 +72,8 @@
             if( new Date(invoice_due_date).getTime() < new Date(current_date).getTime() ) {
                 alert( $("#nn_past_date_err").val() ); return false;
             }
-			
-			if( !isDate( invoice_due_date ) ) {
+
+            if( !is_nn_valid_date( invoice_due_date ) ) {
                 alert( $("#nn_due_date_err").val() ); return false;
             }
         }
@@ -142,31 +142,31 @@
         return ( reg.test( String.fromCharCode( keycode ) ) || keycode == 0 || keycode == 8 );
     } );
  } );
- 
- function isDate(dueDate)
+
+ function is_nn_valid_date(due_date)
 {
-    if(dueDate == '')
+    if(due_date == '')
         return false;
 
-    var rxDatePattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;
-    var dtArray = dueDate.match(rxDatePattern); //
-    if (dtArray == null)
+    var rx_date_pattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;
+    var dt_array = due_date.match(rx_date_pattern); //
+    if (dt_array == null)
         return false;
 
-    dtMonth = dtArray[3];
-    dtDay   = dtArray[5];
-    dtYear  = dtArray[1];
-    if (dtMonth < 1 || dtMonth > 12)
+    var dt_month = dt_array[3];
+    var dt_day   = dt_array[5];
+    var dt_year  = dt_array[1];
+    if (dt_month < 1 || dt_month > 12)
         return false;
-    else if (dtDay < 1 || dtDay> 31)
+    else if (dt_day < 1 || dt_day> 31)
         return false;
-    else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31)
+    else if ((dt_month==4 || dt_month==6 || dt_month==9 || dt_month==11) && dt_day ==31)
         return false;
-    else if (dtMonth == 2)
+    else if (dt_month == 2)
     {
-        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-        if (dtDay> 29 || (dtDay ==29 && !isleap))
+        var is_leap = (dt_year % 4 == 0 && (dt_year % 100 != 0 || dt_year % 400 == 0));
+        if (dt_day> 29 || (dt_day ==29 && !is_leap))
                 return false;
     }
     return true;
-} 
+}

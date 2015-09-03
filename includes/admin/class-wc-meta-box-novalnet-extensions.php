@@ -129,7 +129,7 @@
             $trans_details['callback_amount'] = ! empty( $callback_amount ) ?  $callback_amount : 0;
             if ( !empty ( $trans_details['refunded_amount'] ) )
                 $trans_details['amount'] += $trans_details['refunded_amount'];
-			
+
 			$nn_version_check = get_post_meta( $wc_order->id,'_nn_version', true );
             if ( $nn_version_check && version_compare( $nn_version_check, '2.0.3', '>' ) && $data_exists_in_novalnet_table && ! empty( $nn_flag ) &&( ( in_array( $wc_order->payment_method , $this->invoice_payments ) && 100 == $trans_details['gateway_status'] && $trans_details['callback_amount'] < $trans_details['amount']   ) || ( $wc_order->payment_method == 'novalnet_sepa' && 99 == $trans_details['gateway_status'] ) ) ) {
                 add_meta_box(
@@ -198,7 +198,7 @@
 
         if ( in_array( $wc_order->payment_method, $this->invoice_payments ) )  :
 
-            woocommerce_wp_hidden_input( array( 'id' => 'nn_due_date_err', 'value' => __( 'Due date is not valid', 'wc-novalnet' ) ) );
+            woocommerce_wp_hidden_input( array( 'id' => 'nn_due_date_err', 'value' => __( 'Invalid due date', 'wc-novalnet' ) ) );
             woocommerce_wp_hidden_input( array( 'id' => 'nn_past_date_err', 'value' => __( 'The date should be in future', 'wc-novalnet' ) ) );
             woocommerce_wp_hidden_input( array( 'id' => 'nn_current_date', 'value' => date( 'Y-m-d' ) ) );
 
@@ -308,22 +308,22 @@
 				$api_params['auth_code'] = $trans_details['auth_code']  = get_option('novalnet_auth_code');
 				$api_params['product'] = $trans_details['product_id'] = get_option('novalnet_product_id');
 				$api_params['tariff'] = $trans_details['tariff_id']  =  get_option('novalnet_tariff_id');
-				
+
 			}
-			
+
             $api_params['tid'] = get_post_meta( $wc_order->id, '_nn_order_tid', true );
 			if(empty( $api_params['tid'] ) ) {
 				$order_comments = $wpdb->get_var( $wpdb->prepare( "SELECT post_excerpt FROM $wpdb->posts where ID='%s'", $wc_order->id ) );
 				preg_match('/ID[\s]*:[\s]*([0-9]{17})/',$order_comments,$nn_tid);
 				$api_params['tid'] = $nn_tid[1];
 			}
-			
+
 			if( function_exists('order_contains_subscription') && WC_Subscriptions_Order::order_contains_subscription( $request['post'] ) ) {
 				$api_params['tariff_id'] = $trans_details['tariff_id']  =  get_option('novalnet_subs_tariff_id');
 			}
-			
-				
-			
+
+
+
             if ( $request['novalnet_action'] == 'trans_refund' ) {
                 $tmp_amount = get_post_meta( $wc_order->id, '_nn_order_amount', true );
                 $trans_details['amount'] = ( empty( $tmp_amount ) ? $wc_order->order_total * 100 :$tmp_amount);
@@ -472,8 +472,8 @@
 
                 break;
                 case 'trans_refund':
-				
-				
+
+
                     $api_params['refund_request'] = 1;
                     $api_params['refund_param'] = $request['nn_refund_amount'] ;
                     if ( isset( $request['nn_refund_reference'] ) )

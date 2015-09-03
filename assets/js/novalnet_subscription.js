@@ -1,7 +1,7 @@
 /**
  * @category   Novalnet Subscription action
  * @package    Novalnet
- * @copyright  Novalnet (http://www.novalnet.de)
+ * @copyright  Novalnet (https://www.novalnet.de)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *
  */

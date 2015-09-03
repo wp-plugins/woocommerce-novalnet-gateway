@@ -15,7 +15,7 @@
  * comment on merchant form would be greatly appreciated.
  *
  * @class       Novalnet_Functions
- * @version     10.1.0
+ * @version     10.1.1
  * @package     Novalnet/Classes
  * @category    Class
  * @author      Novalnet

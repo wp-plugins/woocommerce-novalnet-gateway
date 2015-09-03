@@ -122,7 +122,7 @@
 
                 $novalnet_handler_obj->debug_error( 'Novalnet callback received. Payment type ( '.$novalnet_params['payment_type'].') is not applicable for this process!' );
 
-            } else if ( $curr_payment_level === 1 ) { //level 1 payments - Type of charge backs
+            } else if ( $curr_payment_level === 1 && 100 == $novalnet_params['status'] ) { //level 1 payments - Type of charge backs
                 $callback_comments = ( $novalnet_params['payment_type'] == 'CREDITCARD_BOOKBACK' ) ? sprintf( __(' Novalnet callback received. Refund/Bookback executed successfully for the TID: %s amount: %s %s on %s. The subsequent TID: %s.', 'wc-novalnet' ), $novalnet_order_info['tid'], sprintf( '%0.2f',( $novalnet_params['amount']/100) ) , $novalnet_params['currency'], date_i18n( get_option('date_format'), strtotime(date('Y-m-d'))), $novalnet_params['tid'] ) . $new_line : $new_line . sprintf( __(' Novalnet callback received. Chargeback executed successfully for the TID: %s amount: %s %s on %s. The subsequent TID: %s.', 'wc-novalnet' ), $novalnet_order_info['tid'], sprintf( '%0.2f',( $novalnet_params['amount']/100) ), $novalnet_params['currency'], date_i18n( get_option('date_format'), strtotime(date('Y-m-d'))), $novalnet_params['tid'] ) . $new_line;
 
                 wc_novalnet_update_customer_notes( $post_id, $callback_comments );
@@ -178,7 +178,7 @@
                                 'payment_id'            => $novalnet_tid_status['payment_id'],
                                 'payment_type'          => $woo_order->payment_method,
                                 'tid'                   => $novalnet_order_info['tid'],
-                                'subs_id'               => $novalnet_tid_status['subs_id'],
+                                'subs_id'               => ! empty( $novalnet_tid_status['subs_id'] ) ? $novalnet_tid_status['subs_id'] : '',
                                 'amount'                => $woo_order->order_total * 100,
                                 'callback_amount'       => $novalnet_params['amount'] * 100 ,
                                 'currency'              => $woo_order->order_currency,
@@ -225,11 +225,11 @@
                             $response = $novalnet_handler_obj->recurring_order_creation( $subscription_details['subscription_key'], $woo_order, $novalnet_order_info, $novalnet_tid_status['next_subs_cycle'] );
 
                             if ( ! empty( $subscription_details['subscription_length'] ) ) {
-								$subscription_length = get_post_meta( $post_id, '_nn_subs_length', true );
-								($subscription_length == NULL ) ? $wpdb->update( "{$wpdb->prefix}novalnet_subscription_details", array('subscription_length' => $subscription_details['subscription_length'] - 1 ), array( 'order_no' => $post_id ) ) : update_post_meta( $post_id, '_nn_subs_length', $subscription_details['subscription_length'] );
-								if ( $subscription_details['subscription_length'] == 1 ) {
-									$novalnet_handler_obj->perform_subscription_cancel( $post_id,$novalnet_order_info['tid'] );
-								}
+                                $subscription_length = get_post_meta( $post_id, '_nn_subs_length', true );
+                                ($subscription_length == NULL ) ? $wpdb->update( "{$wpdb->prefix}novalnet_subscription_details", array('subscription_length' => $subscription_details['subscription_length'] - 1 ), array( 'order_no' => $post_id ) ) : update_post_meta( $post_id, '_nn_subs_length', $subscription_details['subscription_length'] );
+                                if ( $subscription_details['subscription_length'] == 1 ) {
+                                    $novalnet_handler_obj->perform_subscription_cancel( $post_id,$novalnet_order_info['tid'] );
+                                }
                             }
 
                             $novalnet_handler_obj->debug_error( $response );
@@ -256,7 +256,7 @@
                 $novalnet_handler_obj->debug_error('Novalnet callback received. Payment type ( '.$novalnet_params['payment_type'].' ) is not applicable for this process!');
             }
 
-            if ( $novalnet_params['payment_type'] == 'SUBSCRIPTION_STOP' ) { //Cancellation of a Subscription
+            if ( $novalnet_params['payment_type'] == 'SUBSCRIPTION_STOP' && 100 == $novalnet_params['status'] ) { //Cancellation of a Subscription
 
                 $callback_comments = $new_line . sprintf( __('Novalnet callback script received. Subscription has been stopped for the TID: %s on %s. Subscription has been canceled due to: %s', 'wc-novalnet' ), $novalnet_order_info['tid'], date_i18n( get_option('date_format'), strtotime(date('Y-m-d'))),$novalnet_params['termination_reason'] ) . $new_line  ;
 
@@ -288,7 +288,7 @@
   * This script is uesd to handle the asynchronous action triggers from Novalnet
   *
   * @class Novalnet_Callback_handler
-  * @version 10.1.0
+  * @version 10.1.1
   * @package Novalnet/Callback
   * @author Novalnet
   */
@@ -308,7 +308,7 @@
 
     function __construct( $ary_capture = array() ) {
 
-        self::check_ip_address();
+        $this->check_ip_address();
         if ( empty( $ary_capture ) ) {
             $this->debug_error( 'Novalnet callback received. No params passed over!' );
         }
@@ -327,7 +327,7 @@
             }
         }
 
-        $this->woo_capture_params = self::validate_capture_params( $ary_capture );
+        $this->woo_capture_params = $this->validate_capture_params( $ary_capture );
     }
 
     /**
@@ -525,7 +525,7 @@
 
         $org_tid = $this->woo_capture_params['shop_tid'];
 
-        $payment_type_level = self::get_payment_type_level();
+        $payment_type_level = $this->get_payment_type_level();
         $order_details_exists = false;
 
         $woo_order_id = ( ! empty( $this->woo_capture_params['order_no'] ) ) ? $this->woo_capture_params['order_no'] : ( ! empty( $this->woo_capture_params['order_id'] ) ? $this->woo_capture_params['order_id'] : '' );
@@ -541,29 +541,28 @@
         if ( isset( $post_id ) )
             $sql_query .= ' OR order_no=' . $post_id;
         $trans_details = $wpdb->get_row( $wpdb->prepare( $sql_query,  $org_tid ), ARRAY_A );
-		$communication_failure = false;
+        $communication_failure = false;
         if ( empty( $trans_details ) ) {
-			$tmp_post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta where meta_value='%d'", $org_tid ) );
-			if ( empty( $tmp_post_id ) ) {
-				$tmp_post_id = $wpdb->get_var( "SELECT ID FROM wp_posts where post_excerpt LIKE '%$org_tid%'");
+            $tmp_post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta where meta_value='%d'", $org_tid ) );
+            if ( empty( $tmp_post_id ) ) {
+                $tmp_post_id = $wpdb->get_var( "SELECT ID FROM $wpdb->posts where post_excerpt LIKE '%$org_tid%'");
+                $trans_details['order_no'] = $tmp_post_id;
+                $order_comments = $wpdb->get_var( $wpdb->prepare( "SELECT post_excerpt FROM $wpdb->posts where ID='%s'", $tmp_post_id ) );
+                preg_match( '/ID[\s]*:[\s]*([0-9]{17})/', $order_comments, $nn_tid );
 
-				$trans_details['order_no'] = $tmp_post_id;
-				$order_comments = $wpdb->get_var( $wpdb->prepare( "SELECT post_excerpt FROM $wpdb->posts where ID='%s'", $tmp_post_id ) );
-				preg_match( '/ID[\s]*:[\s]*([0-9]{17})/', $order_comments, $nn_tid );
-
-				$trans_details['tid'] = ( ! empty( $nn_tid[1] ) ) ? $nn_tid[1] : '';
-				if( empty($trans_details['tid']) ) {
-					$communication_failure = true;
-				}
-			} else {
-				$trans_details['order_no'] = get_post_meta($tmp_post_id,'_nn_order_number',true);
-				$trans_details['tid'] = get_post_meta($tmp_post_id,'_nn_order_tid',true);
-			}
-				$trans_details['payment_type'] = get_post_meta($tmp_post_id,'_recurring_payment_method',true);
-				$trans_details['amount'] = ( get_post_meta($tmp_post_id,'_order_recurring_total',true) ) * 100;
-				$trans_details['callback_amount'] = get_post_meta($tmp_post_id,'_nn_callback_amount',true);
-				$trans_details['currency'] = get_post_meta($tmp_post_id,'_order_currency',true);
-		}
+                $trans_details['tid'] = ( ! empty( $nn_tid[1] ) ) ? $nn_tid[1] : '';
+                if( empty($trans_details['tid']) ) {
+                    $communication_failure = true;
+                }
+            } else {
+                $trans_details['order_no'] = get_post_meta($tmp_post_id,'_nn_order_number',true);
+                $trans_details['tid'] = get_post_meta($tmp_post_id,'_nn_order_tid',true);
+            }
+                $trans_details['payment_type'] = get_post_meta($tmp_post_id,'_recurring_payment_method',true);
+                $trans_details['amount'] = ( get_post_meta($tmp_post_id,'_order_recurring_total',true) ) * 100;
+                $trans_details['callback_amount'] = get_post_meta($tmp_post_id,'_nn_callback_amount',true);
+                $trans_details['currency'] = get_post_meta($tmp_post_id,'_order_currency',true);
+        }
 
         if ( $communication_failure ) {
             if ( isset( $post_id ) ) {
@@ -756,17 +755,17 @@
     public function get_subscription_details( $post_id ) {
         global $wpdb;
         $subs_details = array();
-		$subs_details['subscription_length'] = $wpdb->get_var( $wpdb->prepare( "SELECT subscription_length FROM {$wpdb->prefix}novalnet_subscription_details WHERE order_no=%d ", $post_id ) );
-		if( $subs_details['subscription_length'] == NULL  ) {
-			$subscription_length = get_post_meta( $post_id, '_nn_subs_length', true );
-			if( $subscription_length == NULL) {
-				$woo_order  = new WC_Order( $post_id );
-				$subscription_length = class_exists( 'WC_Subscriptions_Order' ) ? WC_Subscriptions_Order::get_subscription_length( $woo_order ) : '';
-				update_post_meta( $post_id, '_nn_subs_length', ( $subscription_length ), true );
-			}
-			$subs_details['subscription_length'] = $subscription_length - 1;
-		}
-        
+        $subs_details['subscription_length'] = $wpdb->get_var( $wpdb->prepare( "SELECT subscription_length FROM {$wpdb->prefix}novalnet_subscription_details WHERE order_no=%d ", $post_id ) );
+        if( $subs_details['subscription_length'] == NULL  ) {
+            $subscription_length = get_post_meta( $post_id, '_nn_subs_length', true );
+            if( $subscription_length == NULL) {
+                $woo_order  = new WC_Order( $post_id );
+                $subscription_length = class_exists( 'WC_Subscriptions_Order' ) ? WC_Subscriptions_Order::get_subscription_length( $woo_order ) : '';
+                update_post_meta( $post_id, '_nn_subs_length', ( $subscription_length ), true );
+            }
+            $subs_details['subscription_length'] = $subscription_length - 1;
+        }
+
 
         if ( class_exists('WC_Subscriptions') ) {
             $subs_details['subs_plugin_enabled'] = true;
@@ -784,36 +783,36 @@
      * @param integer $tid
      * @return void
      */
-	public function perform_subscription_cancel( $post_id , $tid ) {
-		global $wpdb;
+    public function perform_subscription_cancel( $post_id , $tid ) {
+        global $wpdb;
 
         $result_set = $wpdb->get_row( $wpdb->prepare( "SELECT vendor_id, auth_code, product_id, tariff_id, payment_id FROM {$wpdb->prefix}novalnet_transaction_detail WHERE order_no=%d", $post_id ), ARRAY_A );
 
-		if ( empty($result_set) ) {
+        if ( empty($result_set) ) {
 
-			$payment_details = wc_novalnet_payment_details();
-			$payment_type = get_post_meta($post_id,'_recurring_payment_method',true);
-			$result_set = wc_novalnet_global_configurations( true );
-			$result_set['tariff_id']  = $result_set['subs_tariff_id'];
-			$result_set['payment_id'] = $payment_details[ $payment_type ]['payment_key'];
-		}
+            $payment_details = wc_novalnet_payment_details();
+            $payment_type = get_post_meta($post_id,'_recurring_payment_method',true);
+            $result_set = wc_novalnet_global_configurations( true );
+            $result_set['tariff_id']  = $result_set['subs_tariff_id'];
+            $result_set['payment_id'] = $payment_details[ $payment_type ]['payment_key'];
+        }
 
         if ( ! empty( $result_set['vendor_id'] ) && ! empty( $result_set['auth_code'] ) && ! empty( $result_set['product_id'] ) && ! empty( $result_set['tariff_id'] ) && ! empty( $tid ) ) {
-			$cancel_request = array(
-				'vendor' 	 	=> $result_set['vendor_id'],
-				'auth_code' 	=> $result_set['auth_code'],
-				'product'		=> $result_set['product_id'],
-				'tariff' 		=> $result_set['tariff_id'],
-				'tid' 			=> $tid,
-				'key' 			=> $result_set['payment_id'],
-				'cancel_sub'	=> 1,
-				'cancel_reason' => __( 'Other','wc-novalnet' ),
-			);
+            $cancel_request = array(
+                'vendor'        => $result_set['vendor_id'],
+                'auth_code'     => $result_set['auth_code'],
+                'product'       => $result_set['product_id'],
+                'tariff'        => $result_set['tariff_id'],
+                'tid'           => $tid,
+                'key'           => $result_set['payment_id'],
+                'cancel_sub'    => 1,
+                'cancel_reason' => __( 'Other','wc-novalnet' ),
+            );
 
-			$cancel_response = wc_novalnet_submit_request( $cancel_request );
-			if( 100 == $cancel_response['status'] ) {
-				$new_line = "\n";
-				$callback_comments = sprintf( __('Novalnet callback script received. Subscription has been stopped for the TID: %s on %s. Subscription has been canceled due to: %s', 'wc-novalnet' ), $cancel_request['tid'], date_i18n( get_option('date_format'), strtotime(date('Y-m-d'))),$cancel_request['cancel_reason'] ) . $new_line  ;
+            $cancel_response = wc_novalnet_submit_request( $cancel_request );
+            if( 100 == $cancel_response['status'] ) {
+                $new_line = "\n";
+                $callback_comments = sprintf( __('Novalnet callback script received. Subscription has been stopped for the TID: %s on %s. Subscription has been canceled due to: %s', 'wc-novalnet' ), $cancel_request['tid'], date_i18n( get_option('date_format'), strtotime(date('Y-m-d'))),$cancel_request['cancel_reason'] ) . $new_line  ;
 
                 wc_novalnet_update_customer_notes( $post_id, $callback_comments );
 
@@ -827,9 +826,9 @@
                     'order_no' => $post_id,
                 ) );
                 $this->debug_error( $callback_comments );
-			}
-		}
-	}
+            }
+        }
+    }
 
     /**
      * Log callback data in novalnet_callback_history table
@@ -887,7 +886,7 @@
         $bcc_receipient_addr = get_option('novalnet_callback_emailbccaddr');
         $email_subject       = 'Novalnet Callback Script Access Report';
         $email_body          = get_option('novalent_callback_emailbody');
-        $email_enabled		 = get_option('novalnet_enable_callback');
+        $email_enabled       = get_option('novalnet_enable_callback');
         $headers             = '';
 
         $email_subject .= ' - WooCommerce';
@@ -935,16 +934,16 @@
         if ( empty( $trans_details ) ) {
             $payment_details = wc_novalnet_payment_details();
 
-			$config_data = wc_novalnet_global_configurations( true );
+            $config_data = wc_novalnet_global_configurations( true );
 
-			$trans_details = array(
-				'vendor_id'  => $config_data['vendor_id'],
-				'auth_code'	 => $config_data['auth_code'],
-				'product_id' => $config_data['product_id'],
-				'tariff_id'  => $config_data['tariff_id'],
-				'payment_id' => $payment_details[ $recurring_order->payment_method ]['payment_key'],
-				'currency'   => get_post_meta($parent_order->id,'_order_currency',true)
-			);
+            $trans_details = array(
+                'vendor_id'  => $config_data['vendor_id'],
+                'auth_code'  => $config_data['auth_code'],
+                'product_id' => $config_data['product_id'],
+                'tariff_id'  => $config_data['tariff_id'],
+                'payment_id' => $payment_details[ $recurring_order->payment_method ]['payment_key'],
+                'currency'   => get_post_meta($parent_order->id,'_order_currency',true)
+            );
         }
 
         $transaction_status_request = array(
@@ -977,7 +976,7 @@
                 'payment_id'            => $trans_details['payment_id'],
                 'payment_type'          => $recurring_order->payment_method,
                 'tid'                   => $this->woo_capture_params['tid'],
-                'subs_id'               => $novalnet_tid_status['subs_id'],
+                'subs_id'               => ! empty( $novalnet_tid_status['subs_id'] ) ? $novalnet_tid_status['subs_id'] : '',
                 'amount'                => $this->woo_capture_params['amount'],
                 'callback_amount'       => ( $this->woo_capture_params['payment_type'] == 'INVOICE_START') ? 0 : $this->woo_capture_params['amount'],
                 'refunded_amount'       => 0,
@@ -1051,7 +1050,7 @@
         if ( ! empty( $novalnet_tid_status['next_subs_cycle'] ) ) {
             $callback_comments .= $next_payment_date;
         }
-		update_post_meta( $recurring_order_id, '_nn_invoice_comments', $novalnet_comments . $new_line . $next_payment_date );
+        update_post_meta( $recurring_order_id, '_nn_invoice_comments', $novalnet_comments . $new_line . $next_payment_date );
 
         $this->send_notification_mail( array(
             'comments' => $callback_comments,

@@ -12,7 +12,7 @@
  * you have found this script useful a small recommendation as well as a
  * comment on merchant form would be greatly appreciated.
  *
- * @version     10.1.0
+ * @version     10.1.1
  * @package     Novalnet/Templates
  * @author      Novalnet
  *
